@@ -1,0 +1,45 @@
+---
+- name: Ensure Docker-related python packages are present
+  pip: name=docker
+
+- name: Ensure the unifi admin group is present
+  group: name="{{ unifi_exec_user }}" gid="{{ unifi_exec_user_and_group_id }}"
+
+- name: Ensure the unifi admin user is present
+  user: name="{{ unifi_exec_user }}" group="{{ unifi_exec_user }}" uid="{{ unifi_exec_user_and_group_id }}"
+
+- name: Ensure the unifi configuration directories are present
+  file: state=directory path="{{ item }}" group="{{ unifi_exec_user }}" owner="{{ unifi_exec_user }}"
+  with_items:
+    - /opt/unifi
+    - /opt/unifi/certs
+    - /opt/unifi/data
+    - /opt/unifi/logs
+
+- name: Define the list of Docker volumes, used when starting the docker container
+  set_fact:
+    _unifi_docker_volumes:
+      - "/opt/unifi/data:/usr/lib/unifi/data"
+      - "/opt/unifi/logs:/usr/lib/unifi/logs"
+
+- name: Add the certificate file directory to the list of volumes, if necessary
+  set_fact:
+    _unifi_docker_volumes: "{{ _unifi_docker_volumes }} + [ '{{ unifi_certfiles_dir }}:/usr/lib/unifi/cert' ]"
+  when: unifi_use_ssl
+
+- name: ensure unifi is started
+  docker_container:
+    name: unifi
+    image: "goofball222/unifi:{{ unifi_docker_image_version }}"
+    state: started
+    restart_policy: always
+    ports:
+      - 3478:3478/udp
+      - 8080:8080
+      - 8443:8443
+      - 8880:8880
+      - 8843:8843
+    volumes: "{{ _unifi_docker_volumes }}"
+    env:
+      UNIFI_GID: "{{ unifi_exec_user_and_group_id }}"
+      UNIFI_UID: "{{ unifi_exec_user_and_group_id }}"

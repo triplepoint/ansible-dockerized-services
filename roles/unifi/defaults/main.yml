@@ -1,0 +1,21 @@
+---
+# The name of the user and group to be created on the host machine,
+# to own the configuration files for this service.
+unifi_exec_user: unifi-exec
+
+# The user ID and group ID to assign to the above user.  If you find that This
+# UID or GID already exists on your host, adjust this to an unused value.
+unifi_exec_user_and_group_id: 1999
+
+# The version tag of the `goofball222/unifi` docker hub image.
+unifi_docker_image_version: release-5.6.30
+
+# Should we pass SSL certificates to the service?
+# See the `SSL custom certificate auto-configuration support` section at:
+# https://hub.docker.com/r/goofball222/unifi/
+unifi_use_ssl: false
+
+# If the above value is set to True, where on the host machine should we
+# find the certificates?  Note the details at the docker hub readme above
+# regarding which files must be in this location.
+unifi_certfiles_dir: ""
