@@ -1,4 +1,4 @@
-# Ansible Mosquitto [![Build Status](https://travis-ci.org/triplepoint/ansible-mosquitto.svg?branch=master)](https://travis-ci.org/triplepoint/ansible-mosquitto)
+# Ansible Unifi [![Build Status](https://travis-ci.org/triplepoint/ansible-unifi.svg?branch=master)](https://travis-ci.org/triplepoint/ansible-mosquitto)
 Install and configure the Mosquitto MQTT broker.
 
 ## Requirements
@@ -15,7 +15,7 @@ None (see requirements above)
 ## Example Playbook
     - hosts: whatever
       roles:
-        - triplepoint.mosquitto
+        - triplepoint.unifi
 
 ## Role Testing
 This role is tested with `molecule`, using `pipenv` to handle dependencies and the Python testing environment.
