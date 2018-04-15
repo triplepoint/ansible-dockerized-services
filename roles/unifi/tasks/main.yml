@@ -12,7 +12,6 @@
   file: state=directory path="{{ item }}" group="{{ unifi_exec_user }}" owner="{{ unifi_exec_user }}"
   with_items:
     - /opt/unifi
-    - /opt/unifi/certs
     - /opt/unifi/data
     - /opt/unifi/logs
 
@@ -34,11 +33,13 @@
     state: started
     restart_policy: always
     ports:
-      - 3478:3478/udp
-      - 8080:8080
-      - 8443:8443
-      - 8880:8880
-      - 8843:8843
+      - 3478:3478/udp  # STUN connection
+      #- 6789:6789/tcp  # throughput measurements from mobile apps
+      - 8080:8080/tcp  # UAP/USW/USG "to inform controller"
+      - 8443:8443/tcp  # controller GUI/API
+      - 8880:8880/tcp  # HTTP portal redirect
+      - 8843:8843/tcp  # HTTPS portal redirect
+      - 10001:10001/udp  # UBNT discovery broadcasts - Local LAN only
     volumes: "{{ _unifi_docker_volumes }}"
     env:
       UNIFI_GID: "{{ unifi_exec_user_and_group_id }}"
