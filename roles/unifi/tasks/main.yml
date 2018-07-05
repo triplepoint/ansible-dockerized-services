@@ -26,21 +26,27 @@
     _unifi_docker_volumes: "{{ _unifi_docker_volumes }} + [ '{{ unifi_certfiles_dir }}:/usr/lib/unifi/cert' ]"
   when: unifi_use_ssl
 
+- name: add any additional environment variables to the required ones
+  set_fact:
+    _unifi_docker_env_vars:
+      UNIFI_GID: "{{ unifi_exec_user_and_group_id }}"
+      UNIFI_UID: "{{ unifi_exec_user_and_group_id }}"
+
 - name: ensure unifi is started
   docker_container:
     name: unifi
     image: "goofball222/unifi:{{ unifi_docker_image_version }}"
     state: started
     restart_policy: always
-    ports:
+    timeout: 300
+    exposed_ports:
+      - 8443:8443/tcp  # controller GUI/API, we'll expose this so an nginx proxy container can forward to it
+    published_ports:
       - 3478:3478/udp  # STUN connection
-      #- 6789:6789/tcp  # throughput measurements from mobile apps
       - 8080:8080/tcp  # UAP/USW/USG "to inform controller"
-      - 8443:8443/tcp  # controller GUI/API
-      - 8880:8880/tcp  # HTTP portal redirect
-      - 8843:8843/tcp  # HTTPS portal redirect
-      - 10001:10001/udp  # UBNT discovery broadcasts - Local LAN only
+      - 10001:10001/udp  # UBNT access point discovery broadcasts - Local LAN only
+      - 6789:6789/tcp  # throughput measurements from mobile apps (optional)
+      # - 8880:8880/tcp  # HTTP portal redirect (optional)
+      # - 8843:8843/tcp  # HTTPS portal redirect (optional)
     volumes: "{{ _unifi_docker_volumes }}"
-    env:
-      UNIFI_GID: "{{ unifi_exec_user_and_group_id }}"
-      UNIFI_UID: "{{ unifi_exec_user_and_group_id }}"
+    env: "{{ _unifi_docker_env_vars | combine(unifi_environment_variables) }}"
