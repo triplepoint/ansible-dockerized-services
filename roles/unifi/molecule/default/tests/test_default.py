@@ -18,8 +18,10 @@ def test_docker_service_running(host):
 
 
 @pytest.mark.parametrize('socket_def', [
-    # all IPv4 tcp sockets on port 8880
-    ('tcp://8880'),
+    ('udp://3478'),
+    ('tcp://8080'),
+    ('udp://10001'),
+    ('tcp://6789'),
 ])
 def test_listening_sockets(host, socket_def):
     socket = host.socket(socket_def)
