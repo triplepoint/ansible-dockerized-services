@@ -15,7 +15,7 @@ unifi_docker_image_version: release-5.8.24
 # https://hub.docker.com/r/goofball222/unifi/
 unifi_use_ssl: false
 
-# If the above value is set to True, where on the host machine should we
+# If the above value is set to true, where on the host machine should we
 # find the certificates?  Note the details at the docker hub readme above
 # regarding which files must be in this location.
 unifi_certfiles_dir: ""
