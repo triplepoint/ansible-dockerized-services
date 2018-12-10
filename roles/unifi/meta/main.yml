@@ -1,6 +1,5 @@
 ---
 galaxy_info:
-  role_name: unifi
   author: Jonathan Hanson
   description: The Ubiquiti Unifi controller service
   license: MIT
