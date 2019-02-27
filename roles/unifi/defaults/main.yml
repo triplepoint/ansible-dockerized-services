@@ -5,7 +5,7 @@ unifi_exec_user: unifi-exec
 
 # The user ID and group ID to assign to the above user.  If you find that This
 # UID or GID already exists on your host, adjust this to an unused value.
-unifi_exec_user_and_group_id: 1999
+unifi_exec_user_and_group_id: "1999"
 
 # The version tag of the `goofball222/unifi` docker hub image.
 unifi_docker_image_version: release-5.9.29
