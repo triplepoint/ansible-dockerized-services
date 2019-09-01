@@ -1,0 +1,16 @@
+version: '3.7'
+services:
+  unifi:
+    image: goofball222/unifi:{{ unifi_docker_image_version }}
+    restart: always
+    expose:
+      - 8443             # controller GUI/API, we'll expose this so an nginx proxy container can forward to it
+    ports:
+      - 3478:3478/udp    # STUN connection
+      - 8080:8080/tcp    # UAP/USW/USG "to inform controller"
+      - 10001:10001/udp  # UBNT access point discovery broadcasts - Local LAN only
+      - 6789:6789/tcp    # throughput measurements from mobile apps (optional)
+      # - 8880:8880/tcp    # HTTP portal redirect (optional)
+      # - 8843:8843/tcp    # HTTPS portal redirect (optional)
+    volumes: {{ _unifi_docker_volumes }}
+    environment: {{ _unifi_docker_env_vars | combine(unifi_environment_variables) }}
