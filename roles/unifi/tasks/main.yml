@@ -1,6 +1,9 @@
 ---
 - name: Ensure Docker-related Python packages are present
-  pip: name=['docker', 'docker-compose']
+  pip:
+    name:
+      - docker
+      - docker-compose
 
 - name: Ensure the admin group is present
   group: name="{{ unifi_exec_user }}" gid="{{ unifi_exec_user_and_group_id }}"
@@ -14,7 +17,7 @@
     - /opt/unifi/data
     - /opt/unifi/logs
 
-- name: Define the list of this service's Docker volumes
+- name: Define the default service Docker volumes
   set_fact:
     _unifi_docker_volumes:
       - "/opt/unifi/data:/usr/lib/unifi/data"
@@ -25,7 +28,7 @@
     _unifi_docker_volumes: "{{ _unifi_docker_volumes }} + [ '{{ unifi_certfiles_dir }}:/usr/lib/unifi/cert' ]"
   when: unifi_use_ssl
 
-- name: Add any additional environment variables to the required ones
+- name: Append any additional environment variables
   set_fact:
     _unifi_docker_env_vars:
       UNIFI_GID: "{{ unifi_exec_user_and_group_id }}"
@@ -38,10 +41,7 @@
   template:
     src: docker-compose.yml.j2
     dest: /opt/ansible-docker-compose/unifi/docker-compose.yml
-    owner: "{{ unifi_exec_user }}"
-    group: "{{ unifi_exec_user }}"
-    mode: "0644"
 
-- name: Ensure the unifi service container(s) is/are started
+- name: Ensure the service container(s) is/are started
   docker_compose:
     project_src: /opt/ansible-docker-compose/unifi

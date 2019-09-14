@@ -23,3 +23,7 @@ unifi_certfiles_dir: ""
 # A key/value set of environment variables and their values, which will be
 # set on the docker container.
 unifi_environment_variables: {}
+
+# If set to a string, the created Docker container will attach to a
+# pre-existing default Docker network, instead of creating its own.
+unifi_external_default_network: ""
