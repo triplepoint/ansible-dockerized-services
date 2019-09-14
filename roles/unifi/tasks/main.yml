@@ -34,6 +34,10 @@
       UNIFI_GID: "{{ unifi_exec_user_and_group_id }}"
       UNIFI_UID: "{{ unifi_exec_user_and_group_id }}"
 
+- name: Append any additional environment variables
+  set_fact:
+    _unifi_docker_env_vars: "{{ _unifi_docker_env_vars | combine(unifi_environment_variables) }}"
+
 - name: Ensure the docker-compose template directory exists
   file: state=directory path="/opt/ansible-docker-compose/unifi"
 
