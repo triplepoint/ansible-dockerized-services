@@ -8,6 +8,7 @@ services:
 {% for label in unifi_container_labels %}
       - {{ label }}
 {% endfor %}
+{% endif %}
     restart: always
     expose:
       - 8443               # controller GUI/API, we'll expose this so an nginx proxy container can forward to it
@@ -26,10 +27,12 @@ services:
 {% for vol in _unifi_docker_volumes %}
       - {{ vol }}
 {% endfor %}
+{% if _unifi_docker_env_vars %}
     environment:
 {% for k, v in _unifi_docker_env_vars.items() %}
       - {{ k }}={{ v }}
 {% endfor %}
+{% endif %}
 {% if unifi_network_name %}
 networks:
   {{ unifi_network_name }}:
