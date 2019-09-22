@@ -31,8 +31,8 @@
 - name: Append any additional environment variables
   set_fact:
     _unifi_docker_env_vars:
-      UNIFI_GID: "{{ unifi_exec_user_and_group_id }}"
-      UNIFI_UID: "{{ unifi_exec_user_and_group_id }}"
+      PGID: "{{ unifi_exec_user_and_group_id }}"
+      PUID: "{{ unifi_exec_user_and_group_id }}"
 
 - name: Append any additional environment variables
   set_fact:

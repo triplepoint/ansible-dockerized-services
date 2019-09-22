@@ -11,7 +11,7 @@ services:
 {% endif %}
     restart: always
     expose:
-      - 8443               # controller GUI/API, we'll expose this so an nginx proxy container can forward to it
+      - 8443               # controller GUI/API, we'll expose this so a reverse proxy can forward to it
     ports:
       - "3478:3478/udp"    # STUN connection
       - "8080:8080/tcp"    # UAP/USW/USG "to inform controller"
