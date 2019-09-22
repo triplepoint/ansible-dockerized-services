@@ -1,0 +1,25 @@
+[serversTransport]
+insecureSkipVerify = true
+
+[entryPoints.http]
+address = ":80"
+
+[entryPoints.https]
+address = ":443"
+
+[entryPoints.traefik]
+address = ":{{ traefik_dashboard_port }}"
+
+[api]
+  dashboard = true
+  insecure = true
+
+{% for certificate in traefik_ssl_files %}
+  [[tls.certificates]]
+    certFile = "/opt/ssl_certs/{{ certificate.domain }}.cert"
+    keyFile = "/opt/ssl_certs/{{ certificate.domain }}.key"
+
+{% endfor %}
+
+[providers.docker]
+network = "{{ traefik_network_name }}"

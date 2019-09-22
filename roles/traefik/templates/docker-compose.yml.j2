@@ -1,0 +1,17 @@
+version: '3.7'
+
+services:
+  reverse-proxy:
+    image: traefik:{{ traefik_version }}
+    container_name: traefik
+    ports:
+      - "80:80"
+      - "443:443"
+      - "{{ traefik_dashboard_port }}:{{ traefik_dashboard_port }}"
+    volumes:
+{% for vol in _traefik_volumes %}
+      - {{ vol }}
+{% endfor %}
+networks:
+  default:
+    name: {{ traefik_network_name }}

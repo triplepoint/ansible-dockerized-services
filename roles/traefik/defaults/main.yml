@@ -1,0 +1,19 @@
+---
+# The SSL proxy wants certificate and key files organized a specific way.
+# For each domain for which the proxy will terminate SSL connections, we'll
+# need to specify the domain, the path to the key, and the path to the cert.
+traefik_ssl_files: []
+# - domain: some-domain.com
+#   key_path: /etc/certs/some-domain/privkey.pem
+#   certificate_path: /etc/certs/some-domain/cert.pem
+
+# the docker tag at https://hub.docker.com/_/traefik
+traefik_version: "v2.0"
+
+# The name of the docker network to establish for this service.
+# This is the network to which the downstream proxied containers
+# should attach.
+traefik_network_name: "traefik_proxy"
+
+# What port should the Traefik service listen on for its own dashboard?
+traefik_dashboard_port: 8085
