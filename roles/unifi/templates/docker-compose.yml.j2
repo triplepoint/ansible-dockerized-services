@@ -3,6 +3,11 @@ services:
   unifi:
     image: goofball222/unifi:{{ unifi_docker_image_version }}
     container_name: unifi
+{% if unifi_container_labels %}
+    labels:
+{% for label in unifi_container_labels %}
+      - {{ label }}
+{% endfor %}
     restart: always
     expose:
       - 8443               # controller GUI/API, we'll expose this so an nginx proxy container can forward to it
@@ -13,9 +18,9 @@ services:
       - "6789:6789/tcp"    # throughput measurements from mobile apps (optional)
       # - "8880:8880/tcp"    # HTTP portal redirect (optional)
       # - "8843:8843/tcp"    # HTTPS portal redirect (optional)
-{% if unifi_external_default_network %}
+{% if unifi_network_name %}
     networks:
-      - {{ unifi_external_default_network }}
+      - {{ unifi_network_name }}
 {% endif %}
     volumes:
 {% for vol in _unifi_docker_volumes %}
@@ -25,8 +30,8 @@ services:
 {% for k, v in _unifi_docker_env_vars.items() %}
       - {{ k }}={{ v }}
 {% endfor %}
-{% if unifi_external_default_network %}
+{% if unifi_network_name %}
 networks:
-  {{ unifi_external_default_network }}:
+  {{ unifi_network_name }}:
     external: true
 {% endif %}
