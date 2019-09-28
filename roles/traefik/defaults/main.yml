@@ -8,7 +8,7 @@ traefik_ssl_files: []
 #   certificate_path: /etc/certs/some-domain/cert.pem
 
 # the docker tag at https://hub.docker.com/_/traefik
-traefik_version: "v2.0"
+traefik_version: "latest"
 
 # The name of the docker network to establish for this service.
 # This is the network to which the downstream proxied containers
@@ -16,4 +16,5 @@ traefik_version: "v2.0"
 traefik_network_name: "traefik_proxy"
 
 # What port should the Traefik service listen on for its own dashboard?
+# If false, we'll disable the dashboard.
 traefik_dashboard_port: 8085

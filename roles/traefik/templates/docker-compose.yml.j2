@@ -7,7 +7,9 @@ services:
     ports:
       - "80:80"
       - "443:443"
+{% if traefik_dashboard_port %}
       - "{{ traefik_dashboard_port }}:{{ traefik_dashboard_port }}"
+{% endif %}
     volumes:
 {% for vol in _traefik_volumes %}
       - {{ vol }}

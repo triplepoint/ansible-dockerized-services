@@ -1,4 +1,5 @@
 [serversTransport]
+# Allow backend connections to have insecure (self-signed) certificates
 insecureSkipVerify = true
 
 [entryPoints.http]
@@ -6,16 +7,22 @@ address = ":80"
 
 [entryPoints.https]
 address = ":443"
+{% if traefik_dashboard_port %}
 
 [entryPoints.traefik]
 address = ":{{ traefik_dashboard_port }}"
+{% endif %}
 
 [api]
-  dashboard = true
-  insecure = true
+{% if traefik_dashboard_port %}
+    dashboard = true
+    insecure = true
+{% else %}
+    dashboard = false
+{% endif %}
 
 {% for certificate in traefik_ssl_files %}
-  [[tls.certificates]]
+[[tls.certificates]]
     certFile = "/opt/ssl_certs/{{ certificate.domain }}.cert"
     keyFile = "/opt/ssl_certs/{{ certificate.domain }}.key"
 
