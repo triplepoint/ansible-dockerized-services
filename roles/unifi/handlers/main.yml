@@ -1,0 +1,5 @@
+---
+- name: restart unifi
+  docker_compose:
+    project_src: /opt/ansible-docker-compose/unifi
+    restarted: yes
