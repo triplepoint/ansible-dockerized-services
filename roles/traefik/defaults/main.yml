@@ -15,6 +15,13 @@ traefik_version: "latest"
 # should attach.
 traefik_network_name: "traefik_proxy"
 
-# What port should the Traefik service listen on for its own dashboard?
-# If false, we'll disable the dashboard.
-traefik_dashboard_port: 8085
+# The domain name on which to listen, for the Traefik dashboard.
+# If false, the dashboard will be disabled.
+traefik_api_domain_name: false
+
+# If the traefik API domain name is set above, the API is active
+# and user auth needs to be comfigured.  This is a list of
+# objects with `username` and `password` fields.
+traefik_api_users: []
+  # - username: userone
+  #   password: useronespassword
