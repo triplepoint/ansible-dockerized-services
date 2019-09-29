@@ -33,6 +33,13 @@
   with_items: "{{ traefik_ssl_files }}"
   register: _proxy_key_volume_results
 
+- name: Ensure the Docker container image is up to date
+  docker_image:
+    name: traefik
+    source: pull
+    tag: "{{ traefik_version }}"
+  notify: restart traefik
+
 - name: Pull the processed list out of the result object
   set_fact: _proxy_key_volume_results_mapped="{{ _proxy_key_volume_results.results | map(attribute='ansible_facts._traefik_ssl_key_volumes') | list }}"
 
