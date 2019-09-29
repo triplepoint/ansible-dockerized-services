@@ -10,12 +10,6 @@ address = ":443"
 
 [api]
 
-{% for certificate in traefik_ssl_files %}
-[[tls.certificates]]
-    certFile = "/opt/ssl_certs/{{ certificate.domain }}.cert"
-    keyFile = "/opt/ssl_certs/{{ certificate.domain }}.key"
-
-{% endfor %}
 [providers.docker]
 network = "{{ traefik_network_name }}"
 
