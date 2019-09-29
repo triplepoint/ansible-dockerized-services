@@ -10,7 +10,7 @@
 [http.middlewares.traefik_auth.basicAuth]
     users = [
 {% for user in traefik_api_users %}
-        "{{ user.username }}:{{ user.password | password_hash('bcrypt') }}",
+        "{{ user.username }}:{{ user.password | password_hash('bcrypt', inventory_hostname | hash('md5') | truncate(22, True, '')) }}",
 {% endfor %}
     ]
 {% endif %}
