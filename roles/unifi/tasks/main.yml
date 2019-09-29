@@ -5,13 +5,6 @@
       - docker
       - docker-compose
 
-- name: Ensure the Docker container image is up to date
-  docker_image:
-    name: goofball222/unifi
-    source: pull
-    tag: "{{ unifi_docker_image_version }}"
-  notify: restart unifi
-
 - name: Ensure the admin group is present
   group: name="{{ unifi_exec_user }}" gid="{{ unifi_exec_user_and_group_id }}"
 
@@ -56,3 +49,4 @@
 - name: Ensure the service container(s) is/are started
   docker_compose:
     project_src: /opt/ansible-docker-compose/unifi
+    pull: yes
