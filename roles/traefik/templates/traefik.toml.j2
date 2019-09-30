@@ -11,6 +11,7 @@ address = ":443"
 [api]
 
 [providers.docker]
+exposedByDefault = false
 network = "{{ traefik_network_name }}"
 
 [providers.file]
