@@ -15,6 +15,10 @@ traefik_version: "latest"
 # should attach.
 traefik_network_name: "traefik_proxy"
 
+# Any additional volumes that the Docker container should mount.
+traefik_additional_volumes: []
+  # - '/etc/some/file.name:/etc/some/container/path.name'
+
 # A key/value set of environment variables and their values, which will be
 # set on the docker container.
 traefik_environment_variables: {}

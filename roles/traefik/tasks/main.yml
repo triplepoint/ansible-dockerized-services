@@ -46,7 +46,7 @@
 
 - name: Append the volume mounts together into a single list
   set_fact:
-    _traefik_volumes: "{{ _traefik_volumes }} + {{ _proxy_key_volume_results_mapped }} + {{ _proxy_cert_volume_results_mapped }}"
+    _traefik_volumes: "{{ _traefik_volumes }} + {{ traefik_additional_volumes }} + {{ _proxy_key_volume_results_mapped }} + {{ _proxy_cert_volume_results_mapped }}"
 
 # Docker-compose
 - name: Ensure the docker-compose template directory exists
