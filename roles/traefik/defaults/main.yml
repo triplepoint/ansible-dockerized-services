@@ -48,5 +48,5 @@ traefik_api_entrypoint: "https"
 traefik_certificate_resolvers: []
   # - name: some_unique_name
   #   email: someone@example.org
-  #   storage: acme.json
+  #   storage_filename: acme.json
   #   dns_provider: route53
