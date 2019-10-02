@@ -14,6 +14,12 @@ services:
 {% for vol in _traefik_volumes %}
       - {{ vol }}
 {% endfor %}
+{% if traefik_environment_variables %}
+    environment:
+{% for k, v in traefik_environment_variables.items() %}
+      - {{ k }}={{ v }}
+{% endfor %}
+{% endif %}
 networks:
   default:
     name: {{ traefik_network_name }}

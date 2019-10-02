@@ -15,6 +15,10 @@ traefik_version: "latest"
 # should attach.
 traefik_network_name: "traefik_proxy"
 
+# A key/value set of environment variables and their values, which will be
+# set on the docker container.
+traefik_environment_variables: {}
+
 # An additional set of entrypoints to create, on top of the
 # port 80 (http) and port 443 (https) ones that are always
 # created.
