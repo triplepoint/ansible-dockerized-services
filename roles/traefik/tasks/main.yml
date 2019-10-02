@@ -21,7 +21,12 @@
   notify: restart traefik
 
 - name: Ensure all the certificate provider storage files are present
-  file: path="/etc/traefik/{{ item.storage_filename }}" state=touch mode=0600
+  file:
+    path: "/etc/traefik/{{ item.storage_filename }}"
+    state: touch
+    mode: 0600
+    access_time: preserve
+    modification_time: preserve
   with_items: "{{ traefik_certificate_resolvers }}"
 
 # SSL Certificate files
