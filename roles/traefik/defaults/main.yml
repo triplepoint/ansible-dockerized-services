@@ -15,6 +15,13 @@ traefik_version: "latest"
 # should attach.
 traefik_network_name: "traefik_proxy"
 
+# An additional set of entrypoints to create, on top of the
+# port 80 (http) and port 443 (https) ones that are always
+# created.
+traefik_additional_entrypoints: {}
+  # some_name: "some_port_number"
+  # some_other_name: "some_other_port_number"
+
 # The domain name on which to listen, for the Traefik dashboard.
 # If false, the dashboard will be disabled.
 traefik_api_domain_name: false
@@ -25,3 +32,9 @@ traefik_api_domain_name: false
 traefik_api_users: []
   # - username: userone
   #   password: useronespassword
+
+# If it's enabled, which traefik entrypoint should the dashboard
+# listen on?  By default, we'll use the port 443 https one.
+# Note that regardless of the entrypoint, traefik will always
+# use a TLS connection.
+traefik_api_entrypoint: "https"

@@ -8,6 +8,11 @@ address = ":80"
 [entryPoints.https]
 address = ":443"
 
+{% for name, portnumber in traefik_additional_entrypoints.items() %}
+[entryPoints.{{ name }}]
+address = ":{{ portnumber }}"
+
+{% endfor %}
 [api]
 
 [providers.docker]

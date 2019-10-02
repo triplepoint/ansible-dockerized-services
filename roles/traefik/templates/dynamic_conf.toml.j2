@@ -2,7 +2,7 @@
 [http.routers.traefik_api]
     rule = "Host(`{{ traefik_api_domain_name }}`)"
     service = "api@internal"
-    entryPoints = ["https"]
+    entryPoints = ["{{ traefik_api_entrypoint }}"]
     middlewares = ["traefik_auth"]
 
 [http.routers.traefik_api.tls]

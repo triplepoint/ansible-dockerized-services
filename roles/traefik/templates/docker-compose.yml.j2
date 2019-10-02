@@ -7,6 +7,9 @@ services:
     ports:
       - "80:80"
       - "443:443"
+{% for name, portnumber in traefik_additional_entrypoints.items() %}
+      - "{{ portnumber }}:{{ portnumber }}"
+{% endfor %}
     volumes:
 {% for vol in _traefik_volumes %}
       - {{ vol }}
