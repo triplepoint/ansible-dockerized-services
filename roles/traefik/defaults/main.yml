@@ -42,3 +42,11 @@ traefik_api_users: []
 # Note that regardless of the entrypoint, traefik will always
 # use a TLS connection.
 traefik_api_entrypoint: "https"
+
+# A list of objects describing a set of Traefik certificate resolvers.
+# For now, the only supported resolvers are ACME DNS providers.
+traefik_certificate_resolvers: []
+  # - name: some_unique_name
+  #   email: someone@example.org
+  #   storage: acme.json
+  #   dns_provider: route53

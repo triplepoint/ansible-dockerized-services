@@ -21,3 +21,12 @@ network = "{{ traefik_network_name }}"
 
 [providers.file]
 filename = "/etc/traefik/dynamic_conf.toml"
+
+{% for resolver in traefik_certificate_resolvers %}
+[certificatesResolvers.{{ resolver.name }}.acme]
+  email = "{{ resolver.email }}"
+  storage = "{{ resolver.storage }}"
+  [certificatesResolvers.{{ resolver.name }}.acme.dnsChallenge]
+    provider = "{{ resolver.dns_provider }}"
+
+{% endfor %}
