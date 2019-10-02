@@ -6,6 +6,9 @@
     middlewares = ["traefik_auth"]
 
 [http.routers.traefik_api.tls]
+{% if traefik_api_certificate_resolver %}
+certResolver = "{{ traefik_api_certificate_resolver }}"
+{% endif %}
 
 [http.middlewares.traefik_auth.basicAuth]
     users = [

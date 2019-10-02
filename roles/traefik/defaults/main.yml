@@ -1,12 +1,4 @@
 ---
-# The SSL proxy wants certificate and key files organized a specific way.
-# For each domain for which the proxy will terminate SSL connections, we'll
-# need to specify the domain, the path to the key, and the path to the cert.
-traefik_ssl_files: []
-# - domain: some-domain.com
-#   key_path: /etc/certs/some-domain/privkey.pem
-#   certificate_path: /etc/certs/some-domain/cert.pem
-
 # the docker tag at https://hub.docker.com/_/traefik
 traefik_version: "latest"
 
@@ -19,6 +11,14 @@ traefik_network_name: "traefik_proxy"
 # set on the docker container.
 traefik_environment_variables: {}
 
+# The SSL proxy wants certificate and key files organized a specific way.
+# For each domain for which the proxy will terminate SSL connections, we'll
+# need to specify the domain, the path to the key, and the path to the cert.
+traefik_ssl_files: []
+# - domain: some-domain.com
+#   key_path: /etc/certs/some-domain/privkey.pem
+#   certificate_path: /etc/certs/some-domain/cert.pem
+
 # An additional set of entrypoints to create, on top of the
 # port 80 (http) and port 443 (https) ones that are always
 # created.
@@ -26,7 +26,15 @@ traefik_additional_entrypoints: {}
   # some_name: "some_port_number"
   # some_other_name: "some_other_port_number"
 
-# The domain name on which to listen, for the Traefik dashboard.
+# A list of objects describing a set of Traefik certificate resolvers.
+# For now, the only supported resolvers are ACME DNS providers.
+traefik_certificate_resolvers: []
+  # - name: some_unique_name
+  #   email: someone@example.org
+  #   storage_filename: acme.json
+  #   dns_provider: route53
+
+  # The domain name on which to listen, for the Traefik dashboard.
 # If false, the dashboard will be disabled.
 traefik_api_domain_name: false
 
@@ -43,10 +51,7 @@ traefik_api_users: []
 # use a TLS connection.
 traefik_api_entrypoint: "https"
 
-# A list of objects describing a set of Traefik certificate resolvers.
-# For now, the only supported resolvers are ACME DNS providers.
-traefik_certificate_resolvers: []
-  # - name: some_unique_name
-  #   email: someone@example.org
-  #   storage_filename: acme.json
-  #   dns_provider: route53
+# If set, use a certificate resolver by name from the
+# traefik_certificate_resolvers list above.  If absent,
+# Traefik will use a self-signed certificate it generates.
+traefik_api_certificate_resolver: false
