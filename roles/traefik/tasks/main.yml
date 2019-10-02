@@ -25,8 +25,7 @@
   set_fact:
     _traefik_volumes:
       - '/var/run/docker.sock:/var/run/docker.sock:ro'
-      - '/etc/traefik/traefik.toml:/etc/traefik/traefik.toml'
-      - '/etc/traefik/dynamic_conf.toml:/etc/traefik/dynamic_conf.toml'
+      - '/etc/traefik:/etc/traefik'
 
 - name: Assemble the set of key file volume mounts
   set_fact: _traefik_ssl_key_volumes="{{ item.key_path }}:/opt/ssl_certs/{{ item.domain }}.key:ro"
@@ -46,7 +45,7 @@
 
 - name: Append the volume mounts together into a single list
   set_fact:
-    _traefik_volumes: "{{ _traefik_volumes }} + {{ traefik_additional_volumes }} + {{ _proxy_key_volume_results_mapped }} + {{ _proxy_cert_volume_results_mapped }}"
+    _traefik_volumes: "{{ _traefik_volumes }} + {{ _proxy_key_volume_results_mapped }} + {{ _proxy_cert_volume_results_mapped }}"
 
 # Docker-compose
 - name: Ensure the docker-compose template directory exists
