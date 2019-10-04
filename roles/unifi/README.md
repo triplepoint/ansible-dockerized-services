@@ -1,5 +1,5 @@
 # Ansible Unifi [![Build Status](https://travis-ci.org/triplepoint/ansible-unifi.svg?branch=master)](https://travis-ci.org/triplepoint/ansible-unifi)
-Install and configure the Mosquitto MQTT broker.
+Install and configure the Unifi Ubiquiti controller.
 
 ## Requirements
 While there's no explicit dependency roles, the target machine should be able to act as a Docker host.  The `geerlingguy.docker` is a suitable role for this.
