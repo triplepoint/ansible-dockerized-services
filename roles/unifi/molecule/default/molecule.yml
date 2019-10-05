@@ -1,13 +1,23 @@
 ---
 dependency:
   name: galaxy
+  options:
+    role-file: molecule/requirements.yml
 driver:
   name: docker
 lint:
   name: yamllint
 platforms:
   - name: instance
-    image: centos:7
+    image: "geerlingguy/docker-${MOLECULE_DISTRO:-ubuntu1804}-ansible:latest"
+    tty: True
+    privileged: True
+    volumes:
+      - "/sys/fs/cgroup:/sys/fs/cgroup:rw"
+    override_command: False
+    environment:
+      container: docker
+    pre_build_image: True
 provisioner:
   name: ansible
   lint:
