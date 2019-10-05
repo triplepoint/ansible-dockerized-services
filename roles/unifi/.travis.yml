@@ -11,6 +11,7 @@ env:
   global:
     - PIPENV_IGNORE_VIRTUALENVS: 1
   matrix:
+    - MOLECULE_DISTRO: ubuntu1604
     - MOLECULE_DISTRO: ubuntu1804
 
 before_install:
