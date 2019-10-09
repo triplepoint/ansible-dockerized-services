@@ -1,4 +1,5 @@
 galaxy_info:
+  role_name: traefik
   author: Jonathan Hanson
   description: Install and configure the Traefik reverse proxy
   license: MIT
