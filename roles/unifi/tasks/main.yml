@@ -6,13 +6,22 @@
       - docker-compose
 
 - name: Ensure the admin group is present
-  group: name="{{ unifi_exec_user }}" gid="{{ unifi_exec_user_and_group_id }}"
+  group:
+    name: "{{ unifi_exec_user }}"
+    gid: "{{ unifi_exec_user_and_group_id }}"
 
 - name: Ensure the admin user is present
-  user: name="{{ unifi_exec_user }}" group="{{ unifi_exec_user }}" uid="{{ unifi_exec_user_and_group_id }}"
+  user:
+    name: "{{ unifi_exec_user }}"
+    group: "{{ unifi_exec_user }}"
+    uid: "{{ unifi_exec_user_and_group_id }}"
 
 - name: Ensure the mounted volume directories are present
-  file: state=directory path="{{ item }}" group="{{ unifi_exec_user }}" owner="{{ unifi_exec_user }}"
+  file:
+    state: directory
+    path: "{{ item }}"
+    group: "{{ unifi_exec_user }}"
+    owner: "{{ unifi_exec_user }}"
   with_items:
     - /opt/unifi/data
     - /opt/unifi/logs
@@ -39,7 +48,9 @@
     _unifi_docker_env_vars: "{{ _unifi_docker_env_vars | combine(unifi_environment_variables) }}"
 
 - name: Ensure the docker-compose template directory exists
-  file: state=directory path="/opt/ansible-docker-compose/unifi"
+  file:
+    state: directory
+    path: "/opt/ansible-docker-compose/unifi"
 
 - name: Ensure this service's docker-compose template is present
   template:
