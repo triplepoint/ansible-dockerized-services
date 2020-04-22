@@ -10,13 +10,24 @@
 # If LOOP_DELAY is greater than 0, run forever as a loop with
 # LOOP_DELAY as the number of seconds between executions.
 #
-# Note that you should provision a specific IAM key for this job,
-# and scope the allowed actions to:
-#                "route53:GetHostedZone",
-#                "route53:ChangeResourceRecordSets",
-#                "route53:ListResourceRecordSets"
-# And limit the resource to just the appropriate zone id:
-#                "arn:aws:route53:::hostedzone/[HOSTED ZONE ID]"
+# Note that you should provision a separate AWS user with its own
+# API key, with an IAM policy scoped as tightly as possible.  Something
+# like:
+#   {
+#       "Version": "2012-10-17",
+#       "Statement": [
+#           {
+#               "Sid": "VisualEditor0",
+#               "Effect": "Allow",
+#               "Action": [
+#                   "route53:GetHostedZone",
+#                   "route53:ChangeResourceRecordSets",
+#                   "route53:ListResourceRecordSets"
+#               ],
+#               "Resource": "arn:aws:route53:::hostedzone/[YOUR ZONE ID]"
+#           }
+#       ]
+#   }
 #
 # Thanks to:
 # https://gist.github.com/phybros/827aa561a44032dd1556

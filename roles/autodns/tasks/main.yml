@@ -17,7 +17,7 @@
     - "{{ autodns_ipdir }}"
     - "{{ autodns_logdir }}"
 
-# TODO set the aws cred file up
+# TODO set the AWS cred file up
 # - name: Ensure the aws credentials file is present
 #   template:
 #     src: someawsshit.conf.j2
@@ -71,7 +71,6 @@
     owner: root
     group: root
   with_items:
-    - crontab
     - Dockerfile
     - Pipfile
     - Pipfile.lock

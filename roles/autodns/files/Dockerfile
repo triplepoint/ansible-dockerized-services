@@ -25,4 +25,4 @@ RUN pipenv install --deploy
 COPY update_route53.sh ./
 RUN chmod 0755 update_route53.sh
 
-CMD ["/usr/local/bin/pipenv", "run", "./update_route53.sh", ">", "/proc/1/fd/1", "2>/proc/1/fd/2"]
+CMD ["/usr/local/bin/pipenv", "run", "./update_route53.sh"]
