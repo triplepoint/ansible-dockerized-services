@@ -45,9 +45,7 @@
 - name: Add the outfile file and directory values to the environment variables
   set_fact:
     _autodns_additional_environment_variables:
-      LOGDIR: "{{ autodns_logdir }}"
       LOGFILENAME: "{{ autodns_logfilename }}"
-      IPDIR: "{{ autodns_ipdir }}"
       IPFILENAME: "{{ autodns_ipfilename }}"
 
 - name: Add the outfile file and directory values to the environment variables, continued

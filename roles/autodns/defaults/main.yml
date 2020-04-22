@@ -16,13 +16,13 @@ autodns_aws_access_key_id: someaccesskeyid     # Replace this with a provisioned
 autodns_aws_secret_access_key: 123dontpwnme    # Replace this with a provisioned access key
 
 # These two define the directory and filename in which the update script
-# will write it's log.  The paths are on the docker host.
+# will write it's log.  The directory path is on the docker host.
 autodns_logdir: /var/log/autodns
 autodns_logfilename: autodns.log
 
 # These two define the directory and filename in which the update script
 # caches its current knowledge of the public IP address.  This is used to
-# detect changes.
+# detect changes.  The directory path is on the docker host.
 autodns_ipdir: /opt/autodns/data
 autodns_ipfilename: autodns.ip
 
