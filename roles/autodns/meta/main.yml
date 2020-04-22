@@ -1,0 +1,15 @@
+---
+galaxy_info:
+  role_name: autodns
+  author: Jonathan Hanson
+  description: A simple dockerized script which maintains a Route53 record pointing at the server it runs on.
+  license: MIT
+  min_ansible_version: 2.9
+  platforms:
+    - name: Ubuntu
+      versions:
+        - xenial
+        - bionic
+  galaxy_tags:
+    - dns
+dependencies: []
