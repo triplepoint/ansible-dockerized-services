@@ -17,7 +17,7 @@
     - "{{ autodns_ipdir }}"
     - "{{ autodns_logdir }}"
 
-- name: Ensure the aws configuration file is present
+- name: Ensure the AWS configuration file is present
   copy:
     src: aws_config
     dest: /etc/autodns/.aws/config
@@ -26,7 +26,7 @@
     group: root
   notify: restart autodns
 
-- name: Ensure the aws credentials file is present
+- name: Ensure the AWS credentials file is present
   template:
     src: aws_credentials.j2
     dest: /etc/autodns/.aws/credentials
