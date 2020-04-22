@@ -42,13 +42,13 @@
       - "{{ autodns_ipdir }}:/etc/update_route53"
       - "{{ autodns_logdir }}:/var/log/update_route53"
 
-- name: Add the outfile file and directory values to the environment variables
+- name: Add the filename values to the environment variables
   set_fact:
     _autodns_additional_environment_variables:
       LOGFILENAME: "{{ autodns_logfilename }}"
       IPFILENAME: "{{ autodns_ipfilename }}"
 
-- name: Add the outfile file and directory values to the environment variables, continued
+- name: Add the filename values to the environment variables, continued
   set_fact:
     autodns_environment_variables: "{{ autodns_environment_variables | combine(_autodns_additional_environment_variables) }}"
 
