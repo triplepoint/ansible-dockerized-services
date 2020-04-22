@@ -1,0 +1,24 @@
+---
+# These configuration values are passed through to the script, and define
+# its behavior.  See the `files/update_route53.sh` script for more
+# information.
+autodns_environment_variables:
+  R53_ZONEID: somezoneid
+  R53_RECORDSET: somerecordset.example.com
+  R53_TTL: 300
+  R53_TYPE: A
+  LOOP_DELAY: 300               # How long to wait between update loops
+
+# These two define the directory and filename in which the update script
+# will write it's log.  The paths are on the docker host.
+autodns_logdir: /var/log/autodns
+autodns_logfilename: autodns.log
+
+# These two define the directory and filename in which the update script
+# caches its current knowledge of the public IP address.  This is used to
+# detect changes.
+autodns_ipdir: /opt/autodns/data
+autodns_ipfilename: autodns.ip
+
+# Should logrotate manage the script's logfile (defined above)?
+autodns_enable_logrotate: true

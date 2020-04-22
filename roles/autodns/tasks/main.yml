@@ -1,0 +1,91 @@
+---
+- name: Ensure Docker-related Python packages are present
+  pip:
+    name:
+      - docker
+      - docker-compose
+
+- name: Ensure the service config directories are present on the host
+  file:
+    state: directory
+    path: "{{ item }}"
+    mode: 0700
+    owner: root
+    group: root
+  with_items:
+    # TODO - "/etc/autodns"
+    - "{{ autodns_ipdir }}"
+    - "{{ autodns_logdir }}"
+
+# TODO set the aws cred file up
+# - name: Ensure the aws credentials file is present
+#   template:
+#     src: someawsshit.conf.j2
+#     dest: /etc/someawsshit.conf
+#     mode: 0600
+#     owner: root
+#     group: root
+#   notify: restart autodns
+
+- name: Define the list of Docker volumes, used when starting the docker container
+  set_fact:
+    _autodns_docker_volumes:
+      # - "/etc/autodns:/somewhere/where/aws-creds-live"
+      - "{{ autodns_ipdir }}:/etc/update_route53"
+      - "{{ autodns_logdir }}:/var/log/update_route53"
+
+- name: Add the outfile file and directory values to the environment variables
+  set_fact:
+    _autodns_additional_environment_variables:
+      LOGDIR: "{{ autodns_logdir }}"
+      LOGFILENAME: "{{ autodns_logfilename }}"
+      IPDIR: "{{ autodns_ipdir }}"
+      IPFILENAME: "{{ autodns_ipfilename }}"
+
+- name: Add the outfile file and directory values to the environment variables, continued
+  set_fact:
+    autodns_environment_variables: "{{ autodns_environment_variables | combine(_autodns_additional_environment_variables) }}"
+
+- name: Ensure logrotate is aware of the log file
+  template:
+    src: logrotate.autodns.j2
+    dest: "/etc/logrotate.d/autodns"
+    mode: 0644
+    owner: root
+    group: root
+  when: autodns_enable_logrotate
+
+- name: Ensure the docker-compose template directory exists
+  file:
+    state: directory
+    mode: 0700
+    owner: root
+    group: root
+    path: "/opt/ansible-docker-compose/autodns"
+
+- name: Ensure the Dockerfile and related files are all present
+  copy:
+    src: "{{ item }}"
+    dest: "/opt/ansible-docker-compose/autodns/{{ item }}"
+    mode: 0600
+    owner: root
+    group: root
+  with_items:
+    - crontab
+    - Dockerfile
+    - Pipfile
+    - Pipfile.lock
+    - update_route53.sh
+
+- name: Ensure this service's docker-compose template is present
+  template:
+    src: docker-compose.yml.j2
+    dest: /opt/ansible-docker-compose/autodns/docker-compose.yml
+    mode: 0600
+    owner: root
+    group: root
+
+- name: Ensure the service container(s) is/are started
+  docker_compose:
+    project_src: /opt/ansible-docker-compose/autodns
+    build: yes
