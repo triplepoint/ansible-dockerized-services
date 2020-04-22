@@ -9,6 +9,12 @@ autodns_environment_variables:
   R53_TYPE: A
   LOOP_DELAY: 300               # How long to wait between update loops
 
+# The ID of the AWS access key which was provisioned for this script to use
+autodns_aws_access_key_id: someaccesskeyid     # Replace this with a provisioned key ID
+
+# The secret key of the AWS access key which was provisioned for this script to use
+autodns_aws_secret_access_key: 123dontpwnme    # Replace this with a provisioned access key
+
 # These two define the directory and filename in which the update script
 # will write it's log.  The paths are on the docker host.
 autodns_logdir: /var/log/autodns

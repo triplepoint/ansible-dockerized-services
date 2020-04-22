@@ -1,14 +1,14 @@
 FROM python:3.8
 LABEL maintainer="Jonathan Hanson <jonathan@jonathan-hanson.org>"
 
-# TODO VOLUME ["whatever we're doing about the AWS credentials file"]
+VOLUME ["/root/.aws"]
 VOLUME ["/etc/update_route53"]
 VOLUME ["/var/log/update_route53"]
 
 WORKDIR /usr/src/app
 
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
-      dnsutils \
+        dnsutils \
     && rm -rf /var/lib/apt/lists/*
 
 RUN pip install --no-cache-dir --upgrade \

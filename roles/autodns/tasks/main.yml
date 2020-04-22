@@ -13,24 +13,32 @@
     owner: root
     group: root
   with_items:
-    # TODO - "/etc/autodns"
+    - "/etc/autodns/.aws"
     - "{{ autodns_ipdir }}"
     - "{{ autodns_logdir }}"
 
-# TODO set the AWS cred file up
-# - name: Ensure the aws credentials file is present
-#   template:
-#     src: someawsshit.conf.j2
-#     dest: /etc/someawsshit.conf
-#     mode: 0600
-#     owner: root
-#     group: root
-#   notify: restart autodns
+- name: Ensure the aws configuration file is present
+  copy:
+    src: aws_config
+    dest: /etc/autodns/.aws/config
+    mode: 0600
+    owner: root
+    group: root
+  notify: restart autodns
+
+- name: Ensure the aws credentials file is present
+  template:
+    src: aws_credentials.j2
+    dest: /etc/autodns/.aws/credentials
+    mode: 0600
+    owner: root
+    group: root
+  notify: restart autodns
 
 - name: Define the list of Docker volumes, used when starting the docker container
   set_fact:
     _autodns_docker_volumes:
-      # - "/etc/autodns:/somewhere/where/aws-creds-live"
+      - "/etc/autodns/.aws:/root/.aws:ro"
       - "{{ autodns_ipdir }}:/etc/update_route53"
       - "{{ autodns_logdir }}:/var/log/update_route53"
 
