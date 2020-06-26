@@ -8,13 +8,19 @@
 - name: Ensure the admin group is present
   group:
     name: "{{ unifi_exec_user }}"
+    state: present
     gid: "{{ unifi_exec_user_and_group_id }}"
+    system: yes
 
 - name: Ensure the admin user is present
   user:
     name: "{{ unifi_exec_user }}"
-    group: "{{ unifi_exec_user }}"
+    state: present
     uid: "{{ unifi_exec_user_and_group_id }}"
+    group: "{{ unifi_exec_user }}"
+    create_home: no
+    system: yes
+    shell: "/usr/sbin/nologin"
 
 - name: Ensure the mounted volume directories are present
   file:
