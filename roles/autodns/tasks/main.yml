@@ -5,13 +5,30 @@
       - docker
       - docker-compose
 
+- name: Ensure the container user group exists
+  group:
+    name: "autodns"
+    state: present
+    gid: "{{ autodns_uid_gid }}"
+    system: yes
+
+- name: Ensure the container user exists
+  user:
+    name: "autodns"
+    state: present
+    uid: "{{ autodns_uid_gid }}"
+    group: "autodns"
+    create_home: no
+    system: yes
+    shell: "/usr/sbin/nologin"
+
 - name: Ensure the service config directories are present on the host
   file:
     state: directory
     path: "{{ item }}"
     mode: 0700
-    owner: root
-    group: root
+    owner: autodns
+    group: autodns
   with_items:
     - "/etc/autodns/.aws"
     - "{{ autodns_ipdir }}"
@@ -22,8 +39,8 @@
     src: aws_config
     dest: /etc/autodns/.aws/config
     mode: 0600
-    owner: root
-    group: root
+    owner: autodns
+    group: autodns
   notify: restart autodns
 
 - name: Ensure the AWS credentials file is present
@@ -31,14 +48,14 @@
     src: aws_credentials.j2
     dest: /etc/autodns/.aws/credentials
     mode: 0600
-    owner: root
-    group: root
+    owner: autodns
+    group: autodns
   notify: restart autodns
 
 - name: Define the list of Docker volumes, used when starting the docker container
   set_fact:
     _autodns_docker_volumes:
-      - "/etc/autodns/.aws:/root/.aws:ro"
+      - "/etc/autodns/.aws:/home/app/.aws:ro"
       - "{{ autodns_ipdir }}:/etc/update_route53"
       - "{{ autodns_logdir }}:/var/log/update_route53"
 
@@ -57,25 +74,17 @@
     src: logrotate.autodns.j2
     dest: "/etc/logrotate.d/autodns"
     mode: 0644
-    owner: root
-    group: root
   when: autodns_enable_logrotate
 
 - name: Ensure the docker-compose template directory exists
   file:
     state: directory
-    mode: 0700
-    owner: root
-    group: root
     path: "/opt/ansible-docker-compose/autodns"
 
 - name: Ensure the Dockerfile and related files are all present
   copy:
     src: "{{ item }}"
     dest: "/opt/ansible-docker-compose/autodns/{{ item }}"
-    mode: 0600
-    owner: root
-    group: root
   with_items:
     - Dockerfile
     - Pipfile
@@ -86,9 +95,6 @@
   template:
     src: docker-compose.yml.j2
     dest: /opt/ansible-docker-compose/autodns/docker-compose.yml
-    mode: 0600
-    owner: root
-    group: root
 
 - name: Ensure the service container(s) is/are started
   docker_compose:

@@ -1,7 +1,12 @@
 FROM python:3.8
 LABEL maintainer="Jonathan Hanson <jonathan@jonathan-hanson.org>"
 
-VOLUME ["/root/.aws"]
+ARG UID_GID=1085
+
+RUN addgroup --gid $UID_GID app \
+    && adduser --uid $UID_GID --gid $UID_GID --system --disabled-password --disabled-login app
+
+VOLUME ["/home/app/.aws"]
 VOLUME ["/etc/update_route53"]
 VOLUME ["/var/log/update_route53"]
 
@@ -20,9 +25,10 @@ RUN pip install --no-cache-dir --upgrade \
 COPY Pipfile ./
 COPY Pipfile.lock ./
 
+USER app
+
 RUN pipenv install --deploy
 
 COPY update_route53.sh ./
-RUN chmod 0755 update_route53.sh
 
-CMD ["/usr/local/bin/pipenv", "run", "./update_route53.sh"]
+CMD ["pipenv", "run", "bash", "./update_route53.sh"]

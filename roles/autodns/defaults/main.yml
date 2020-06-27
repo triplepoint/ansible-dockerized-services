@@ -1,4 +1,8 @@
 ---
+# The User ID and Group ID of the process in the container
+# Note that this user and group will be created on the host
+autodns_uid_gid: 1085
+
 # These configuration values are passed through to the script, and define
 # its behavior.  See the `files/update_route53.sh` script for more
 # information.
