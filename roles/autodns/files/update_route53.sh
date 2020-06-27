@@ -165,7 +165,7 @@ EOF
       --hosted-zone-id "$R53_ZONEID" \
       --change-batch file://"$TMPFILE"`
   AWS_RETCODE=$?
-  writelog $AWS_STDOUT
+  writelog "$AWS_STDOUT"
 
   rm $TMPFILE
 
