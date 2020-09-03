@@ -17,10 +17,10 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 RUN pip install --no-cache-dir --upgrade \
-    pip \
-    pipenv \
-    setuptools<50 \
-    wheel
+    'pip' \
+    'pipenv' \
+    'setuptools<50' \
+    'wheel'
 
 COPY Pipfile ./
 COPY Pipfile.lock ./
