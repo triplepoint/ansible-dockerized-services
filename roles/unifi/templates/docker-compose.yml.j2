@@ -23,10 +23,12 @@ services:
     networks:
       - {{ unifi_network_name }}
 {% endif %}
+{% if _unifi_docker_volumes %}
     volumes:
 {% for vol in _unifi_docker_volumes %}
       - {{ vol }}
 {% endfor %}
+{% endif %}
 {% if _unifi_docker_env_vars %}
     environment:
 {% for k, v in _unifi_docker_env_vars.items() %}
