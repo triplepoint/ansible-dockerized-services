@@ -1,0 +1,4 @@
+FROM syncthing/syncthing:{{ syncthing_docker_version }}
+
+# Add CURL to this container
+RUN apk --no-cache add curl

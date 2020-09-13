@@ -1,0 +1,64 @@
+---
+###
+# Thanks to:
+# https://github.com/le9i0nx/ansible-syncthing/blob/master/tasks/config.yml
+###
+
+- name: Get API key directly from config file
+  shell: grep apikey {{ syncthing_data_directory }}/config/config.xml | sed -n 's:.*<apikey>\(.*\)</apikey>.*:\1:p'
+  register: _syncthing_apikey_raw
+  changed_when: false
+
+- name: Set _syncthing_apikey variable, for use in API calls
+  set_fact:
+    _syncthing_apikey: "{{ _syncthing_apikey_raw.stdout }}"
+
+- name: Run an API call inside the container to fetch the current service config
+  shell: "docker exec syncthing curl -s -H 'X-API-KEY: {{ _syncthing_apikey }}' http://localhost:8384/rest/system/config"
+  register: _syncthing_config_raw
+  changed_when: false
+  retries: 5
+  until: _syncthing_config_raw.rc == 0
+  delay: 10
+
+- name: Store a copy of the config in a pair of variables, for later diff comparison
+  set_fact:
+    _syncthing_config: "{{ _syncthing_config_raw.stdout | from_json }}"
+    _syncthing_config_old: "{{ _syncthing_config_raw.stdout | from_json }}"
+
+- name: Build a dict of the new syncthing configuration values
+  set_fact:
+    _syncthing_new_values:
+      gui:
+        user: "{{ syncthing_admin_user }}"
+        password: "{{ syncthing_admin_password | password_hash('bcrypt', inventory_hostname | hash('md5') | truncate(22, True, '')) }}"
+        insecureAdminAccess: false
+        debugging: false
+      options:
+        crashReportingEnabled: false
+  no_log: true
+
+- name: Modify the syncthing configuration variable with new values
+  set_fact:
+    _syncthing_config: "{{ _syncthing_config | combine(_syncthing_new_values, recursive=true) }}"
+  no_log: true
+
+- name: Run an API call inside the container to set the new service config
+  shell: |
+     docker exec syncthing curl -s -X POST -d '{{ _syncthing_config | to_json }}' -H 'Content-Type: application/json' -H 'X-API-KEY: {{ _syncthing_apikey }}' http://localhost:8384/rest/system/config
+  when: _syncthing_config != _syncthing_config_old
+  no_log: true
+
+- name: Verify that the POSTed config is applied
+  shell: |
+     docker exec syncthing curl -s -H 'X-API-KEY: {{ _syncthing_apikey }}' http://localhost:8384/rest/system/config/insync
+  register: _syncthing_config_applied_raw
+  changed_when: false
+  retries: 5
+  until: _syncthing_config_applied_raw.rc == 0
+  delay: 10
+
+- name: Restart syncthing if its applied config is not consistent with the disk version
+  command: /bin/true
+  changed_when: not _syncthing_config_applied_raw.stdout | from_json | json_query('configInSync') | bool
+  notify: restart syncthing

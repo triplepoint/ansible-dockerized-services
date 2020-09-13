@@ -1,0 +1,64 @@
+---
+- name: Ensure Docker-related Python packages are present
+  pip:
+    name:
+      - docker
+      - docker-compose
+
+- name: Ensure the container user group exists
+  group:
+    name: "syncthing"
+    state: present
+    gid: "{{ syncthing_group_id }}"
+    system: yes
+
+- name: Ensure the container user exists
+  user:
+    name: "syncthing"
+    state: present
+    uid: "{{ syncthing_user_id }}"
+    group: "syncthing"
+    create_home: no
+    system: yes
+    shell: "/usr/sbin/nologin"
+
+- name: Ensure the service config directories are present on the host
+  file:
+    state: directory
+    path: "{{ item }}"
+    mode: 0750
+    owner: "syncthing"
+    group: "syncthing"
+  with_items:
+    - "{{ syncthing_data_directory }}"
+
+- name: Define the list of Docker volumes, used when starting the docker container
+  set_fact:
+    _syncthing_docker_volumes:
+      - "{{ syncthing_data_directory }}:/var/syncthing"
+
+- name: Add the group and user id environment variables
+  set_fact:
+    _syncthing_docker_env_vars: "{{ syncthing_environment_variables | combine({ 'PGID': '{{ syncthing_group_id }}', 'PUID': '{{ syncthing_user_id }}'}) }}"
+
+- name: Ensure the docker-compose template directory exists
+  file:
+    state: directory
+    path: "/opt/ansible-docker-compose/syncthing"
+
+- name: Ensure this service's docker-compose template is present
+  template:
+    src: docker-compose.yml.j2
+    dest: /opt/ansible-docker-compose/syncthing/docker-compose.yml
+
+- name: Ensure this service's Dockerfile is present
+  template:
+    src: Dockerfile.j2
+    dest: /opt/ansible-docker-compose/syncthing/Dockerfile
+
+- name: Ensure the service container(s) is/are started
+  docker_compose:
+    project_src: /opt/ansible-docker-compose/syncthing
+    build: yes
+
+- import_tasks: _ensure_config.yml
