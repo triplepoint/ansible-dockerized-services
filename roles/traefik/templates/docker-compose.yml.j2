@@ -10,10 +10,12 @@ services:
 {% for name, portnumber in traefik_additional_entrypoints.items() %}
       - "{{ portnumber }}:{{ portnumber }}"
 {% endfor %}
+{% if _traefik_volumes %}
     volumes:
 {% for vol in _traefik_volumes %}
       - {{ vol }}
 {% endfor %}
+{% endif %}
 {% if traefik_environment_variables %}
     environment:
 {% for k, v in traefik_environment_variables.items() %}
