@@ -6,6 +6,14 @@ syncthing_docker_version: "latest"
 # Labels to put on the application containers
 syncthing_container_labels: []
 
+# These port variables are used by the docker-compose file, so they should
+# be formatted appropriately.
+# See: https://docs.docker.com/compose/compose-file/#ports
+syncthing_container_ports:
+  - "8384"   # Admin web service
+  - "22000"  # Sync protocol listening address
+  # - "21027"  # Local network Device Discovery
+
 # # If set to a string, the created Docker container will attach to a
 # # pre-existing Docker network of that name, instead of creating its own.
 syncthing_network_name: ""
@@ -20,16 +28,24 @@ syncthing_group_id: 1884
 # from the above variables.
 syncthing_environment_variables: {}
 
-# # Should we set up a logrotate config file for /var/log/syncthing.log?
-# syncthing_enable_logrotate: true
-
 # What directory should syncthing use for its data store?
 # This will contain both the data, and the configuration.
 syncthing_data_directory: "/opt/syncthing"
 
 # Syncthing dashboard panel admin username
-syncthing_admin_user: "testusername"
+syncthing_admin_user: "admin"
 
 # Syncthing dashboard panel admin password (this will be bcrypted in the config file)
 # But should be plaintext here.  Be sure to protect this file, like with vault.
-syncthing_admin_password: "testuserpassword"
+syncthing_admin_password: "admin"
+
+# A general dict of configuration values, which will be merged with the existing
+# server config and redeployed.  That is to say, you only need to specify values
+# which are changing from the default.  Also, gui.user and gui.password will be
+# set before this dict is merged, so only override those values if you know
+# what you're doing.
+# For details of this dict's structure, see:
+# https://docs.syncthing.net/rest/system-config-get.html#get-rest-system-config
+syncthing_config:
+  gui:
+    insecureAdminAccess: false

@@ -12,9 +12,12 @@ services:
 {% endfor %}
 {% endif %}
     restart: always
+{% if syncthing_container_ports %}
     ports:
-      - "8384"
-      - "22000"
+{% for port in syncthing_container_ports %}
+      - "{{ port }}"
+{% endfor %}
+{% endif %}
 {% if syncthing_network_name %}
     networks:
       - {{ syncthing_network_name }}

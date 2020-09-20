@@ -26,21 +26,22 @@
     _syncthing_config: "{{ _syncthing_config_raw.stdout | from_json }}"
     _syncthing_config_old: "{{ _syncthing_config_raw.stdout | from_json }}"
 
-- name: Build a dict of the new syncthing configuration values
+- name: Create a config dict with the gui.user and gui.password values
   set_fact:
-    _syncthing_new_values:
+    _syncthing_auth_values:
       gui:
         user: "{{ syncthing_admin_user }}"
         password: "{{ syncthing_admin_password | password_hash('bcrypt', inventory_hostname | hash('md5') | truncate(22, True, '')) }}"
-        insecureAdminAccess: false
-        debugging: false
-      options:
-        crashReportingEnabled: false
   no_log: true
 
-- name: Modify the syncthing configuration variable with new values
+- name: Combine the new auth config with the existing configuration
   set_fact:
-    _syncthing_config: "{{ _syncthing_config | combine(_syncthing_new_values, recursive=true) }}"
+    _syncthing_config: "{{ _syncthing_config | combine(_syncthing_auth_values, recursive=true) }}"
+  no_log: true
+
+- name: Combine the rest of the new config with the existing configuration
+  set_fact:
+    _syncthing_config: "{{ _syncthing_config | combine(syncthing_config, recursive=true) }}"
   no_log: true
 
 - name: Run an API call inside the container to set the new service config
