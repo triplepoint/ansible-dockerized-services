@@ -1,4 +1,4 @@
-FROM python:3.8
+FROM python:3.9
 LABEL maintainer="Jonathan Hanson <jonathan@jonathan-hanson.org>"
 
 ARG UID_GID=1085
@@ -19,7 +19,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
 RUN pip install --no-cache-dir --upgrade \
     'pip' \
     'pipenv' \
-    'setuptools<50' \
+    'setuptools' \
     'wheel'
 
 COPY Pipfile ./
