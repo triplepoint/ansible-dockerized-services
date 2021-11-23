@@ -1,0 +1,67 @@
+---
+- name: Ensure Docker-related Python packages are present
+  pip:
+    name:
+      - docker
+      - docker-compose
+
+- name: Ensure the admin group is present
+  group:
+    name: "{{ zwjs_exec_user }}"
+    state: present
+    gid: "{{ zwjs_exec_user_and_group_id }}"
+    system: yes
+
+- name: Ensure the admin user is present
+  user:
+    name: "{{ zwjs_exec_user }}"
+    state: present
+    uid: "{{ zwjs_exec_user_and_group_id }}"
+    group: "{{ zwjs_exec_user }}"
+    create_home: no
+    system: yes
+    shell: "/usr/sbin/nologin"
+
+- name: Ensure the mounted volume directories are present
+  file:
+    state: directory
+    path: "{{ item }}"
+    group: "{{ zwjs_exec_user }}"
+    owner: "{{ zwjs_exec_user }}"
+  with_items:
+    - /opt/zwavejs/store
+
+- name: Define the default service Docker volumes
+  set_fact:
+    _zwjs_docker_volumes:
+      - "/opt/zwavejs/store:/usr/src/app/store"
+
+# - name: Add the certificate file directory to the list of volumes, if necessary
+#   set_fact:
+#     _zwjs_docker_volumes: "{{ _zwjs_docker_volumes }} + [ '{{ zwjs_certfiles_dir }}:/usr/lib/zwjs/cert' ]"
+#   when: zwjs_use_ssl
+
+- name: Append any additional environment variables
+  set_fact:
+    _zwjs_docker_env_vars:
+      PGID: "{{ zwjs_exec_user_and_group_id }}"
+      PUID: "{{ zwjs_exec_user_and_group_id }}"
+
+- name: Append any additional environment variables
+  set_fact:
+    _zwjs_docker_env_vars: "{{ _zwjs_docker_env_vars | combine(zwjs_environment_variables) }}"
+
+- name: Ensure the docker-compose template directory exists
+  file:
+    state: directory
+    path: "/opt/ansible-docker-compose/zwavejs2mqtt"
+
+- name: Ensure this service's docker-compose template is present
+  template:
+    src: docker-compose.yml.j2
+    dest: /opt/ansible-docker-compose/zwavejs2mqtt/docker-compose.yml
+
+- name: Ensure the service container(s) is/are started
+  docker_compose:
+    project_src: /opt/ansible-docker-compose/zwavejs2mqtt
+    pull: yes

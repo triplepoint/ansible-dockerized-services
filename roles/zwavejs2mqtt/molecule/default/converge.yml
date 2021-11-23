@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include ansible-zwavejs2mqtt"
+      include_role:
+        name: "ansible-zwavejs2mqtt"
