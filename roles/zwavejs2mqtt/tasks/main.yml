@@ -36,11 +36,6 @@
     _zwjs_docker_volumes:
       - "/opt/zwavejs/store:/usr/src/app/store"
 
-# - name: Add the certificate file directory to the list of volumes, if necessary
-#   set_fact:
-#     _zwjs_docker_volumes: "{{ _zwjs_docker_volumes }} + [ '{{ zwjs_certfiles_dir }}:/usr/lib/zwjs/cert' ]"
-#   when: zwjs_use_ssl
-
 - name: Append any additional environment variables
   set_fact:
     _zwjs_docker_env_vars:

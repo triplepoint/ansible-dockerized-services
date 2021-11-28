@@ -10,14 +10,6 @@ zwjs_exec_user_and_group_id: "1997"
 # The version tag of the `zwavejs/zwavejs2mqtt` docker hub image.
 zwjs_docker_image_version: "latest"
 
-# # Should we pass SSL certificates to the service?
-# zwjs_use_ssl: false
-
-# # If the above value is set to true, where on the host machine should we
-# # find the certificates?  Note the details at the docker hub readme above
-# # regarding which files must be in this location.
-# zwjs_certfiles_dir: ""
-
 # A key/value set of environment variables and their values, which will be
 # set on the docker container.
 # Note: you should probably adjust the SESSION_SECRET to your own secret value
