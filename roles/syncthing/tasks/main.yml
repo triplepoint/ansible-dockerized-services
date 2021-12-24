@@ -56,6 +56,13 @@
     src: Dockerfile.j2
     dest: /opt/ansible-docker-compose/syncthing/Dockerfile
 
+- name: Ensure the latest images for the upstream container
+  community.docker.docker_image:
+    name: "{{ syncthing_docker_image_name }}"
+    source: pull
+    force_source: yes
+    tag: "{{ syncthing_docker_version }}"
+
 - name: Ensure the service container(s) is/are started
   docker_compose:
     project_src: /opt/ansible-docker-compose/syncthing
