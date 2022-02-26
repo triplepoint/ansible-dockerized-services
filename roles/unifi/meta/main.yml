@@ -1,6 +1,7 @@
 ---
 galaxy_info:
   role_name: unifi
+  namespace: triplepoint
   author: Jonathan Hanson
   description: The Ubiquiti Unifi controller service
   license: MIT
