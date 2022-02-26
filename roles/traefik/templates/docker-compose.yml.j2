@@ -4,6 +4,7 @@ services:
   reverse-proxy:
     image: traefik:{{ traefik_version }}
     container_name: traefik
+    restart: always
     ports:
       - "80:80"
       - "443:443"
@@ -22,6 +23,8 @@ services:
       - {{ k }}={{ v }}
 {% endfor %}
 {% endif %}
+{% if traefik_network_name %}
 networks:
   default:
     name: {{ traefik_network_name }}
+{% endif %}

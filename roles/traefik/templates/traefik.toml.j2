@@ -30,3 +30,6 @@ filename = "/etc/traefik/dynamic_conf.toml"
     provider = "{{ resolver.dns_provider }}"
 
 {% endfor %}
+
+[log]
+level = "INFO"
