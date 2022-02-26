@@ -1,0 +1,18 @@
+---
+galaxy_info:
+  role_name: docker-compose-service
+  namespace: triplepoint
+  author: Jonathan Hanson
+  description: A role intended to be included into other roles, to stand up a Dockerized service with Docker Compose.
+  license: MIT
+  min_ansible_version: 2.9
+  platforms:
+    - name: Ubuntu
+      versions:
+        - xenial
+        - bionic
+        - focal
+  galaxy_tags:
+    - docker
+    - docker-compose
+dependencies: []
