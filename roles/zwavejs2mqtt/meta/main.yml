@@ -1,6 +1,7 @@
 ---
 galaxy_info:
   role_name: zwavejs2mqtt
+  namespace: triplepoint
   author: Jonathan Hanson
   description: The ZWaveJS2MQTT Z-wave network controller service
   license: MIT
