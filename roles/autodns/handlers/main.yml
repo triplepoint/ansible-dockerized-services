@@ -2,5 +2,5 @@
 - name: restart autodns
   docker_compose:
     project_src: /opt/ansible-docker-compose/autodns
-    restarted: yes
-    build: yes
+    restarted: true
+    build: true
