@@ -28,6 +28,7 @@
   template:
     src: "{{ docker_service_compose_template }}"
     dest: "{{ docker_service_compose_dir }}/docker-compose.yml"
+    mode: 0644
 
 # - name: Ensure the latest images for the upstream container
 #   community.docker.docker_image:
