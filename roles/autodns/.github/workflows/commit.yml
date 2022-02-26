@@ -12,8 +12,8 @@ jobs:
       uses: ansible/ansible-lint-action@v4.1.0
       with:
         targets: "."
-        args: "--enable-list=yaml"
         override-deps: |
           ansible==2.12.2
           ansible-lint==5.4.0
           yamllint==1.26.3
+        args: "--enable-list yaml"
