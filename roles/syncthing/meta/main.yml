@@ -1,6 +1,7 @@
 ---
 galaxy_info:
   role_name: syncthing
+  namespace: triplepoint
   author: Jonathan Hanson
   description: The Syncthing secure file synchronization service.
   license: MIT
