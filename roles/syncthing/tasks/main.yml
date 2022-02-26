@@ -45,11 +45,13 @@
   template:
     src: docker-compose.yml.j2
     dest: /opt/ansible-docker-compose/syncthing/docker-compose.yml
+    mode: 0644
 
 - name: Ensure this service's Dockerfile is present
   template:
     src: Dockerfile.j2
     dest: /opt/ansible-docker-compose/syncthing/Dockerfile
+    mode: 0644
 
 - name: Ensure the latest images for the upstream container
   community.docker.docker_image:
