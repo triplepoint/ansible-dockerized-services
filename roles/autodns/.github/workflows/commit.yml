@@ -16,4 +16,4 @@ jobs:
           ansible==2.12.2
           ansible-lint==5.4.0
           yamllint==1.26.3
-        args: "--enable-list yaml"
+        args: ""
