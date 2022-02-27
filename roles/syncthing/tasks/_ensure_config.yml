@@ -5,7 +5,10 @@
 ###
 
 - name: Get API key directly from config file
-  shell: set -o pipefail && grep apikey {{ syncthing_data_directory }}/config/config.xml | sed -n 's:.*<apikey>\(.*\)</apikey>.*:\1:p'
+  shell: |
+    set -o pipefail && grep apikey {{ syncthing_data_directory }}/config/config.xml | sed -n 's:.*<apikey>\(.*\)</apikey>.*:\1:p'
+  args:
+    executable: /bin/bash
   register: _syncthing_apikey_raw
   changed_when: false
 
@@ -14,7 +17,8 @@
     _syncthing_apikey: "{{ _syncthing_apikey_raw.stdout }}"
 
 - name: Run an API call inside the container to fetch the current service config
-  command: "docker exec syncthing curl -s -H 'X-API-KEY: {{ _syncthing_apikey }}' http://localhost:8384/rest/system/config"
+  command: |
+    docker exec syncthing curl -s -H 'X-API-KEY: {{ _syncthing_apikey }}' http://localhost:8384/rest/system/config
   register: _syncthing_config_raw
   changed_when: false
   retries: 5
@@ -46,14 +50,14 @@
 
 - name: Run an API call inside the container to set the new service config
   command: |
-     docker exec syncthing curl -s -X POST -d '{{ _syncthing_config | to_json }}' -H 'Content-Type: application/json' \
-     -H 'X-API-KEY: {{ _syncthing_apikey }}' http://localhost:8384/rest/system/config
+    docker exec syncthing curl -s -X POST -d '{{ _syncthing_config | to_json }}' -H 'Content-Type: application/json' \
+    -H 'X-API-KEY: {{ _syncthing_apikey }}' http://localhost:8384/rest/system/config
   when: _syncthing_config != _syncthing_config_old
   no_log: true
 
 - name: Verify that the POSTed config is applied
-  shell: |
-     docker exec syncthing curl -s -H 'X-API-KEY: {{ _syncthing_apikey }}' http://localhost:8384/rest/system/config/insync
+  command: |
+    docker exec syncthing curl -s -H 'X-API-KEY: {{ _syncthing_apikey }}' http://localhost:8384/rest/system/config/insync
   register: _syncthing_config_applied_raw
   changed_when: false
   retries: 5
