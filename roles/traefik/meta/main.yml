@@ -11,6 +11,7 @@ galaxy_info:
         - xenial
         - bionic
         - focal
+  github_branch: main
   galaxy_tags:
     - proxy
 dependencies: []
