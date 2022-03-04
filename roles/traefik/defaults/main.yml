@@ -55,3 +55,7 @@ traefik_api_entrypoint: "https"
 # traefik_certificate_resolvers list above.  If absent,
 # Traefik will use a self-signed certificate it generates.
 traefik_api_certificate_resolver: false
+
+# Extra hosts to be listed on the docker-compose config, if any
+traefik_extra_hosts: []
+# - "host.docker.internal:172.17.0.1"

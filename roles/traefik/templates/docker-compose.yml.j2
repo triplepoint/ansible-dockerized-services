@@ -23,6 +23,12 @@ services:
       - {{ k }}={{ v }}
 {% endfor %}
 {% endif %}
+{% if traefik_extra_hosts %}
+    extra_hosts:
+{% for host in traefik_extra_hosts %}
+      - {{ host }}
+{% endfor %}
+{% endif %}
 {% if traefik_network_name %}
 networks:
   default:
