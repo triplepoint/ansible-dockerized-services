@@ -1,0 +1,8 @@
+---
+# The path to the RTL USB device
+rtl_433_device_path: "/dev/bus/usb/001/001"
+
+# A list of flags to pass into rtl_433
+# see: https://github.com/merbanan/rtl_433#running
+# also see: https://github.com/hertzg/rtl_433_docker
+rtl_433_command_extras: []

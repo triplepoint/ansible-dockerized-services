@@ -1,0 +1,10 @@
+---
+- name: Deploy and start the Docker Compose-managed service
+  include_role:
+    name: triplepoint.docker_compose_service
+  vars:
+    docker_service_name: rtl_433
+    docker_service_container_name: hertzg/rtl_433
+    docker_service_devices:
+      - "{{ rtl_433_device_path }}"
+    docker_service_command_extras: "{{ rtl_433_command_extras }}"
