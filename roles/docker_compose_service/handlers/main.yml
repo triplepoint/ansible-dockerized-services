@@ -1,0 +1,6 @@
+---
+- name: restart docker service
+  docker_compose:
+    project_src: "{{ docker_service_compose_dir }}"
+    restarted: true
+    pull: true

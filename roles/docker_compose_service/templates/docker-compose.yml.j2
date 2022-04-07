@@ -1,0 +1,68 @@
+#jinja2:lstrip_blocks: True
+version: '3.7'
+services:
+  {{ docker_service_name }}:
+    image: {{ docker_service_container_name }}:{{ docker_service_container_version }}
+    container_name: {{ docker_service_name }}
+    restart: always
+
+{% if docker_service_command_extras %}
+    command:
+  {% for command in docker_service_command_extras %}
+      - {{ command }}
+  {% endfor %}
+{% endif %}
+
+{% if docker_service_container_labels %}
+    labels:
+  {% for label in docker_service_container_labels %}
+      - {{ label }}
+  {% endfor %}
+{% endif %}
+
+{% if docker_service_ports %}
+    ports:
+  {% for port in docker_service_ports %}
+      - "{{ port }}"
+  {% endfor %}
+{% endif %}
+
+{% if docker_service_expose_ports %}
+    expose:
+  {% for port in docker_service_expose_ports %}
+      - "{{ port }}"
+  {% endfor %}
+{% endif %}
+
+{% if docker_service_network_name %}
+    networks:
+      - {{ docker_service_network_name }}
+{% endif %}
+
+{% if docker_service_config_dirs %}
+    volumes:
+  {% for vol in docker_service_config_dirs +%}
+      - {{ vol.external }}:{{ vol.internal }}
+        {%- if vol.mode is defined %}:{{ vol.mode }}{% endif %}
+  {% endfor %}
+{% endif %}
+
+{% if docker_service_devices %}
+    devices:
+  {% for dev in docker_service_devices %}
+     - "{{ dev }}"
+  {% endfor %}
+{% endif %}
+
+{% if docker_service_environment_variables %}
+    environment:
+  {% for k, v in docker_service_environment_variables.items() %}
+      - {{ k }}={{ v }}
+  {% endfor %}
+{% endif %}
+
+{% if docker_service_network_name %}
+networks:
+  {{ docker_service_network_name }}:
+    external: true
+{% endif %}

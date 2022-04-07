@@ -1,0 +1,24 @@
+---
+- name: Set up user and group names
+  set_fact:
+    docker_service_user_and_group_name: "{{ docker_service_name }}"
+  when: docker_service_user_and_group_id != 0
+
+- name: Ensure the service user group exists
+  group:
+    name: "{{ docker_service_name }}"
+    state: present
+    gid: "{{ docker_service_user_and_group_id }}"
+    system: true
+  when: docker_service_user_and_group_name | default(false)
+
+- name: Ensure the service user exists
+  user:
+    name: "{{ docker_service_name }}"
+    state: present
+    uid: "{{ docker_service_user_and_group_id }}"
+    group: "{{ docker_service_name }}"
+    create_home: false
+    system: true
+    shell: "/usr/sbin/nologin"
+  when: docker_service_user_and_group_name | default(false)

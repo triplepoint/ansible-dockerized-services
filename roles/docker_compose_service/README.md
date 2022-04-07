@@ -15,7 +15,7 @@ In another role, you can:
 ```
 - name: Deploy and start the Docker Compose-managed service
   include_role:
-    name: triplepoint.docker-compose-service
+    name: triplepoint.docker_compose_service
   vars:
     docker_service_name: some_service_name
     docker_service_container_name: some/dockerimage
