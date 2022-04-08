@@ -5,6 +5,15 @@
   vars:
     docker_service_name: rtl_433
     docker_service_container_name: hertzg/rtl_433
+    docker_service_container_version: debian-master
     docker_service_devices:
       - "{{ rtl_433_device_path }}"
-    docker_service_command_extras: "{{ rtl_433_command_extras }}"
+    docker_service_command_extras:
+      - "-c/config/rtl433.conf"
+    docker_service_config_dirs:
+      - external: "/etc/{{ docker_service_name }}"
+        internal: "/config"
+        templates:
+          - template: rtl433.conf.j2
+            dest: rtl433.conf
+    docker_service_additional_volumes: "{{ rtl_433_volumes }}"
