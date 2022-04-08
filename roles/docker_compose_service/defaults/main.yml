@@ -27,6 +27,8 @@ docker_service_config_dirs: []
 #     internal: "/more_configs"
 #     mode: "ro"
 
+docker_service_additional_volumes: []
+
 # A key/value set of environment variables and their values, which will be
 # set on the docker container.
 docker_service_environment_variables: []
