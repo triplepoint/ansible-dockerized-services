@@ -1,6 +1,6 @@
 ---
 galaxy_info:
-  role_name: rtl_sdr
+  role_name: rtl_433
   namespace: triplepoint
   author: Jonathan Hanson
   description: The RTL_433 software defined radio service.
