@@ -8,3 +8,21 @@ rtl_433_volumes: []
 # Whole lines of the config file, as a list of strings
 # see https://github.com/merbanan/rtl_433/blob/master/conf/rtl_433.example.conf
 rtl_433_config_lines: []
+
+# Should we start up the additional home-assistant autodiscovery service?
+rtl_433_autodiscovery: false
+
+# Take a look at the start_rtl_433_mqtt_hass.sh script which converts these docker
+# environment variables into passed parameters for the python script service.
+# For the details on the python script's parameters, see the original file at:
+# https://github.com/merbanan/rtl_433/blob/master/examples/rtl_433_mqtt_hass.py#L713
+rtl_433_autodiscovery_environment_vars: {}
+  # MQTT_HOST: mqtt.example.com
+  # MQTT_USERNAME: username
+  # MQTT_PASSWORD: password
+  # MQTT_PORT: 1883
+  # MQTT_CA_CERT_PATH: /etc/ssl/certs/mqtt.example.com.ca.crt
+  # RTL_TOPIC: rtl_433/+/events
+  # DISCOVERY_PREFIX: homeassistant
+  # DISCOVERY_INTERVAL: 600
+  # OTHER_ARGS: --force_update

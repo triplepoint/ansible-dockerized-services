@@ -1,4 +1,17 @@
 ---
+
+- name: Ensure the Dockerfile and related files are all present
+  copy:
+    src: "{{ item }}"
+    dest: "/opt/ansible-docker-compose/rtl_433/{{ item }}"
+    mode: 0644
+  with_items:
+    - Dockerfile
+    - start_rtl_433_mqtt_hass.sh
+    - rtl_433_mqtt_hass.py
+    - Pipfile
+    - Pipfile.lock
+
 - name: Deploy and start the Docker Compose-managed service
   include_role:
     name: triplepoint.docker_compose_service
@@ -17,3 +30,4 @@
           - template: rtl433.conf.j2
             dest: rtl433.conf
     docker_service_additional_volumes: "{{ rtl_433_volumes }}"
+    docker_service_compose_template: "docker-compose-rtl-433.yml.j2"
