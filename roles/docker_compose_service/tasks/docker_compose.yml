@@ -23,3 +23,4 @@
   docker_compose:
     project_src: "{{ docker_service_compose_dir }}"
     pull: true
+    build: true
