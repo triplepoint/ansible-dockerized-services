@@ -1,6 +1,6 @@
 ---
 # The version of the syncthing docker image to use.
-# see: https://hub.docker.com/_/eclipse-syncthing
+# see: https://hub.docker.com/syncthing/syncthing
 syncthing_docker_image_name: "syncthing/syncthing"
 syncthing_docker_version: "latest"
 
