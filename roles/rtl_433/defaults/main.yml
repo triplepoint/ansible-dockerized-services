@@ -25,4 +25,4 @@ rtl_433_autodiscovery_environment_vars: {}
   # RTL_TOPIC: rtl_433/+/events
   # DISCOVERY_PREFIX: homeassistant
   # DISCOVERY_INTERVAL: 600
-  # OTHER_ARGS: --force_update
+  # OTHER_ARGS: --force_update --debug

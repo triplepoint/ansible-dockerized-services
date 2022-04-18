@@ -8,7 +8,6 @@
   with_items:
     - Dockerfile
     - start_rtl_433_mqtt_hass.sh
-    - rtl_433_mqtt_hass.py
     - Pipfile
     - Pipfile.lock
 
