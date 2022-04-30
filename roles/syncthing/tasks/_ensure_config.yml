@@ -11,6 +11,7 @@
     executable: /bin/bash
   register: _syncthing_apikey_raw
   changed_when: false
+  check_mode: no
 
 - name: Set _syncthing_apikey variable, for use in API calls
   set_fact:
@@ -24,6 +25,7 @@
   retries: 5
   until: _syncthing_config_raw.rc == 0
   delay: 10
+  check_mode: no
 
 - name: Store a copy of the config in a pair of variables, for later diff comparison
   set_fact:
