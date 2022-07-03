@@ -35,7 +35,7 @@
 
 - name: Add the certificate file directory to the list of volumes, if necessary
   set_fact:
-    _unifi_docker_volumes: "{{ _unifi_docker_volumes }} + [ '{{ unifi_certfiles_dir }}:/usr/lib/unifi/cert' ]"
+    _unifi_docker_volumes: "{{ _unifi_docker_volumes | union(['{{ unifi_certfiles_dir }}:/usr/lib/unifi/cert']) }}"
   when: unifi_use_ssl
 
 - name: Append any additional environment variables
