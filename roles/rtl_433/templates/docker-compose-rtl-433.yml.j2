@@ -5,6 +5,7 @@ services:
     image: {{ docker_service_container_name }}:{{ docker_service_container_version }}
     container_name: {{ docker_service_name }}
     restart: always
+    privileged: true
 
 {% if docker_service_command_extras %}
     command:
