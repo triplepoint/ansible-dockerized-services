@@ -1,13 +1,13 @@
 ---
 - name: Ensure the admin group is present
-  group:
+  ansible.builtin.group:
     name: "{{ unifi_exec_user }}"
     state: present
     gid: "{{ unifi_exec_user_and_group_id }}"
     system: true
 
 - name: Ensure the admin user is present
-  user:
+  ansible.builtin.user:
     name: "{{ unifi_exec_user }}"
     state: present
     uid: "{{ unifi_exec_user_and_group_id }}"
@@ -17,7 +17,7 @@
     shell: "/usr/sbin/nologin"
 
 - name: Ensure the mounted volume directories are present
-  file:
+  ansible.builtin.file:
     state: directory
     path: "{{ item }}"
     group: "{{ unifi_exec_user }}"
@@ -28,34 +28,34 @@
     - /opt/unifi/logs
 
 - name: Define the default service Docker volumes
-  set_fact:
+  ansible.builtin.set_fact:
     _unifi_docker_volumes:
       - "/opt/unifi/data:/usr/lib/unifi/data"
       - "/opt/unifi/logs:/usr/lib/unifi/logs"
 
 - name: Add the certificate file directory to the list of volumes, if necessary
-  set_fact:
+  ansible.builtin.set_fact:
     _unifi_docker_volumes: "{{ _unifi_docker_volumes | union(['{{ unifi_certfiles_dir }}:/usr/lib/unifi/cert']) }}"
   when: unifi_use_ssl
 
 - name: Append any additional environment variables
-  set_fact:
+  ansible.builtin.set_fact:
     _unifi_docker_env_vars:
       PGID: "{{ unifi_exec_user_and_group_id }}"
       PUID: "{{ unifi_exec_user_and_group_id }}"
 
 - name: Append any additional environment variables
-  set_fact:
+  ansible.builtin.set_fact:
     _unifi_docker_env_vars: "{{ _unifi_docker_env_vars | combine(unifi_environment_variables) }}"
 
 - name: Ensure the docker-compose template directory exists
-  file:
+  ansible.builtin.file:
     state: directory
     path: "/opt/ansible-docker-compose/unifi"
     mode: 0755
 
 - name: Ensure this service's docker-compose template is present
-  template:
+  ansible.builtin.template:
     src: docker-compose.yml.j2
     dest: /opt/ansible-docker-compose/unifi/docker-compose.yml
     mode: 0644
