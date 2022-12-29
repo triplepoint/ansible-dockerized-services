@@ -1,5 +1,5 @@
 ---
-- name: restart syncthing
+- name: Restart syncthing
   docker_compose:
     project_src: /opt/ansible-docker-compose/syncthing
     restarted: true

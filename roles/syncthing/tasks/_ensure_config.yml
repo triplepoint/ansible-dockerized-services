@@ -5,35 +5,35 @@
 ###
 
 - name: Get API key directly from config file
-  shell: |
+  ansible.builtin.shell: |
     set -o pipefail && grep apikey {{ syncthing_data_directory }}/config/config.xml | sed -n 's:.*<apikey>\(.*\)</apikey>.*:\1:p'
   args:
     executable: /bin/bash
   register: _syncthing_apikey_raw
   changed_when: false
-  check_mode: no
+  check_mode: false
 
 - name: Set _syncthing_apikey variable, for use in API calls
-  set_fact:
+  ansible.builtin.set_fact:
     _syncthing_apikey: "{{ _syncthing_apikey_raw.stdout }}"
 
 - name: Run an API call inside the container to fetch the current service config
-  command: |
+  ansible.builtin.command: |
     docker exec syncthing curl -s -H 'X-API-KEY: {{ _syncthing_apikey }}' http://localhost:8384/rest/system/config
   register: _syncthing_config_raw
   changed_when: false
   retries: 5
   until: _syncthing_config_raw.rc == 0
   delay: 10
-  check_mode: no
+  check_mode: false
 
 - name: Store a copy of the config in a pair of variables, for later diff comparison
-  set_fact:
+  ansible.builtin.set_fact:
     _syncthing_config: "{{ _syncthing_config_raw.stdout | from_json }}"
     _syncthing_config_old: "{{ _syncthing_config_raw.stdout | from_json }}"
 
 - name: Create a config dict with the gui.user and gui.password values
-  set_fact:
+  ansible.builtin.set_fact:
     _syncthing_auth_values:
       gui:
         user: "{{ syncthing_admin_user }}"
@@ -41,24 +41,24 @@
   no_log: true
 
 - name: Combine the new auth config with the existing configuration
-  set_fact:
+  ansible.builtin.set_fact:
     _syncthing_config: "{{ _syncthing_config | combine(_syncthing_auth_values, recursive=true) }}"
   no_log: true
 
 - name: Combine the rest of the new config with the existing configuration
-  set_fact:
+  ansible.builtin.set_fact:
     _syncthing_config: "{{ _syncthing_config | combine(syncthing_config, recursive=true) }}"
   no_log: true
 
 - name: Run an API call inside the container to set the new service config
-  command: |
+  ansible.builtin.command: |
     docker exec syncthing curl -s -X POST -d '{{ _syncthing_config | to_json }}' -H 'Content-Type: application/json' \
     -H 'X-API-KEY: {{ _syncthing_apikey }}' http://localhost:8384/rest/system/config
   when: _syncthing_config != _syncthing_config_old
   no_log: true
 
 - name: Verify that the POSTed config is applied
-  command: |
+  ansible.builtin.command: |
     docker exec syncthing curl -s -H 'X-API-KEY: {{ _syncthing_apikey }}' http://localhost:8384/rest/system/config/insync
   register: _syncthing_config_applied_raw
   changed_when: false
@@ -67,6 +67,6 @@
   delay: 10
 
 - name: Restart syncthing if its applied config is not consistent with the disk version
-  command: /bin/true
+  ansible.builtin.command: /bin/true
   changed_when: not _syncthing_config_applied_raw.stdout | from_json | json_query('configInSync') | bool
-  notify: restart syncthing
+  notify: Restart syncthing
