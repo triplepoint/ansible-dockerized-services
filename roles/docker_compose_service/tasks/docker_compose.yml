@@ -20,7 +20,7 @@
 #   when: docker_service_parent_image
 
 - name: Ensure the service container(s) is/are started
-  docker_compose:
+  community.docker.docker_compose:
     project_src: "{{ docker_service_compose_dir }}"
     pull: true
     build: true

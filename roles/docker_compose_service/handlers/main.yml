@@ -1,6 +1,6 @@
 ---
 - name: Restart docker service
-  docker_compose:
+  community.docker.docker_compose:
     project_src: "{{ docker_service_compose_dir }}"
     restarted: true
     pull: true
