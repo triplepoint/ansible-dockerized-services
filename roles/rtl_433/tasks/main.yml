@@ -1,7 +1,6 @@
 ---
-
 - name: Ensure the Dockerfile and related files are all present
-  copy:
+  ansible.builtin.copy:
     src: "{{ item }}"
     dest: "/opt/ansible-docker-compose/rtl_433/{{ item }}"
     mode: 0644
@@ -12,7 +11,7 @@
     - Pipfile.lock
 
 - name: Deploy and start the Docker Compose-managed service
-  include_role:
+  ansible.builtin.include_role:
     name: triplepoint.docker_compose_service
   vars:
     docker_service_name: rtl_433

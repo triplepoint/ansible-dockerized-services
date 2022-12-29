@@ -3,5 +3,5 @@
   hosts: all
   tasks:
     - name: "Include ansible-rtl-433"
-      include_role:
+      ansible.builtin.include_role:
         name: "ansible-rtl-433
