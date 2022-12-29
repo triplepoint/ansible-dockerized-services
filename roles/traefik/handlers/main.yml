@@ -1,6 +1,6 @@
 ---
 - name: Restart traefik
-  docker_compose:
+  community.docker.docker_compose:
     project_src: /opt/ansible-docker-compose/traefik
     restarted: true
     pull: true
