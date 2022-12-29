@@ -5,7 +5,7 @@ galaxy_info:
   author: Jonathan Hanson
   description: A role intended to be included into other roles, to stand up a Dockerized service with Docker Compose.
   license: MIT
-  min_ansible_version: 2.9
+  min_ansible_version: "2.9"
   platforms:
     - name: Ubuntu
       versions:

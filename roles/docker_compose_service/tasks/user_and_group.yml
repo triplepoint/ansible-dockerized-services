@@ -1,11 +1,11 @@
 ---
 - name: Set up user and group names
-  set_fact:
+  ansible.builtin.set_fact:
     docker_service_user_and_group_name: "{{ docker_service_name }}"
   when: docker_service_user_and_group_id != 0
 
 - name: Ensure the service user group exists
-  group:
+  ansible.builtin.group:
     name: "{{ docker_service_name }}"
     state: present
     gid: "{{ docker_service_user_and_group_id }}"
@@ -13,7 +13,7 @@
   when: docker_service_user_and_group_name | default(false)
 
 - name: Ensure the service user exists
-  user:
+  ansible.builtin.user:
     name: "{{ docker_service_name }}"
     state: present
     uid: "{{ docker_service_user_and_group_id }}"

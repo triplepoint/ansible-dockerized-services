@@ -1,12 +1,12 @@
 ---
 - name: Ensure the Docker-Compose template directory exists
-  file:
+  ansible.builtin.file:
     state: directory
     path: "{{ docker_service_compose_dir }}"
     mode: 0755
 
 - name: Ensure this service's Docker-Compose template is present
-  template:
+  ansible.builtin.template:
     src: "{{ docker_service_compose_template }}"
     dest: "{{ docker_service_compose_dir }}/docker-compose.yml"
     mode: 0644
