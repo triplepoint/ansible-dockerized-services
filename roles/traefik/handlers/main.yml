@@ -1,5 +1,5 @@
 ---
-- name: restart traefik
+- name: Restart traefik
   docker_compose:
     project_src: /opt/ansible-docker-compose/traefik
     restarted: true

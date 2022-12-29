@@ -1,7 +1,7 @@
 ---
 # Service config files
 - name: Ensure the config directories are present
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
     mode: 0755
@@ -9,7 +9,7 @@
     - /etc/traefik
 
 - name: Ensure all the service configuration files are in place
-  template:
+  ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
     mode: 0600
@@ -18,10 +18,10 @@
       dest: /etc/traefik/traefik.toml
     - src: dynamic_conf.toml.j2
       dest: /etc/traefik/dynamic_conf.toml
-  notify: restart traefik
+  notify: Restart traefik
 
 - name: Ensure all the certificate provider storage files are present
-  file:
+  ansible.builtin.file:
     path: "/etc/traefik/{{ item.storage_filename }}"
     state: touch
     mode: 0600
@@ -31,44 +31,44 @@
 
 # SSL Certificate files
 - name: Assemble the list of standard container volume mounts
-  set_fact:
+  ansible.builtin.set_fact:
     _traefik_volumes:
       - '/var/run/docker.sock:/var/run/docker.sock:ro'
       - '/etc/traefik:/etc/traefik'
 
 - name: Assemble the set of key file volume mounts
-  set_fact:
+  ansible.builtin.set_fact:
     _traefik_ssl_key_volumes: "{{ item.key_path }}:/opt/ssl_certs/{{ item.domain }}.key:ro"
   with_items: "{{ traefik_ssl_files }}"
   register: _proxy_key_volume_results
 
 - name: Pull the processed list out of the result object
-  set_fact:
+  ansible.builtin.set_fact:
     _proxy_key_volume_results_mapped: "{{ _proxy_key_volume_results.results | map(attribute='ansible_facts._traefik_ssl_key_volumes') | list }}"
 
 - name: Assemble the set of cert file volume mounts
-  set_fact:
+  ansible.builtin.set_fact:
     _traefik_ssl_cert_volumes: "{{ item.certificate_path }}:/opt/ssl_certs/{{ item.domain }}.cert:ro"
   with_items: "{{ traefik_ssl_files }}"
   register: _proxy_cert_volume_results
 
 - name: Pull the processed list out of the result object
-  set_fact:
+  ansible.builtin.set_fact:
     _proxy_cert_volume_results_mapped: "{{ _proxy_cert_volume_results.results | map(attribute='ansible_facts._traefik_ssl_cert_volumes') | list }}"
 
 - name: Append the volume mounts together into a single list
-  set_fact:
+  ansible.builtin.set_fact:
     _traefik_volumes: "{{ _traefik_volumes | union(_proxy_key_volume_results_mapped) | union(_proxy_cert_volume_results_mapped) }}"
 
 # Docker-compose
 - name: Ensure the docker-compose template directory exists
-  file:
+  ansible.builtin.file:
     state: directory
     path: "/opt/ansible-docker-compose/traefik"
     mode: 0755
 
 - name: Ensure this service's docker-compose template is present
-  template:
+  ansible.builtin.template:
     src: docker-compose.yml.j2
     dest: /opt/ansible-docker-compose/traefik/docker-compose.yml
     mode: 0644
