@@ -1,13 +1,13 @@
 ---
 - name: Ensure the container user group exists
-  group:
+  ansible.builtin.group:
     name: "autodns"
     state: present
     gid: "{{ autodns_uid_gid }}"
     system: true
 
 - name: Ensure the container user exists
-  user:
+  ansible.builtin.user:
     name: "autodns"
     state: present
     uid: "{{ autodns_uid_gid }}"
@@ -17,7 +17,7 @@
     shell: "/usr/sbin/nologin"
 
 - name: Ensure the service config directories are present on the host
-  file:
+  ansible.builtin.file:
     state: directory
     path: "{{ item }}"
     mode: 0700
@@ -29,55 +29,55 @@
     - "{{ autodns_logdir }}"
 
 - name: Ensure the AWS configuration file is present
-  copy:
+  ansible.builtin.copy:
     src: aws_config
     dest: /etc/autodns/.aws/config
     mode: 0600
     owner: autodns
     group: autodns
-  notify: restart autodns
+  notify: Restart autodns
 
 - name: Ensure the AWS credentials file is present
-  template:
+  ansible.builtin.template:
     src: aws_credentials.j2
     dest: /etc/autodns/.aws/credentials
     mode: 0600
     owner: autodns
     group: autodns
-  notify: restart autodns
+  notify: Restart autodns
 
 - name: Define the list of Docker volumes, used when starting the docker container
-  set_fact:
+  ansible.builtin.set_fact:
     _autodns_docker_volumes:
       - "/etc/autodns/.aws:/home/app/.aws:ro"
       - "{{ autodns_ipdir }}:/etc/update_route53"
       - "{{ autodns_logdir }}:/var/log/update_route53"
 
 - name: Add the filename values to the environment variables
-  set_fact:
+  ansible.builtin.set_fact:
     _autodns_additional_environment_variables:
       LOGFILENAME: "{{ autodns_logfilename }}"
       IPFILENAME: "{{ autodns_ipfilename }}"
 
 - name: Add the filename values to the environment variables, continued
-  set_fact:
+  ansible.builtin.set_fact:
     autodns_environment_variables: "{{ autodns_environment_variables | combine(_autodns_additional_environment_variables) }}"
 
 - name: Ensure logrotate is aware of the log file
-  template:
+  ansible.builtin.template:
     src: logrotate.autodns.j2
     dest: "/etc/logrotate.d/autodns"
     mode: 0644
   when: autodns_enable_logrotate
 
 - name: Ensure the docker-compose template directory exists
-  file:
+  ansible.builtin.file:
     state: directory
     path: "/opt/ansible-docker-compose/autodns"
     mode: 0755
 
 - name: Ensure the Dockerfile and related files are all present
-  copy:
+  ansible.builtin.copy:
     src: "{{ item }}"
     dest: "/opt/ansible-docker-compose/autodns/{{ item }}"
     mode: 0644
@@ -88,7 +88,7 @@
     - update_route53.sh
 
 - name: Ensure this service's docker-compose template is present
-  template:
+  ansible.builtin.template:
     src: docker-compose.yml.j2
     dest: /opt/ansible-docker-compose/autodns/docker-compose.yml
     mode: 0644

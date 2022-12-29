@@ -1,4 +1,4 @@
-FROM python:3.9
+FROM python:3.11
 LABEL maintainer="Jonathan Hanson <jonathan@jonathan-hanson.org>"
 
 ARG UID_GID=1085
