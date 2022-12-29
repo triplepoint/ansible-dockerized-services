@@ -1,5 +1,5 @@
 ---
-- name: restart zwavejs2mqtt
+- name: Restart zwavejs2mqtt
   docker_compose:
     project_src: /opt/ansible-docker-compose/zwavejs2mqtt
     restarted: true
