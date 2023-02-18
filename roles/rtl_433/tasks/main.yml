@@ -1,4 +1,13 @@
 ---
+- name: Ensure the service config directories on the host are present
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+  with_items:
+    - "/opt/ansible-docker-compose/"
+    - "/opt/ansible-docker-compose/rtl_433/"
+
 - name: Ensure the Dockerfile and related files are all present
   ansible.builtin.copy:
     src: "{{ item }}"
