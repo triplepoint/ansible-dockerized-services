@@ -29,9 +29,13 @@ syncthing_group_id: 1884
 # from the above variables.
 syncthing_environment_variables: {}
 
-# What directory should syncthing use for its data store?
+# What directory on the host should syncthing use for its data store?
 # This will contain both the data, and the configuration.
 syncthing_data_directory: "/opt/syncthing"
+
+# The secret API key that needs to be passed during API calls
+# NOTE: This must be overridden in your deployment, with a unique secret.
+# syncthing_api_key: "123youshouldchangeme"
 
 # Syncthing dashboard panel admin username
 syncthing_admin_user: "admin"
