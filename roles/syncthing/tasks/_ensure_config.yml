@@ -33,7 +33,7 @@
   register: _syncthing_config_raw
   changed_when: false
   retries: 5
-  until: _syncthing_config_raw.rc == 0
+  until: _syncthing_config_raw is not failed
   delay: 10
   check_mode: false
 
@@ -68,7 +68,7 @@
   register: _syncthing_config_applied_raw
   changed_when: false
   retries: 5
-  until: _syncthing_config_applied_raw.rc == 0
+  until: _syncthing_config_applied_raw is not failed
   delay: 10
 
 - name: Restart syncthing if its applied config is not consistent with the disk version
