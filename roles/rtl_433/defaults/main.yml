@@ -23,6 +23,7 @@ rtl_433_autodiscovery_environment_vars: {}
   # MQTT_PORT: 1883
   # MQTT_CA_CERT_PATH: /etc/ssl/certs/mqtt.example.com.ca.crt
   # RTL_TOPIC: rtl_433/+/events
+  # DEVICE_TOPIC_SUFFIX: "devices[/type][/model][/subtype][/channel][/id]"
   # DISCOVERY_PREFIX: homeassistant
   # DISCOVERY_INTERVAL: 600
   # OTHER_ARGS: --force_update --debug
