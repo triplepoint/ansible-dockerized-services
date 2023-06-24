@@ -18,17 +18,12 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
 
 RUN pip install --no-cache-dir --upgrade \
     'pip' \
-    'pipenv' \
     'setuptools' \
-    'wheel'
-
-COPY Pipfile ./
-COPY Pipfile.lock ./
+    'wheel' \
+    'awscli'
 
 USER app
 
-RUN pipenv install --deploy
-
 COPY update_route53.sh ./
 
-CMD ["pipenv", "run", "bash", "./update_route53.sh"]
+CMD ["bash", "./update_route53.sh"]
