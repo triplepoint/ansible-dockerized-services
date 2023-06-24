@@ -49,7 +49,7 @@
 - name: Define the list of Docker volumes, used when starting the docker container
   ansible.builtin.set_fact:
     _autodns_docker_volumes:
-      - "/etc/autodns/.aws:/home/app/.aws:ro"
+      - "/etc/autodns/.aws:/root/.aws:ro"
       - "{{ autodns_ipdir }}:/etc/update_route53"
       - "{{ autodns_logdir }}:/var/log/update_route53"
 

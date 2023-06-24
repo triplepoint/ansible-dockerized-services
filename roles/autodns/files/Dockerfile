@@ -1,12 +1,7 @@
 FROM python:3.11
 LABEL maintainer="Jonathan Hanson <jonathan@jonathan-hanson.org>"
 
-ARG UID_GID=1085
-
-RUN addgroup --gid $UID_GID app \
-    && adduser --uid $UID_GID --gid $UID_GID --system --disabled-password --disabled-login app
-
-VOLUME ["/home/app/.aws"]
+VOLUME ["/root/.aws"]
 VOLUME ["/etc/update_route53"]
 VOLUME ["/var/log/update_route53"]
 
@@ -21,8 +16,6 @@ RUN pip install --no-cache-dir --upgrade \
     'setuptools' \
     'wheel' \
     'awscli'
-
-USER app
 
 COPY update_route53.sh ./
 
