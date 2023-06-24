@@ -16,8 +16,6 @@
   with_items:
     - Dockerfile
     - start_rtl_433_mqtt_hass.sh
-    - Pipfile
-    - Pipfile.lock
 
 - name: Deploy and start the Docker Compose-managed service
   ansible.builtin.include_role:
