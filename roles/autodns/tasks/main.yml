@@ -83,8 +83,6 @@
     mode: 0644
   with_items:
     - Dockerfile
-    - Pipfile
-    - Pipfile.lock
     - update_route53.sh
 
 - name: Ensure this service's docker-compose template is present
