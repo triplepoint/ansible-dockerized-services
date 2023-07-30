@@ -1,0 +1,20 @@
+version: '3.7'
+services:
+  autodns:
+    build:
+      context: /opt/ansible-docker-compose/autodns
+    image: "autodns:latest"
+    container_name: "autodns"
+    restart: always
+{% if _autodns_docker_volumes %}
+    volumes:
+{% for vol in _autodns_docker_volumes %}
+      - {{ vol }}
+{% endfor %}
+{% endif %}
+{% if autodns_environment_variables %}
+    environment:
+{% for k, v in autodns_environment_variables.items() %}
+      - {{ k }}={{ v }}
+{% endfor %}
+{% endif %}
