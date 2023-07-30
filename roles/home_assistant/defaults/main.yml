@@ -1,0 +1,66 @@
+---
+# What version of the homeassistant/home-assistant docker image should we
+# install?
+# https://hub.docker.com/r/homeassistant/home-assistant
+home_assistant_docker_version: "stable"
+
+# A list of src and dest values that define configuration templates to be
+# rendered into the {{home_assistant_host_config_dir}} configuration directory.
+# The `dest` values should be file names without the path, and the `src`
+# values should be any resolveable Ansible template file path.
+# Note that Home Assistant will create several config files of its own, the first
+# time it's run, if they don't exist already.  This configuration shouldn't be
+# used to generate stock config files, and is here to allow custom configuration
+# to be added.
+home_assistant_template_files: []
+  # - src: configuration.yaml.j2
+  #   dest: configuration.yaml
+
+# same as the template files, but not-templated
+home_assistant_files: []
+
+# A list of key/value pairs, suitable for being a reference secrets file
+# to be referenced by home-assistant's configuration file.
+# see https://home-assistant.io/docs/configuration/secrets/
+home_assistant_config_secrets: []
+# - somepassword: sooper_sekret
+
+# A list of additional volumes to mount into the docker container.  This is
+# useful for things like SSL certificates and custom css/image assets.
+home_assistant_additional_volumes: []
+# - "/some/directory:/some/mount:ro"
+# - "/some/file.yml:/some/mount/file.yml:ro"
+
+# A list of device mappings to expose into the container.
+home_assistant_devices: []
+# - "/dev/ttyUSB1:/dev/ttyUSB1"
+
+# A key/value set of environment variables and their values, which will be
+# set on the docker container.
+home_assistant_environment_variables:
+  TZ: America/Los_Angeles
+
+# Where on the host machine should the configuration directory be set.
+# This path gets volume-mounted into the Docker container, and is the
+# primary location home-assistant reads and writes its configuration.
+home_assistant_host_config_dir: "/etc/home-assistant"
+
+# Labels to put on the application containers
+home_assistant_container_labels: []
+
+# Should we use host network mode?
+home_assistant_host_network_mode: false
+
+# If set to a string, the created Docker container will attach to a
+# pre-existing default Docker network, instead of creating its own.
+# Note that this value won't matter if home_assistant_host_network_mode
+# is true.
+home_assistant_network_name: ""
+
+# Ports to expose on the docker container
+# Note that this value won't matter if home_assistant_host_network_mode
+# is true.
+home_assistant_ports:
+ - "8123"             # Web admin panel
+ - "8300"             # Emulated Hue
+ - "51827"            # Homekit

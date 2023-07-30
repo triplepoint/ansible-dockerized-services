@@ -1,0 +1,49 @@
+version: '3.7'
+services:
+  home-assistant:
+    image: ghcr.io/home-assistant/home-assistant:{{ home_assistant_docker_version }}
+    container_name: home-assistant
+    privileged: true
+{% if home_assistant_container_labels %}
+    labels:
+{% for label in home_assistant_container_labels %}
+      - {{ label }}
+{% endfor %}
+{% endif %}
+    restart: always
+{% if home_assistant_network_name and not home_assistant_host_network_mode %}
+    ports:
+{% for port in home_assistant_network_name %}
+      - "{{ port }}"
+{% endfor %}
+{% endif %}
+{% if home_assistant_network_name and not home_assistant_host_network_mode %}
+    networks:
+      - {{ home_assistant_network_name }}
+{% endif %}
+{% if home_assistant_host_network_mode %}
+    network_mode: host
+{% endif %}
+{% if _home_assistant_docker_volumes %}
+    volumes:
+{% for vol in _home_assistant_docker_volumes %}
+      - {{ vol }}
+{% endfor %}
+{% endif %}
+{% if home_assistant_devices %}
+    devices:
+{% for dev in home_assistant_devices %}
+     - "{{ dev }}"
+{% endfor %}
+{% endif %}
+{% if home_assistant_environment_variables %}
+    environment:
+{% for k, v in home_assistant_environment_variables.items() %}
+      - {{ k }}={{ v }}
+{% endfor %}
+{% endif %}
+{% if home_assistant_network_name and not home_assistant_host_network_mode %}
+networks:
+  {{ home_assistant_network_name }}:
+    external: true
+{% endif %}
