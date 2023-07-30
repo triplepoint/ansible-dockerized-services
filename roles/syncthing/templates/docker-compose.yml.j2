@@ -1,0 +1,41 @@
+version: '3.7'
+services:
+  syncthing:
+    build:
+      context: /opt/ansible-docker-compose/syncthing
+    image: "syncthing:latest"
+    container_name: syncthing
+{% if syncthing_container_labels %}
+    labels:
+{% for label in syncthing_container_labels %}
+      - {{ label }}
+{% endfor %}
+{% endif %}
+    restart: always
+{% if syncthing_container_ports %}
+    ports:
+{% for port in syncthing_container_ports %}
+      - "{{ port }}"
+{% endfor %}
+{% endif %}
+{% if syncthing_network_name %}
+    networks:
+      - {{ syncthing_network_name }}
+{% endif %}
+{% if _syncthing_docker_volumes %}
+    volumes:
+{% for vol in _syncthing_docker_volumes %}
+      - {{ vol }}
+{% endfor %}
+{% endif %}
+{% if _syncthing_docker_env_vars %}
+    environment:
+{% for k, v in _syncthing_docker_env_vars.items() %}
+      - {{ k }}={{ v }}
+{% endfor %}
+{% endif %}
+{% if syncthing_network_name %}
+networks:
+  {{ syncthing_network_name }}:
+    external: true
+{% endif %}

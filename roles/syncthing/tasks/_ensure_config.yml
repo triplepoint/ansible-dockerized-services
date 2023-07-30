@@ -1,0 +1,77 @@
+---
+###
+# Thanks to:
+# https://github.com/le9i0nx/ansible-syncthing/blob/master/tasks/config.yml
+###
+
+# GUI username and password
+- name: Ensure the user is set on the service config
+  community.docker.docker_container_exec:
+    container: syncthing
+    user: "{{ syncthing_user_id }}"
+    command: syncthing cli --data=/var/syncthing/Sync --config=/var/syncthing/config config gui user set {{ syncthing_admin_user }}
+
+- name: Ensure the password is set on the service config
+  community.docker.docker_container_exec:
+    container: syncthing
+    user: "{{ syncthing_user_id }}"
+    command: syncthing cli --data=/var/syncthing/Sync --config=/var/syncthing/config config gui password set {{ syncthing_admin_password }}
+
+# API key
+- name: Ensure the API key is set on the service config
+  community.docker.docker_container_exec:
+    container: syncthing
+    user: "{{ syncthing_user_id }}"
+    command: syncthing cli --data=/var/syncthing/Sync --config=/var/syncthing/config config gui apikey set {{ syncthing_api_key }}
+
+# Update the service config
+- name: Run an API call inside the container to fetch the current service config
+  community.docker.docker_container_exec:
+    container: syncthing
+    user: "{{ syncthing_user_id }}"
+    command: "curl -s -H 'X-API-KEY: {{ syncthing_api_key }}' http://localhost:8384/rest/config"
+  register: _syncthing_config_raw
+  changed_when: false
+  retries: 5
+  until: _syncthing_config_raw is not failed
+  delay: 10
+  check_mode: false
+
+- name: Store a copy of the config, for later diff comparison
+  ansible.builtin.set_fact:
+    _syncthing_config_old: "{{ _syncthing_config_raw.stdout | from_json }}"
+
+- name: Combine the new config with the existing configuration
+  ansible.builtin.set_fact:
+    _syncthing_config_new: "{{ _syncthing_config_old | combine(syncthing_config, recursive=true) }}"
+  no_log: true
+
+- name: Show the change in the service configuration
+  ansible.utils.fact_diff:
+    before: "{{ _syncthing_config_old }}"
+    after: "{{ _syncthing_config_new }}"
+
+- name: Run an API call inside the container to set the new service config
+  community.docker.docker_container_exec:
+    container: syncthing
+    user: "{{ syncthing_user_id }}"
+    command: "curl -s -X PUT -H 'X-API-KEY: {{ syncthing_api_key }}' -d '{{ _syncthing_config_new | to_json }}' -H 'Content-Type: application/json' http://localhost:8384/rest/config"
+  when: _syncthing_config_new != _syncthing_config_old
+  no_log: true
+
+# Restart if necessary
+- name: Verify that the POSTed config is applied
+  community.docker.docker_container_exec:
+    container: syncthing
+    user: "{{ syncthing_user_id }}"
+    command: "curl -s -H 'X-API-KEY: {{ syncthing_api_key }}' http://localhost:8384/rest/config/restart-required"
+  register: _syncthing_config_applied_raw
+  changed_when: false
+  retries: 5
+  until: _syncthing_config_applied_raw is not failed
+  delay: 10
+
+- name: Restart syncthing if its applied config is not consistent with the disk version
+  ansible.builtin.command: /bin/true
+  changed_when: _syncthing_config_applied_raw.stdout | from_json | json_query('requiresRestart') | bool
+  notify: Restart syncthing

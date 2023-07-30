@@ -1,0 +1,69 @@
+---
+- name: Ensure the container user group exists
+  ansible.builtin.group:
+    name: "syncthing"
+    state: present
+    gid: "{{ syncthing_group_id }}"
+    system: true
+
+- name: Ensure the container user exists
+  ansible.builtin.user:
+    name: "syncthing"
+    state: present
+    uid: "{{ syncthing_user_id }}"
+    group: "syncthing"
+    create_home: false
+    system: true
+    shell: "/usr/sbin/nologin"
+
+- name: Ensure the service config directories are present on the host
+  ansible.builtin.file:
+    state: directory
+    path: "{{ item }}"
+    mode: 0750
+    owner: "syncthing"
+    group: "syncthing"
+  with_items:
+    - "{{ syncthing_data_directory }}"
+
+- name: Define the list of Docker volumes, used when starting the docker container
+  ansible.builtin.set_fact:
+    _syncthing_docker_volumes:
+      - "{{ syncthing_data_directory }}:/var/syncthing"
+
+- name: Add the group and user id environment variables
+  ansible.builtin.set_fact:
+    _syncthing_docker_env_vars: "{{ syncthing_environment_variables | combine({'PGID': '{{ syncthing_group_id }}', 'PUID': '{{ syncthing_user_id }}'}) }}"
+
+- name: Ensure the docker-compose template directory exists
+  ansible.builtin.file:
+    state: directory
+    path: "/opt/ansible-docker-compose/syncthing"
+    mode: 0755
+
+- name: Ensure this service's docker-compose template is present
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: /opt/ansible-docker-compose/syncthing/docker-compose.yml
+    mode: 0644
+
+- name: Ensure this service's Dockerfile is present
+  ansible.builtin.template:
+    src: Dockerfile.j2
+    dest: /opt/ansible-docker-compose/syncthing/Dockerfile
+    mode: 0644
+
+- name: Ensure the latest images for the upstream container
+  community.docker.docker_image:
+    name: "{{ syncthing_docker_image_name }}"
+    source: pull
+    force_source: true
+    tag: "{{ syncthing_docker_version }}"
+
+- name: Ensure the service container(s) is/are started
+  community.docker.docker_compose:
+    project_src: /opt/ansible-docker-compose/syncthing
+    build: true
+
+- name: Ensure that the service configuration is correctly set
+  ansible.builtin.import_tasks: _ensure_config.yml

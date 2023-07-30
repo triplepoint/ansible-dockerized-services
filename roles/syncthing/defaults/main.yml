@@ -1,0 +1,56 @@
+---
+# The version of the syncthing docker image to use.
+# see: https://hub.docker.com/syncthing/syncthing
+syncthing_docker_image_name: "syncthing/syncthing"
+syncthing_docker_version: "latest"
+
+# Labels to put on the application containers
+syncthing_container_labels: []
+
+# These port variables are used by the docker-compose file, so they should
+# be formatted appropriately.
+# See: https://docs.docker.com/compose/compose-file/#ports
+syncthing_container_ports:
+  - "8384"   # Admin web service
+  - "22000"  # Sync protocol listening address
+  # - "21027"  # Local network Device Discovery
+
+# If set to a string, the created Docker container will attach to a
+# pre-existing Docker network of that name, instead of creating its own.
+syncthing_network_name: ""
+
+# This user/group pair will own the files on the host, and be the user that runs
+# The service inside the docker container
+syncthing_user_id: 1884
+syncthing_group_id: 1884
+
+# A key/value set of environment variables and their values, which will be
+# set on the docker container.  Note that PGID and PUID are set separately
+# from the above variables.
+syncthing_environment_variables: {}
+
+# What directory on the host should syncthing use for its data store?
+# This will contain both the data, and the configuration.
+syncthing_data_directory: "/opt/syncthing"
+
+# The secret API key that needs to be passed during API calls
+# NOTE: This must be overridden in your deployment, with a unique secret.
+# syncthing_api_key: "123youshouldchangeme"
+
+# Syncthing dashboard panel admin username
+syncthing_admin_user: "admin"
+
+# Syncthing dashboard panel admin password (this will be bcrypted in the config file)
+# But should be plaintext here.  Be sure to protect this file, like with vault.
+syncthing_admin_password: "admin"
+
+# A general dict of configuration values, which will be merged with the existing
+# server config and redeployed.  That is to say, you only need to specify values
+# which are changing from the default.  Also, gui.user and gui.password will be
+# set before this dict is merged, so only override those values if you know
+# what you're doing.
+# For details of this dict's structure, see:
+# https://docs.syncthing.net/rest/system-config-get.html#get-rest-system-config
+syncthing_config:
+  gui:
+    insecureAdminAccess: false
