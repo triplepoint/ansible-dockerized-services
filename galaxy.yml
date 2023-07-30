@@ -39,7 +39,6 @@ tags:
 dependencies:
     ansible.utils: '>=1.0.0'
     community.docker: '>=1.0.0'
-    geerlingguy.docker: '>=1.0.0'
 
 # The URL of the originating SCM repository
 repository: https://github.com/triplepoint/ansible-networking
