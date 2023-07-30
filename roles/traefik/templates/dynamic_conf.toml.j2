@@ -1,0 +1,26 @@
+{% if traefik_api_domain_name %}
+[http.routers.traefik_api]
+    rule = "Host(`{{ traefik_api_domain_name }}`)"
+    service = "api@internal"
+    entryPoints = ["{{ traefik_api_entrypoint }}"]
+    middlewares = ["traefik_auth"]
+
+[http.routers.traefik_api.tls]
+{% if traefik_api_certificate_resolver %}
+certResolver = "{{ traefik_api_certificate_resolver }}"
+{% endif %}
+
+[http.middlewares.traefik_auth.basicAuth]
+    users = [
+{% for user in traefik_api_users %}
+        "{{ user.username }}:{{ user.password | password_hash('bcrypt', inventory_hostname | hash('md5') | truncate(22, True, '')) }}",
+{% endfor %}
+    ]
+{% endif %}
+
+{% for certificate in traefik_ssl_files %}
+[[tls.certificates]]
+    certFile = "/opt/ssl_certs/{{ certificate.domain }}.cert"
+    keyFile = "/opt/ssl_certs/{{ certificate.domain }}.key"
+
+{% endfor %}

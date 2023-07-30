@@ -1,0 +1,61 @@
+---
+# the docker tag at https://hub.docker.com/_/traefik
+traefik_version: "latest"
+
+# The name of the docker network to establish for this service.
+# This is the network to which the downstream proxied containers
+# should attach.
+traefik_network_name: "traefik_proxy"
+
+# A key/value set of environment variables and their values, which will be
+# set on the docker container.
+traefik_environment_variables: {}
+
+# The SSL proxy wants certificate and key files organized a specific way.
+# For each domain for which the proxy will terminate SSL connections, we'll
+# need to specify the domain, the path to the key, and the path to the cert.
+traefik_ssl_files: []
+# - domain: some-domain.com
+#   key_path: /etc/certs/some-domain/privkey.pem
+#   certificate_path: /etc/certs/some-domain/cert.pem
+
+# An additional set of entrypoints to create, on top of the
+# port 80 (http) and port 443 (https) ones that are always
+# created.
+traefik_additional_entrypoints: {}
+  # some_name: "some_port_number"
+  # some_other_name: "some_other_port_number"
+
+# A list of objects describing a set of Traefik certificate resolvers.
+# For now, the only supported resolvers are ACME DNS providers.
+traefik_certificate_resolvers: []
+  # - name: some_unique_name
+  #   email: someone@example.org
+  #   storage_filename: acme.json
+  #   dns_provider: route53
+
+  # The domain name on which to listen, for the Traefik dashboard.
+# If false, the dashboard will be disabled.
+traefik_api_domain_name: false
+
+# If the traefik API domain name is set above, the API is active
+# and user auth needs to be comfigured.  This is a list of
+# objects with `username` and `password` fields.
+traefik_api_users: []
+  # - username: userone
+  #   password: useronespassword
+
+# If it's enabled, which traefik entrypoint should the dashboard
+# listen on?  By default, we'll use the port 443 https one.
+# Note that regardless of the entrypoint, traefik will always
+# use a TLS connection.
+traefik_api_entrypoint: "https"
+
+# If set, use a certificate resolver by name from the
+# traefik_certificate_resolvers list above.  If absent,
+# Traefik will use a self-signed certificate it generates.
+traefik_api_certificate_resolver: false
+
+# Extra hosts to be listed on the docker-compose config, if any
+traefik_extra_hosts: []
+# - "host.docker.internal:172.17.0.1"
