@@ -1,0 +1,19 @@
+---
+galaxy_info:
+  role_name: rtl_433
+  namespace: triplepoint
+  author: Jonathan Hanson
+  description: The RTL_433 software defined radio service.
+  license: MIT
+  min_ansible_version: "2.9"
+  platforms:
+    - name: Ubuntu
+      versions:
+        - xenial
+        - bionic
+        - focal
+  github_branch: main
+  galaxy_tags:
+    - rtl433
+    - sdr
+dependencies: []
