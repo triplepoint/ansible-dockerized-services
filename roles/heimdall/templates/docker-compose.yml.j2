@@ -1,0 +1,36 @@
+version: '3.7'
+services:
+  heimdall:
+    image: linuxserver/heimdall:{{ heimdall_docker_version }}
+    container_name: heimdall
+    hostname: heimdall
+{% if heimdall_container_labels %}
+    labels:
+{% for label in heimdall_container_labels %}
+      - {{ label }}
+{% endfor %}
+{% endif %}
+    restart: always
+    ports:
+      - "443"
+{% if heimdall_network_name %}
+    networks:
+      - {{ heimdall_network_name }}
+{% endif %}
+{% if _heimdall_docker_volumes %}
+    volumes:
+{% for vol in _heimdall_docker_volumes %}
+      - {{ vol }}
+{% endfor %}
+{% endif %}
+{% if _heimdall_environment_vars %}
+    environment:
+{% for k, v in _heimdall_environment_vars.items() %}
+      - {{ k }}={{ v }}
+{% endfor %}
+{% endif %}
+{% if heimdall_network_name %}
+networks:
+  {{ heimdall_network_name }}:
+    external: true
+{% endif %}
