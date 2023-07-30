@@ -1,0 +1,23 @@
+---
+- name: Ensure the service config directories on the host are present
+  ansible.builtin.file:
+    path: "{{ item.external }}"
+    state: directory
+    mode: 0755
+    # owner: "{{ docker_service_user_and_group_name | default(omit) }}"
+    # group: "{{ docker_service_user_and_group_name | default(omit) }}"
+  with_items: "{{ docker_service_config_dirs }}"
+  notify: Restart docker service
+
+- name: Ensure any service configuration files are in place on the host
+  ansible.builtin.template:
+    src: "{{ item.1.template }}"
+    dest: "{{ item.0.external }}/{{ item.1.dest }}"
+    mode: 0600
+    # owner: "{{ docker_service_user_and_group_name | default(omit) }}"
+    # group: "{{ docker_service_user_and_group_name | default(omit) }}"
+  with_subelements:
+    - "{{ docker_service_config_dirs }}"
+    - templates
+    - skip_missing: true
+  notify: Restart docker service

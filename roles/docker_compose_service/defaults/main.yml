@@ -1,0 +1,69 @@
+---
+# What name do we want to use to refer to this service?
+# This will be used in file paths and container names and such, so choose something
+# with underscores and no spaces or weird characters.
+# This should be unique for any given service in a given deployment.
+docker_service_name: "service_name"
+
+# What Docker image should we install, and what version should we pull?
+docker_service_container_name: "hello-world"
+docker_service_container_version: "latest"
+
+# Service user and group IDs on the host and container
+# If 0, these groups won't be created and will be ignored, and the service will run as root
+docker_service_user_and_group_id: 0
+
+# What directories need to exist on the host (external) and be shared as volumes into
+# the container (internal)?
+# And what, if any, templates need to be rendered out to the directories on the host?
+# if present, a "mode" attribute can set the docker volume mode, such as 'ro'
+docker_service_config_dirs: []
+#   - external: "/etc/{{ docker_service_name }}"
+#     internal: "/config"
+#     templates:
+#       - template: sometemplate.yml.j2
+#         dest: renderedfile.yml
+#   - external: "/etc/{{ docker_service_name }}/test"
+#     internal: "/more_configs"
+#     mode: "ro"
+
+docker_service_additional_volumes: []
+
+# A key/value set of environment variables and their values, which will be
+# set on the docker container.
+docker_service_environment_variables: []
+#  TZ: America/Los_Angeles
+
+docker_service_command_extras: []
+# - "--verbose"
+
+# What ports should be set on the Docker container
+docker_service_ports: []
+# - 8080
+# - 8081
+
+docker_service_expose_ports: []
+# - 8080
+# - 8081
+
+# A list of device mappings to expose into the container.
+docker_service_devices: []
+# - "/dev/ttyUSB1:/dev/ttyUSB1"
+# - "/dev/bus/usb/001/001"
+
+# If set to a string, the created Docker container will attach to a
+# pre-existing default Docker network, instead of creating its own.
+docker_service_network_name: ""
+
+# Labels to put on the application containers
+docker_service_container_labels: []
+
+# # If set to a string, this container will be pulled, to ensure it's kept up to date
+# docker_service_parent_image: Null
+# docker_service_parent_image_tag: "latest"
+
+# The full path to the docker compose file we'll generate and use for this service.
+docker_service_compose_dir: "/opt/ansible-docker-compose/{{ docker_service_name }}"
+
+# The name of the template to render for the Docker Compose file
+docker_service_compose_template: "docker-compose.yml.j2"

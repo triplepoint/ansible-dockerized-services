@@ -1,0 +1,9 @@
+---
+- name: Set up service users and groups
+  ansible.builtin.import_tasks: user_and_group.yml
+
+- name: Set up service config files
+  ansible.builtin.import_tasks: config_files.yml
+
+- name: Set up docker compose
+  ansible.builtin.import_tasks: docker_compose.yml
