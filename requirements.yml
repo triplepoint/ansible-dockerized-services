@@ -2,6 +2,3 @@
 collections:
   - ansible.utils
   - community.docker
-
-roles:
-  - geerlingguy.docker
