@@ -4,4 +4,4 @@
   tasks:
     - name: "Include ansible-rtl-433"
       ansible.builtin.include_role:
-        name: "ansible-rtl-433
+        name: "ansible-rtl-433"
