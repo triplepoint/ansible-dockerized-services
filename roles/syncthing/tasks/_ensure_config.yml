@@ -5,12 +5,14 @@
 ###
 
 # GUI username and password
+# TODO: this task does not run idempotently
 - name: Ensure the user is set on the service config
   community.docker.docker_container_exec:
     container: syncthing
     user: "{{ syncthing_user_id }}"
     command: syncthing cli --data=/var/syncthing/Sync --config=/var/syncthing/config config gui user set {{ syncthing_admin_user }}
 
+# TODO: this task does not run idempotently
 - name: Ensure the password is set on the service config
   community.docker.docker_container_exec:
     container: syncthing
@@ -18,6 +20,7 @@
     command: syncthing cli --data=/var/syncthing/Sync --config=/var/syncthing/config config gui password set {{ syncthing_admin_password }}
 
 # API key
+# TODO: this task does not run idempotently
 - name: Ensure the API key is set on the service config
   community.docker.docker_container_exec:
     container: syncthing
