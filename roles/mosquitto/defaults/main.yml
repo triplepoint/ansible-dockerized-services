@@ -1,0 +1,50 @@
+---
+# The version of the mosquitto docker image to use.
+# see: https://hub.docker.com/_/eclipse-mosquitto
+mosquitto_docker_version: "latest"
+
+# The SSL files necessary for SSL (MQTTS)
+# Note that the "filename" variables are just the file name, and not the path.
+# They are assumed to be in the directory set in mosquitto_certfiles_dir.
+# Doing it this way allows us to share that directory as a volume in the
+# Docker container.
+mosquitto_use_ssl: false
+mosquitto_certfiles_dir: ""
+mosquitto_ca_filename: ""
+mosquitto_cert_filename: ""
+mosquitto_key_filename: ""
+
+# A list of users, each with a `name` and `password` field.
+# In practice, these values should obviously be stored protected.
+mosquitto_users: []
+#  - name: example_admin
+#    password: example_password
+
+# A list of bridge connections to other MQTT brokers, including the details of
+# how to connect and which topics to reveal.
+mosquitto_bridges: []
+#  - name: some_other_broker          # A named tag to identify this bridge
+#    addresses: ["example.com:1234"]
+#    remote_username: ""              # Optional
+#    remote_password: ""              # Optional
+#    remote_clientid: ""              # Optional, the client id to use to identify this host when connecting to the remote broker
+#    cafile: "/etc/ssl/certs/ca-certificates.crt"  # Optional, path to the remote broker's CA authority cert
+#    topic:
+#      name: "sometopic/"
+#      direction: ""                  # "out", "in", or "both"
+#      local_prefix: ""               # Optional
+#      remote_prefix: ""              # Optional
+
+# Labels to put on the application containers
+mosquitto_container_labels: []
+
+# If set to a string, the created Docker container will attach to a
+# pre-existing Docker network of that name, instead of creating its own.
+mosquitto_network_name: ""
+
+# A key/value set of environment variables and their values, which will be
+# set on the docker container.
+mosquitto_environment_variables: {}
+
+# Should we set up a logrotate config file for /var/log/mosquitto.log?
+mosquitto_enable_logrotate: true
