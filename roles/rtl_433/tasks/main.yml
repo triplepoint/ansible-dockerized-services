@@ -36,3 +36,5 @@
             dest: rtl433.conf
     docker_service_additional_volumes: "{{ rtl_433_volumes }}"
     docker_service_compose_template: "docker-compose-rtl-433.yml.j2"
+  tags:
+    - skip_ansible_lint

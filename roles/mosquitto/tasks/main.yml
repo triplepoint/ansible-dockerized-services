@@ -65,6 +65,7 @@
   with_items: "{{ mosquitto_users }}"
   no_log: true
   when: _change_detection_was_detected
+  changed_when: true
   notify: Restart mosquitto
 
 - name: Define the list of Docker volumes, used when starting the docker container
