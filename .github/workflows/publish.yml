@@ -1,0 +1,14 @@
+---
+name: Ansible Publish
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Ansible Publish
+        uses: ansible/ansible-publish-action@v1.0.0
