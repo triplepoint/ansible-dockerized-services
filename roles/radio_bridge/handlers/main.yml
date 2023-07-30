@@ -1,6 +1,0 @@
----
-- name: Restart radio-bridge
-  community.docker.docker_compose:
-    project_src: /opt/ansible-docker-compose/radio-bridge
-    restarted: true
-    build: true

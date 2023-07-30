@@ -1,7 +1,5 @@
 ---
 galaxy_info:
-  role_name: autodns
-  namespace: triplepoint
   author: Jonathan Hanson
   description: A simple dockerized script which maintains a Route53 record pointing at the server it runs on.
   license: MIT
@@ -12,7 +10,5 @@ galaxy_info:
         - xenial
         - bionic
         - focal
-  github_branch: main
   galaxy_tags:
     - dns
-dependencies: []

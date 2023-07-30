@@ -1,6 +1,4 @@
 galaxy_info:
-  role_name: traefik
-  namespace: triplepoint
   author: Jonathan Hanson
   description: Install and configure the Traefik reverse proxy
   license: MIT
@@ -11,7 +9,5 @@ galaxy_info:
         - xenial
         - bionic
         - focal
-  github_branch: main
   galaxy_tags:
     - proxy
-dependencies: []

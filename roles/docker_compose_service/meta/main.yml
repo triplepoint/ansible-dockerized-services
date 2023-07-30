@@ -1,7 +1,5 @@
 ---
 galaxy_info:
-  role_name: docker_compose_service
-  namespace: triplepoint
   author: Jonathan Hanson
   description: A role intended to be included into other roles, to stand up a Dockerized service with Docker Compose.
   license: MIT
@@ -15,4 +13,3 @@ galaxy_info:
   galaxy_tags:
     - docker
     - dockercompose
-dependencies: []

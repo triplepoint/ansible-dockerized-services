@@ -13,7 +13,7 @@ RUN pip install --no-cache-dir --upgrade \
     'wheel' \
     'paho-mqtt'
 
-RUN curl -O https://raw.githubusercontent.com/triplepoint/rtl_433/master/examples/rtl_433_mqtt_hass.py
+RUN curl -O https://raw.githubusercontent.com/triplepoint/ansible-dockerized-services/tree/main/roles/rtl_433/master/examples/rtl_433_mqtt_hass.py
 
 COPY start_rtl_433_mqtt_hass.sh ./
 

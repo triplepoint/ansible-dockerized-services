@@ -13,7 +13,7 @@ None.
 ## Example Playbook
     - hosts: whatever
       roles:
-        - triplepoint.home_assistant
+        - triplepoint.dockerized_services.home_assistant
 
 ## Role Testing
 This role is tested with `molecule`, using `pipenv` to handle dependencies and the Python testing environment.

@@ -17,7 +17,7 @@ None.
 ## Example Playbook
     - hosts: whatever
       roles:
-        - triplepoint.mosquitto
+        - triplepoint.dockerized_services.mosquitto
 
 ## Role Testing
 This role is tested with `molecule`, using `pipenv` to handle dependencies and the Python testing environment.

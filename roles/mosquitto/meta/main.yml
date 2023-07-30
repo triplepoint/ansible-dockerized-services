@@ -1,7 +1,5 @@
 ---
 galaxy_info:
-  role_name: mosquitto
-  namespace: triplepoint
   author: Jonathan Hanson
   description: The Mosquitto MQTT broker
   license: MIT
@@ -12,8 +10,6 @@ galaxy_info:
         - xenial
         - bionic
         - focal
-  github_branch: main
   galaxy_tags:
     - mqtt
     - mosquitto
-dependencies: []

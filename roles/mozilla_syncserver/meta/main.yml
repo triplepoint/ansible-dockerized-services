@@ -1,7 +1,5 @@
 ---
 galaxy_info:
-  role_name: mozilla_syncserver
-  namespace: triplepoint
   author: Jonathan Hanson
   description: A deployment role for Mozilla's Firefox Sync server.
   license: MIT
@@ -12,10 +10,8 @@ galaxy_info:
         - xenial
         - bionic
         - focal
-  github_branch: main
   galaxy_tags:
     - mozilla
     - firefox
     - sync
     - syncserver
-dependencies: []

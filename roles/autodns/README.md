@@ -16,7 +16,7 @@ None.
 ## Example Playbook
     - hosts: whatever
       roles:
-        - triplepoint.autodns
+        - triplepoint.dockerized_services.autodns
 
 ## License
 MIT

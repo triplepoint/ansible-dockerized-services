@@ -13,7 +13,7 @@ None.
 ## Example Playbook
     - hosts: whatever
       roles:
-        - triplepoint.syncthing
+        - triplepoint.dockerized_services.syncthing
 
 ## License
 MIT
