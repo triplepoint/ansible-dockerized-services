@@ -1,0 +1,40 @@
+version: '3.7'
+services:
+  zwavejs2mqtt:
+    image: zwavejs/zwavejs2mqtt:{{ zwjs_docker_image_version }}
+    container_name: zwavejs2mqtt
+{% if zwjs_container_labels %}
+    labels:
+{% for label in zwjs_container_labels %}
+      - {{ label }}
+{% endfor %}
+{% endif %}
+    restart: always
+    tty: true
+    stop_signal: SIGINT
+    ports:
+      - '8091:8091' # port for web interface
+      - '3000:3000' # port for Z-Wave JS websocket server
+{% if zwjs_network_name %}
+    networks:
+      - {{ zwjs_network_name }}
+{% endif %}
+    devices:
+     - "{{ zwjs_zwave_dongle_serial_device }}:/dev/zwave"
+{% if _zwjs_docker_volumes %}
+    volumes:
+{% for vol in _zwjs_docker_volumes %}
+      - {{ vol }}
+{% endfor %}
+{% endif %}
+{% if _zwjs_docker_env_vars %}
+    environment:
+{% for k, v in _zwjs_docker_env_vars.items() %}
+      - {{ k }}={{ v }}
+{% endfor %}
+{% endif %}
+{% if zwjs_network_name %}
+networks:
+  {{ zwjs_network_name }}:
+    external: true
+{% endif %}

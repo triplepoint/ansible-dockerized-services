@@ -1,0 +1,20 @@
+---
+galaxy_info:
+  role_name: zwavejs2mqtt
+  namespace: triplepoint
+  author: Jonathan Hanson
+  description: The ZWaveJS2MQTT Z-wave network controller service
+  license: MIT
+  min_ansible_version: "2.9"
+  platforms:
+    - name: Ubuntu
+      versions:
+        - xenial
+        - bionic
+        - focal
+  github_branch: main
+  galaxy_tags:
+    - ubiquiti
+    - zwavejs2mqtt
+    - zwave
+dependencies: []
