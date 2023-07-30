@@ -2,3 +2,6 @@
 collections:
   - ansible.utils
   - community.docker
+
+roles:
+  - src: geerlingguy.docker
