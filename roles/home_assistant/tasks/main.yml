@@ -7,6 +7,7 @@
   with_items:
   - "{{ home_assistant_host_config_dir }}"
   - "{{ home_assistant_host_config_dir }}/custom_templates"
+  - "{{ home_assistant_host_config_dir }}/www"
 
 - name: Ensure all the service configuration files are in place
   ansible.builtin.template:
@@ -31,6 +32,12 @@
     mode: 0600
   notify: Restart home-assistant
   no_log: true
+
+- name: Ensure the custom cards are in place
+  ansible.builtin.get_url:
+    url: "{{ item.value }}"
+    dest: "{{ home_assistant_host_config_dir }}/www/{{ item.key }}.js"
+  with_items: "{{ home_assistant_additional_cards | dict2items }}"
 
 - name: Define the default service docker volumes
   ansible.builtin.set_fact:

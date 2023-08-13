@@ -64,3 +64,6 @@ home_assistant_ports:
  - "8123"             # Web admin panel
  - "8300"             # Emulated Hue
  - "51827"            # Homekit
+
+home_assistant_additional_cards: {}
+# installed_card_name: https://github.com/some/link/releases/download/v1.2.3/card_to_fetch.js
