@@ -31,3 +31,6 @@ mozilla_syncserver_network_name: ""
 
 # Labels to put on the application containers
 mozilla_syncserver_container_labels: []
+
+# What user and group ID should the service run as?
+mozilla_syncserver_uid_gid: 1001

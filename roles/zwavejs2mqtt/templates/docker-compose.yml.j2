@@ -19,8 +19,12 @@ services:
     networks:
       - {{ zwjs_network_name }}
 {% endif %}
+{% if zwjs_devices %}
     devices:
-     - "{{ zwjs_zwave_dongle_serial_device }}:/dev/zwave"
+{% for dev in zwjs_devices %}
+     - "{{ dev }}"
+{% endfor %}
+{% endif %}
 {% if _zwjs_docker_volumes %}
     volumes:
 {% for vol in _zwjs_docker_volumes %}

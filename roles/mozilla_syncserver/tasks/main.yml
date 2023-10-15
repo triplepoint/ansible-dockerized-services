@@ -3,14 +3,14 @@
   ansible.builtin.group:
     name: "mozsyncserver"
     state: present
-    gid: 1001
+    gid: "{{ mozilla_syncserver_uid_gid }}"
     system: true
 
 - name: Ensure the container user exists
   ansible.builtin.user:
     name: "mozsyncserver"
     state: present
-    uid: 1001
+    uid: "{{ mozilla_syncserver_uid_gid }}"
     group: "mozsyncserver"
     create_home: false
     system: true
