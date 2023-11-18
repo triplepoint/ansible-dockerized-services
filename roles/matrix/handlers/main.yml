@@ -1,0 +1,6 @@
+---
+# - name: Restart matrix
+#   community.docker.docker_compose:
+#     project_src: /opt/ansible-docker-compose/matrix
+#     restarted: true
+#     pull: true

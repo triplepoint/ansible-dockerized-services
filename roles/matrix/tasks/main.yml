@@ -1,0 +1,51 @@
+---
+# - name: Ensure the container user group exists
+#   ansible.builtin.group:
+#     name: "matrixserver"
+#     state: present
+#     gid: "{{ matrix_uid_gid }}"
+#     system: true
+
+# - name: Ensure the container user exists
+#   ansible.builtin.user:
+#     name: "matrixserver"
+#     state: present
+#     uid: "{{ matrix_uid_gid }}"
+#     group: "matrixserver"
+#     create_home: false
+#     system: true
+#     shell: "/usr/sbin/nologin"
+
+# - name: Ensure the config directory is present
+#   ansible.builtin.file:
+#     path: "{{ matrix_working_directory }}"
+#     state: directory
+#     mode: 0750
+#     owner: "matrixserver"
+#     group: "matrixserver"
+
+# - name: Define the default docker container volumes
+#   ansible.builtin.set_fact:
+#     _matrix_docker_volumes:
+#       - "{{ matrix_working_directory }}:/data"
+
+# - name: Append any additional volume mounts
+#   ansible.builtin.set_fact:
+#     _matrix_docker_volumes: "{{ _matrix_docker_volumes | union(matrix_additional_volumes) }}"
+
+- name: Ensure the docker-compose template directory exists
+  ansible.builtin.file:
+    state: directory
+    path: "/opt/ansible-docker-compose/matrix"
+    mode: 0755
+
+- name: Ensure this service's docker-compose template is present
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: /opt/ansible-docker-compose/matrix/docker-compose.yml
+    mode: 0644
+
+- name: Ensure the service container(s) is/are started
+  community.docker.docker_compose:
+    project_src: /opt/ansible-docker-compose/matrix
+    pull: true

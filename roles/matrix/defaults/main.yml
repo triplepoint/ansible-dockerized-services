@@ -1,0 +1,45 @@
+---
+# What version of the matrix dendrite monolith docker image should we
+# install?
+# https://hub.docker.com/r/matrixdotorg/dendrite-monolith
+matrix_docker_version: latest
+
+# A list of additional volumes to mount into the docker container.  This is
+# useful for things like SSL certificates and custom css/image assets.
+matrix_additional_volumes: []
+# - "/some/directory:/some/mount:ro"
+# - "/some/file.yml:/some/mount/file.yml:ro"
+
+# An additional working directory, mounted through as /data on the container.
+matrix_working_directory: "/opt/matrix"
+
+matrix_ports:
+- "8008"
+- "8448"
+
+# A key/value set of environment variables and their values, which will be
+# set on the docker container.
+matrix_environment_variables: []
+  # SYNCSERVER_PUBLIC_URL: "http://localhost:{{ matrix_port }}"
+  # SYNCSERVER_SECRET: "<PUT YOUR SECRET KEY HERE>"
+  # SYNCSERVER_SQLURI: "sqlite:////data/syncserver.db"
+  # SYNCSERVER_BATCH_UPLOAD_ENABLED: "true"
+  # SYNCSERVER_FORCE_WSGI_ENVIRON: "false"
+  # PORT: "{{ matrix_port }}"
+
+# # If set to a string, the created Docker container will attach to a
+# # pre-existing default Docker network, instead of creating its own.
+matrix_network_name: ""
+
+# # Labels to put on the application containers
+matrix_container_labels: []
+
+# # What user and group ID should the service run as?
+# matrix_uid_gid: 1001
+
+matrix_pg_dir: "/opt/matrix/postgres"
+
+matrix_pg_user: "dendrite"
+
+# Obviously this should be overridden
+matrix_pg_password: "123dontpwnme"

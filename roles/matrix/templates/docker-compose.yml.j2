@@ -1,0 +1,62 @@
+version: '3.7'
+
+services:
+  matrix-postgres:
+    image: postgres:15-alpine
+    container_name: matrix-postgres
+    restart: always
+    volumes:
+      - {{ matrix_pg_dir }}:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: {{ matrix_pg_password }}
+      POSTGRES_USER: {{ matrix_pg_user }}
+      POSTGRES_DATABASE: dendrite
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dendrite"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - internal
+
+  matrix-dendrite:
+    image: matrixdotorg/dendrite-monolith:{{ matrix_docker_version }}
+    container_name: matrix-dendrite
+{% if matrix_container_labels %}
+    labels:
+{% for label in matrix_container_labels %}
+      - {{ label }}
+{% endfor %}
+{% endif %}
+    restart: unless-stopped
+{% if matrix_ports %}
+    ports:
+{% for port in matrix_ports %}
+      - {{ port }}
+{% endfor %}
+{% endif %}
+{% if matrix_network_name %}
+    networks:
+      - {{ matrix_network_name }}
+{% endif %}
+{% if _matrix_docker_volumes %}
+    volumes:
+{% for vol in _matrix_docker_volumes %}
+      - {{ vol }}
+{% endfor %}
+{% endif %}
+{% if matrix_environment_variables %}
+    environment:
+{% for k, v in matrix_environment_variables.items() %}
+      - {{ k }}={{ v }}
+{% endfor %}
+{% endif %}
+    depends_on:
+      matrix-postgres:
+        condition: service_healthy
+
+{% if matrix_network_name %}
+networks:
+  {{ matrix_network_name }}:
+    external: true
+{% endif %}
