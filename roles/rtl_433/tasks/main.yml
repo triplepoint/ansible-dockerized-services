@@ -8,14 +8,19 @@
     - "/opt/ansible-docker-compose/"
     - "/opt/ansible-docker-compose/rtl_433/"
 
-- name: Ensure the Dockerfile and related files are all present
+- name: Ensure the config files are all present
   ansible.builtin.copy:
     src: "{{ item }}"
     dest: "/opt/ansible-docker-compose/rtl_433/{{ item }}"
     mode: 0644
   with_items:
-    - Dockerfile
     - start_rtl_433_mqtt_hass.sh
+
+- name: Ensire the Dockerfile is present
+  ansible.builtin.template:
+    src: Dockerfile.j2
+    dest: "/opt/ansible-docker-compose/rtl_433/Dockerfile"
+    mode: 0644
 
 - name: Deploy and start the Docker Compose-managed service
   ansible.builtin.include_role:
@@ -23,7 +28,7 @@
   vars:
     docker_service_name: rtl_433
     docker_service_container_name: hertzg/rtl_433
-    docker_service_container_version: master-debian
+    docker_service_container_version: "{{ rtl_433_version }}-debian"
     docker_service_devices:
       - "{{ rtl_433_device_path }}"
     docker_service_command_extras:
