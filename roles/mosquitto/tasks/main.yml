@@ -78,7 +78,7 @@
 
 - name: Add the certificate file directory to the list of volumes, if necessary
   ansible.builtin.set_fact:
-    _mosquitto_docker_volumes: "{{ _mosquitto_docker_volumes | union(['{{ mosquitto_certfiles_dir }}:/mosquitto/certs']) }}"
+    _mosquitto_docker_volumes: "{{ _mosquitto_docker_volumes | union(['{{ mosquitto_certfiles_dir }}:/mosquitto/certs']) | sort }}"
   when: mosquitto_use_ssl
 
 - name: Ensure logrotate is aware of the mosquitto log file

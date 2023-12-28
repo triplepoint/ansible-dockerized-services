@@ -58,7 +58,7 @@
 
 - name: Append the volume mounts together into a single list
   ansible.builtin.set_fact:
-    _traefik_volumes: "{{ _traefik_volumes | union(_proxy_key_volume_results_mapped) | union(_proxy_cert_volume_results_mapped) }}"
+    _traefik_volumes: "{{ _traefik_volumes | union(_proxy_key_volume_results_mapped) | union(_proxy_cert_volume_results_mapped) | sort }}"
 
 # Docker-compose
 - name: Ensure the docker-compose template directory exists

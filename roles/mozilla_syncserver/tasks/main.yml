@@ -31,7 +31,7 @@
 
 - name: Append any additional volume mounts
   ansible.builtin.set_fact:
-    _mozilla_syncserver_docker_volumes: "{{ _mozilla_syncserver_docker_volumes | union(mozilla_syncserver_additional_volumes) }}"
+    _mozilla_syncserver_docker_volumes: "{{ _mozilla_syncserver_docker_volumes | union(mozilla_syncserver_additional_volumes) | sort }}"
 
 - name: Ensure the docker-compose template directory exists
   ansible.builtin.file:
