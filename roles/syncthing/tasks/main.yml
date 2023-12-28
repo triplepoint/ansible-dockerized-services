@@ -46,6 +46,7 @@
     src: docker-compose.yml.j2
     dest: /opt/ansible-docker-compose/syncthing/docker-compose.yml
     mode: 0644
+    validate: docker compose -f %s config
 
 - name: Ensure this service's Dockerfile is present
   ansible.builtin.template:
