@@ -10,13 +10,12 @@ services:
 {% endfor %}
 {% endif %}
     restart: always
-    expose:
-      - 8443               # controller GUI/API, we'll expose this so a reverse proxy can forward to it
     ports:
       - "3478:3478/udp"    # STUN connection
       - "8080:8080/tcp"    # UAP/USW/USG "to inform controller"
       - "10001:10001/udp"  # UBNT access point discovery broadcasts - Local LAN only
       - "6789:6789/tcp"    # throughput measurements from mobile apps (optional)
+      # - 8443               # controller GUI/API  # we're assuming this is fronted by a reverse proxy, uncommment this if this service GUI is exposed directly
       # - "8880:8880/tcp"    # HTTP portal redirect (optional)
       # - "8843:8843/tcp"    # HTTPS portal redirect (optional)
 {% if unifi_network_name %}
