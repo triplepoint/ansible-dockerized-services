@@ -11,8 +11,12 @@ services:
 {% endfor %}
 {% endif %}
     restart: always
+{% if heimdall_service_ports %}
     ports:
-      - "443"
+{% for port in heimdall_service_ports %}
+      - "{{ port }}"
+{% endfor %}
+{% endif %}
 {% if heimdall_network_name %}
     networks:
       - {{ heimdall_network_name }}
