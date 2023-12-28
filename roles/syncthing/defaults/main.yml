@@ -11,9 +11,9 @@ syncthing_container_labels: []
 # be formatted appropriately.
 # See: https://docs.docker.com/compose/compose-file/#ports
 syncthing_container_ports:
-  - "8384"   # Admin web service
-  - "22000"  # Sync protocol listening address
-  # - "21027"  # Local network Device Discovery
+  - "22000:22000"  # Sync protocol listening address
+  # - "21027:21027"  # Local network Device Discovery
+  # - "8384:8384"   # Admin web service - Blocked by default, assuming a web proxy is fronting the UI
 
 # If set to a string, the created Docker container will attach to a
 # pre-existing Docker network of that name, instead of creating its own.
