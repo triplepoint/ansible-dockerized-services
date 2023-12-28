@@ -11,9 +11,9 @@ services:
 {% endfor %}
 {% endif %}
     restart: always
-{% if home_assistant_network_name and not home_assistant_host_network_mode %}
+{% if home_assistant_ports and not home_assistant_host_network_mode %}
     ports:
-{% for port in home_assistant_network_name %}
+{% for port in home_assistant_ports %}
       - "{{ port }}"
 {% endfor %}
 {% endif %}
