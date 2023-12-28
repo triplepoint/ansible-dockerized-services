@@ -1,0 +1,26 @@
+---
+# What version of the linuxserver/portainer docker image should we
+# install?
+# https://hub.docker.com/r/portainer/portainer-ce
+portainer_docker_version: "latest"
+
+# A list of additional volumes to mount into the docker container.  This is
+# useful for things like SSL certificates and custom css/image assets.
+portainer_additional_volumes: []
+# - "/some/directory:/some/mount:ro"
+# - "/some/file.yml:/some/mount/file.yml:ro"
+
+# A key/value set of environment variables and their values, which will be
+# set on the docker container.
+portainer_additional_environment_variables: {}
+
+# If set to a string, the created Docker container will attach to a
+# pre-existing default Docker network, instead of creating its own.
+portainer_network_name: ""
+
+# Labels to put on the application containers
+portainer_container_labels: []
+
+# The User ID and Group ID of the process in the container
+# Note that this user and group will be created on the host
+portainer_uid_gid: 1098
