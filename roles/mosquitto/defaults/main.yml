@@ -38,6 +38,12 @@ mosquitto_bridges: []
 # Labels to put on the application containers
 mosquitto_container_labels: []
 
+# Should we directly expose any ports to the internet?  These are
+# turned off beause we're assuming a reverse proxy is fronting this service.
+mosquitto_expose_ports: []
+#  - 1883
+#  - 8883
+
 # If set to a string, the created Docker container will attach to a
 # pre-existing Docker network of that name, instead of creating its own.
 mosquitto_network_name: ""

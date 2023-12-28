@@ -10,11 +10,11 @@ services:
 {% endfor %}
 {% endif %}
     restart: always
+{% if mosquitto_expose_ports %}
     ports:
-{% if mosquitto_use_ssl %}
-      - "8883"
-{% else %}
-      - "1883"
+{% for port in mosquitto_expose_ports %}
+      - "{{ port }}"
+{% endfor %}
 {% endif %}
 {% if mosquitto_network_name %}
     networks:
