@@ -43,7 +43,7 @@
 
 - name: Append any additional volume mounts
   ansible.builtin.set_fact:
-    _heimdall_docker_volumes: "{{ _heimdall_docker_volumes | union(heimdall_additional_volumes) }}"
+    _heimdall_docker_volumes: "{{ _heimdall_docker_volumes | union(heimdall_additional_volumes) | sort }}"
 
 - name: Define the default Docker environment variables
   ansible.builtin.set_fact:
@@ -66,6 +66,7 @@
     src: docker-compose.yml.j2
     dest: /opt/ansible-docker-compose/heimdall/docker-compose.yml
     mode: 0644
+    validate: docker compose -f %s config
 
 - name: Ensure the service container(s) is/are started
   community.docker.docker_compose:

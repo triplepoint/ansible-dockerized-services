@@ -33,6 +33,13 @@ heimdall_network_name: ""
 # Labels to put on the application containers
 heimdall_container_labels: []
 
+# Should we directly publish the service's ports?
+# This is off by default, for safety.  We're assuming this
+# container is being fronted by a reverse proxy.  Uncomment
+# the 443 line on to directly expose the service port.
+heimdall_service_ports: []
+# - 443
+
 # The User ID and Group ID of the process in the container
 # Note that this user and group will be created on the host
 heimdall_uid_gid: 1097

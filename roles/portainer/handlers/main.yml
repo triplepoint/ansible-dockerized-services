@@ -1,0 +1,6 @@
+---
+- name: Restart portainer
+  community.docker.docker_compose:
+    project_src: /opt/ansible-docker-compose/portainer
+    restarted: true
+    pull: true

@@ -90,6 +90,7 @@
     src: docker-compose.yml.j2
     dest: /opt/ansible-docker-compose/autodns/docker-compose.yml
     mode: 0644
+    validate: docker compose -f %s config
 
 - name: Ensure the latest images for the upstream container
   community.docker.docker_image:

@@ -13,7 +13,7 @@ services:
     tty: true
     stop_signal: SIGINT
     ports:
-      - '8091:8091' # port for web interface
+      # - '8091:8091' # port for web interface  # Enable this line if you're not using a proxy to front the web interface
       - '3000:3000' # port for Z-Wave JS websocket server
 {% if zwjs_network_name %}
     networks:

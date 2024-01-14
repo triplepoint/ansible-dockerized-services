@@ -29,6 +29,12 @@ mozilla_syncserver_environment_variables:
 # pre-existing default Docker network, instead of creating its own.
 mozilla_syncserver_network_name: ""
 
+# Should the container expose the syncserver service port?
+# We're assuming the service is being fronted by a proxy, and so are
+# leaving this disabled by default.  If you're exposing this container
+# directly to the internet, enable this boolean.
+mozilla_syncserver_expose_service_port: false
+
 # Labels to put on the application containers
 mozilla_syncserver_container_labels: []
 

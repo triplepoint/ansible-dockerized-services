@@ -10,8 +10,10 @@ services:
 {% endfor %}
 {% endif %}
     restart: always
+{% if mozilla_syncserver_expose_service_port %}
     ports:
       - "{{ mozilla_syncserver_port }}" # sync endpoint
+{% endif %}
 {% if mozilla_syncserver_network_name %}
     networks:
       - {{ mozilla_syncserver_network_name }}

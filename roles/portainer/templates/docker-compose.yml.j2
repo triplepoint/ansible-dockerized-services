@@ -1,0 +1,35 @@
+version: '3.7'
+services:
+  portainer:
+    image: portainer/portainer-ce:{{ portainer_docker_version }}
+    command: -H unix:///var/run/docker.sock
+    container_name: portainer
+    hostname: portainer
+{% if portainer_container_labels %}
+    labels:
+{% for label in portainer_container_labels %}
+      - {{ label }}
+{% endfor %}
+{% endif %}
+    restart: always
+{% if portainer_network_name %}
+    networks:
+      - {{ portainer_network_name }}
+{% endif %}
+{% if _portainer_docker_volumes %}
+    volumes:
+{% for vol in _portainer_docker_volumes %}
+      - {{ vol }}
+{% endfor %}
+{% endif %}
+{% if _portainer_environment_vars %}
+    environment:
+{% for k, v in _portainer_environment_vars.items() %}
+      - {{ k }}={{ v }}
+{% endfor %}
+{% endif %}
+{% if portainer_network_name %}
+networks:
+  {{ portainer_network_name }}:
+    external: true
+{% endif %}

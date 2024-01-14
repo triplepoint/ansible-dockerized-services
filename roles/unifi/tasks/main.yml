@@ -35,7 +35,7 @@
 
 - name: Add the certificate file directory to the list of volumes, if necessary
   ansible.builtin.set_fact:
-    _unifi_docker_volumes: "{{ _unifi_docker_volumes | union(['{{ unifi_certfiles_dir }}:/usr/lib/unifi/cert']) }}"
+    _unifi_docker_volumes: "{{ _unifi_docker_volumes | union(['{{ unifi_certfiles_dir }}:/usr/lib/unifi/cert']) | sort }}"
   when: unifi_use_ssl
 
 - name: Append any additional environment variables
@@ -59,6 +59,7 @@
     src: docker-compose.yml.j2
     dest: /opt/ansible-docker-compose/unifi/docker-compose.yml
     mode: 0644
+    validate: docker compose -f %s config
 
 - name: Ensure the service container(s) is/are started
   community.docker.docker_compose:

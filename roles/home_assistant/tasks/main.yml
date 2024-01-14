@@ -46,7 +46,7 @@
 
 - name: Append any additional volume mounts
   ansible.builtin.set_fact:
-    _home_assistant_docker_volumes: "{{ _home_assistant_docker_volumes | union(home_assistant_additional_volumes) }}"
+    _home_assistant_docker_volumes: "{{ _home_assistant_docker_volumes | union(home_assistant_additional_volumes) | sort }}"
 
 - name: Ensure the docker-compose template directory exists
   ansible.builtin.file:
@@ -59,6 +59,7 @@
     src: docker-compose.yml.j2
     dest: /opt/ansible-docker-compose/home-assistant/docker-compose.yml
     mode: 0644
+    validate: docker compose -f %s config
 
 - name: Ensure the service container(s) is/are started
   community.docker.docker_compose:
