@@ -16,11 +16,18 @@
   with_items:
     - start_rtl_433_mqtt_hass.sh
 
-- name: Ensire the Dockerfile is present
+- name: Ensure the Dockerfile is present
   ansible.builtin.template:
     src: Dockerfile.j2
     dest: "/opt/ansible-docker-compose/rtl_433/Dockerfile"
     mode: 0644
+
+- name: Ensure the latest images for the upstream container
+  community.docker.docker_image:
+    name: "python"
+    source: pull
+    force_source: true
+    tag: "3.12"
 
 - name: Deploy and start the Docker Compose-managed service
   ansible.builtin.include_role:
