@@ -1,4 +1,5 @@
-FROM python:3.11
+# This version should be kept in sync with the version pulled in tasks/main.yml
+FROM python:3.12
 LABEL maintainer="Jonathan Hanson <jonathan@jonathan-hanson.org>"
 
 VOLUME ["/root/.aws"]

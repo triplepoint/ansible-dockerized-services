@@ -1,4 +1,5 @@
-FROM python:3.11
+# This version should be kept in sync with the version pulled in tasks/main.yml
+FROM python:3.12
 LABEL maintainer="Jonathan Hanson <jonathan@jonathan-hanson.org>"
 
 WORKDIR /usr/src/app
@@ -11,7 +12,7 @@ RUN pip install --no-cache-dir --upgrade \
     'pip' \
     'setuptools' \
     'wheel' \
-    'paho-mqtt'
+    'paho-mqtt<2'
 
 RUN curl -O https://raw.githubusercontent.com/merbanan/rtl_433/{{ rtl_433_version }}/examples/rtl_433_mqtt_hass.py
 
