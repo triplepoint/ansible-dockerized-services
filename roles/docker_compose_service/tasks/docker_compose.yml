@@ -11,16 +11,6 @@
     dest: "{{ docker_service_compose_dir }}/docker-compose.yml"
     mode: 0644
 
-# - name: Ensure the latest images for the upstream container
-#   community.docker.docker_image:
-#     name: "{{ docker_service_parent_image }}"
-#     source: pull
-#     force_source: true
-#     tag: "{{ docker_service_parent_image_tag }}"
-#   when: docker_service_parent_image
-
 - name: Ensure the service container(s) is/are started
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: "{{ docker_service_compose_dir }}"
-    pull: true
-    build: true

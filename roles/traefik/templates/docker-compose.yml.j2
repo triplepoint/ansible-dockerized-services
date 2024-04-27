@@ -1,10 +1,9 @@
-version: '3.7'
-
 services:
   reverse-proxy:
     image: traefik:{{ traefik_version }}
     container_name: traefik
-    restart: always
+    pull_policy: always
+    restart: unless-stopped
     ports:
       - "80:80"
       - "443:443"

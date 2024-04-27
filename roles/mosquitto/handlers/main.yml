@@ -1,6 +1,5 @@
 ---
 - name: Restart mosquitto
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: /opt/ansible-docker-compose/mosquitto
-    restarted: true
-    pull: true
+    state: restarted

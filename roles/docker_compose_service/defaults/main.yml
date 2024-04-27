@@ -58,10 +58,6 @@ docker_service_network_name: ""
 # Labels to put on the application containers
 docker_service_container_labels: []
 
-# # If set to a string, this container will be pulled, to ensure it's kept up to date
-# docker_service_parent_image: Null
-# docker_service_parent_image_tag: "latest"
-
 # The full path to the docker compose file we'll generate and use for this service.
 docker_service_compose_dir: "/opt/ansible-docker-compose/{{ docker_service_name }}"
 

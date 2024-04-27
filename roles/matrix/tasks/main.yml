@@ -46,6 +46,5 @@
     mode: 0644
 
 - name: Ensure the service container(s) is/are started
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: /opt/ansible-docker-compose/matrix
-    pull: true
