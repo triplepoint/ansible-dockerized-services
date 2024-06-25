@@ -1,10 +1,10 @@
 #jinja2:lstrip_blocks: True
-version: '3.7'
 services:
   {{ docker_service_name }}:
     image: {{ docker_service_container_name }}:{{ docker_service_container_version }}
     container_name: {{ docker_service_name }}
-    restart: always
+    pull_policy: always
+    restart: unless-stopped
 
 {% if docker_service_command_extras %}
     command:

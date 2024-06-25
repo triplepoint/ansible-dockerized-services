@@ -1,9 +1,8 @@
-version: '3.7'
 services:
   syncthing:
     build:
       context: /opt/ansible-docker-compose/syncthing
-    image: "syncthing:latest"
+      pull: true
     container_name: syncthing
 {% if syncthing_container_labels %}
     labels:
@@ -11,7 +10,8 @@ services:
       - {{ label }}
 {% endfor %}
 {% endif %}
-    restart: always
+    pull_policy: always
+    restart: unless-stopped
 {% if syncthing_container_ports %}
     ports:
 {% for port in syncthing_container_ports %}

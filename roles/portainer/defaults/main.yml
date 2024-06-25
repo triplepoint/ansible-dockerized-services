@@ -2,7 +2,7 @@
 # What version of the linuxserver/portainer docker image should we
 # install?
 # https://hub.docker.com/r/portainer/portainer-ce
-portainer_docker_version: "latest"
+portainer_docker_version: "sts"
 
 # A list of additional volumes to mount into the docker container.  This is
 # useful for things like SSL certificates and custom css/image assets.

@@ -1,4 +1,3 @@
-version: '3.7'
 services:
   zwavejs2mqtt:
     image: zwavejs/zwavejs2mqtt:{{ zwjs_docker_image_version }}
@@ -9,7 +8,8 @@ services:
       - {{ label }}
 {% endfor %}
 {% endif %}
-    restart: always
+    pull_policy: always
+    restart: unless-stopped
     tty: true
     stop_signal: SIGINT
     ports:

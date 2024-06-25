@@ -1,4 +1,3 @@
-version: '3.7'
 services:
   mozilla-syncserver:
     image: mozilla/syncserver:{{ mozilla_syncserver_docker_version }}
@@ -9,7 +8,8 @@ services:
       - {{ label }}
 {% endfor %}
 {% endif %}
-    restart: always
+    pull_policy: always
+    restart: unless-stopped
 {% if mozilla_syncserver_expose_service_port %}
     ports:
       - "{{ mozilla_syncserver_port }}" # sync endpoint

@@ -1,11 +1,11 @@
-version: '3.7'
 services:
   autodns:
     build:
       context: /opt/ansible-docker-compose/autodns
-    image: "autodns:latest"
+      pull: true
     container_name: "autodns"
-    restart: always
+    pull_policy: always
+    restart: unless-stopped
 {% if _autodns_docker_volumes %}
     volumes:
 {% for vol in _autodns_docker_volumes %}
