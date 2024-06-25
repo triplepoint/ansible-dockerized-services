@@ -4,7 +4,7 @@ rtl_433_device_path: "/dev/bus/usb/001/001"
 
 # Which release of rtl_433 are we deploying?
 # note there's some special options like "master"
-rtl_433_version: "23.11"
+rtl_433_version: "master"
 
 # Any additional docker volume mounts, as a list of strings
 rtl_433_volumes: []
