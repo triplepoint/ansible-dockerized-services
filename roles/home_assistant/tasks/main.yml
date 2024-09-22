@@ -7,6 +7,7 @@
   with_items:
   - "{{ home_assistant_host_config_dir }}"
   - "{{ home_assistant_host_config_dir }}/custom_templates"
+  - "{{ home_assistant_host_config_dir }}/custom_zha_quirks"
   - "{{ home_assistant_host_config_dir }}/www"
 
 - name: Ensure all the service configuration files are in place
