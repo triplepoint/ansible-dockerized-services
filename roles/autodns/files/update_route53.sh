@@ -107,7 +107,6 @@ function endloop() {
   fi
 }
 
-set -x
 
 # Set up the state file and log file
 LOGFILE="${LOGDIR}/${LOGFILENAME}"
