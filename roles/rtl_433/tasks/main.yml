@@ -1,26 +1,18 @@
 ---
 - name: Ensure the service config directories on the host are present
   ansible.builtin.file:
-    path: "{{ item }}"
+    path: "/opt/ansible-docker-compose/rtl_433/"
     state: directory
     mode: 0755
-  with_items:
-    - "/opt/ansible-docker-compose/"
-    - "/opt/ansible-docker-compose/rtl_433/"
 
-- name: Ensure the config files are all present
+- name: Ensure the config file and Dockerfile are present
   ansible.builtin.copy:
     src: "{{ item }}"
     dest: "/opt/ansible-docker-compose/rtl_433/{{ item }}"
     mode: 0644
   with_items:
     - start_rtl_433_mqtt_hass.sh
-
-- name: Ensure the Dockerfile is present
-  ansible.builtin.template:
-    src: Dockerfile.j2
-    dest: "/opt/ansible-docker-compose/rtl_433/Dockerfile"
-    mode: 0644
+    - Dockerfile
 
 - name: Deploy and start the Docker Compose-managed service
   ansible.builtin.include_role:

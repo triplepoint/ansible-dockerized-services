@@ -71,6 +71,8 @@ services:
     build:
       context: /opt/ansible-docker-compose/{{ docker_service_name }}
       pull: true
+      args:
+        RTL_433_VERSION: {{ rtl_433_version }}
     pull_policy: always
     restart: unless-stopped
 
