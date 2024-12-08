@@ -46,6 +46,7 @@
   ansible.builtin.get_url:
     url: "{{ item.value }}"
     dest: "{{ home_assistant_host_config_dir }}/www/{{ item.key }}.js"
+    mode: 0644
   with_items: "{{ home_assistant_additional_cards | dict2items }}"
 
 - name: Define the default service docker volumes
