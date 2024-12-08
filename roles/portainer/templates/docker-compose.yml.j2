@@ -1,6 +1,6 @@
 services:
   portainer:
-    image: portainer/portainer-ce:{{ portainer_docker_version }}
+    image: {{ portainer_docker_image }}:{{ portainer_docker_version }}
     command: -H unix:///var/run/docker.sock
     container_name: portainer
     hostname: portainer

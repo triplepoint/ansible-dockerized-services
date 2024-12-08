@@ -1,4 +1,7 @@
 ---
+# What image name should we be pulling?
+portainer_docker_image: "portainer/portainer-ce"
+
 # What version of the linuxserver/portainer docker image should we
 # install?
 # https://hub.docker.com/r/portainer/portainer-ce
