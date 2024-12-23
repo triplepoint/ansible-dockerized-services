@@ -34,7 +34,7 @@ traefik_certificate_resolvers: []
   #   storage_filename: acme.json
   #   dns_provider: route53
 
-  # The domain name on which to listen, for the Traefik dashboard.
+# The domain name on which to listen, for the Traefik dashboard.
 # If false, the dashboard will be disabled.
 traefik_api_domain_name: false
 
