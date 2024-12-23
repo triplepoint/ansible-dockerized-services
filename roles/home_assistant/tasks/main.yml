@@ -11,7 +11,7 @@
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
-    mode: 0755
+    mode: "0755"
   with_items:
   - "{{ home_assistant_host_config_dir }}"
   - "{{ home_assistant_host_config_dir }}/custom_templates"
@@ -22,7 +22,7 @@
   ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ home_assistant_host_config_dir }}/{{ item.dest }}"
-    mode: 0600
+    mode: "0600"
   with_items: "{{ home_assistant_template_files }}"
   notify: Restart home-assistant
 
@@ -30,7 +30,7 @@
   ansible.builtin.copy:
     src: "{{ item.src }}"
     dest: "{{ home_assistant_host_config_dir }}/{{ item.dest }}"
-    mode: 0600
+    mode: "0600"
   with_items: "{{ home_assistant_files }}"
   notify: Restart home-assistant
 
@@ -38,7 +38,7 @@
   ansible.builtin.template:
     src: "secrets.yaml.j2"
     dest: "{{ home_assistant_host_config_dir }}/secrets.yaml"
-    mode: 0600
+    mode: "0600"
   notify: Restart home-assistant
   no_log: true
 
@@ -46,7 +46,7 @@
   ansible.builtin.get_url:
     url: "{{ item.value }}"
     dest: "{{ home_assistant_host_config_dir }}/www/{{ item.key }}.js"
-    mode: 0644
+    mode: "0644"
   with_items: "{{ home_assistant_additional_cards | dict2items }}"
 
 - name: Define the default service docker volumes
@@ -62,13 +62,13 @@
   ansible.builtin.file:
     state: directory
     path: "/opt/ansible-docker-compose/home-assistant"
-    mode: 0755
+    mode: "0755"
 
 - name: Ensure this service's docker-compose template is present
   ansible.builtin.template:
     src: docker-compose.yml.j2
     dest: /opt/ansible-docker-compose/home-assistant/docker-compose.yml
-    mode: 0644
+    mode: "0644"
     validate: docker compose -f %s config
 
 - name: Ensure the service container(s) is/are started

@@ -20,7 +20,7 @@
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
-    mode: 0750
+    mode: "0750"
     owner: "portainer"
     group: "portainer"
   with_items:
@@ -48,13 +48,13 @@
   ansible.builtin.file:
     state: directory
     path: "/opt/ansible-docker-compose/portainer"
-    mode: 0755
+    mode: "0755"
 
 - name: Ensure this service's docker-compose template is present
   ansible.builtin.template:
     src: docker-compose.yml.j2
     dest: /opt/ansible-docker-compose/portainer/docker-compose.yml
-    mode: 0644
+    mode: "0644"
     validate: docker compose -f %s config
 
 - name: Ensure the service container(s) is/are started

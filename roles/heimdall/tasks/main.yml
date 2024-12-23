@@ -20,7 +20,7 @@
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
-    mode: 0750
+    mode: "0750"
     owner: "heimdall"
     group: "heimdall"
   with_items:
@@ -30,7 +30,7 @@
   ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "/etc/heimdall/{{ item.dest }}"
-    mode: 0600
+    mode: "0600"
     owner: "heimdall"
     group: "heimdall"
   with_items: "{{ heimdall_template_files }}"
@@ -59,13 +59,13 @@
   ansible.builtin.file:
     state: directory
     path: "/opt/ansible-docker-compose/heimdall"
-    mode: 0755
+    mode: "0755"
 
 - name: Ensure this service's docker-compose template is present
   ansible.builtin.template:
     src: docker-compose.yml.j2
     dest: /opt/ansible-docker-compose/heimdall/docker-compose.yml
-    mode: 0644
+    mode: "0644"
     validate: docker compose -f %s config
 
 - name: Ensure the service container(s) is/are started

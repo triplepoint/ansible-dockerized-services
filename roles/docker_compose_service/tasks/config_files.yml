@@ -3,7 +3,7 @@
   ansible.builtin.file:
     path: "{{ item.external }}"
     state: directory
-    mode: 0755
+    mode: "0755"
     # owner: "{{ docker_service_user_and_group_name | default(omit) }}"
     # group: "{{ docker_service_user_and_group_name | default(omit) }}"
   with_items: "{{ docker_service_config_dirs }}"
@@ -13,7 +13,7 @@
   ansible.builtin.template:
     src: "{{ item.1.template }}"
     dest: "{{ item.0.external }}/{{ item.1.dest }}"
-    mode: 0600
+    mode: "0600"
     # owner: "{{ docker_service_user_and_group_name | default(omit) }}"
     # group: "{{ docker_service_user_and_group_name | default(omit) }}"
   with_subelements:

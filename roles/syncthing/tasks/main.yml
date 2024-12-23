@@ -20,7 +20,7 @@
   ansible.builtin.file:
     state: directory
     path: "{{ item }}"
-    mode: 0750
+    mode: "0750"
     owner: "syncthing"
     group: "syncthing"
   with_items:
@@ -39,20 +39,20 @@
   ansible.builtin.file:
     state: directory
     path: "/opt/ansible-docker-compose/syncthing"
-    mode: 0755
+    mode: "0755"
 
 - name: Ensure this service's docker-compose template is present
   ansible.builtin.template:
     src: docker-compose.yml.j2
     dest: /opt/ansible-docker-compose/syncthing/docker-compose.yml
-    mode: 0644
+    mode: "0644"
     validate: docker compose -f %s config
 
 - name: Ensure this service's Dockerfile is present
   ansible.builtin.template:
     src: Dockerfile.j2
     dest: /opt/ansible-docker-compose/syncthing/Dockerfile
-    mode: 0644
+    mode: "0644"
 
 - name: Ensure the service container(s) is/are started
   community.docker.docker_compose_v2:

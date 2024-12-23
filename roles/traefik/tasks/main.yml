@@ -4,7 +4,7 @@
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
-    mode: 0755
+    mode: "0755"
   with_items:
     - /etc/traefik
 
@@ -12,7 +12,7 @@
   ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
-    mode: 0600
+    mode: "0600"
   with_items:
     - src: traefik.toml.j2
       dest: /etc/traefik/traefik.toml
@@ -24,7 +24,7 @@
   ansible.builtin.file:
     path: "/etc/traefik/{{ item.storage_filename }}"
     state: touch
-    mode: 0600
+    mode: "0600"
     access_time: preserve
     modification_time: preserve
   with_items: "{{ traefik_certificate_resolvers }}"
@@ -65,13 +65,13 @@
   ansible.builtin.file:
     state: directory
     path: "/opt/ansible-docker-compose/traefik"
-    mode: 0755
+    mode: "0755"
 
 - name: Ensure this service's docker-compose template is present
   ansible.builtin.template:
     src: docker-compose.yml.j2
     dest: /opt/ansible-docker-compose/traefik/docker-compose.yml
-    mode: 0644
+    mode: "0644"
     validate: docker compose -f %s config
 
 - name: Ensure the service container(s) is/are started

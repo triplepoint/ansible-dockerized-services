@@ -20,7 +20,7 @@
   ansible.builtin.file:
     state: directory
     path: "{{ item }}"
-    mode: 0750
+    mode: "0750"
     owner: "mosquitto"
     group: "mosquitto"
   with_items:
@@ -32,7 +32,7 @@
   ansible.builtin.template:
     src: mosquitto.conf.j2
     dest: /etc/mosquitto/mosquitto.conf
-    mode: 0640
+    mode: "0640"
     owner: "mosquitto"
     group: "mosquitto"
   notify: Restart mosquitto
@@ -53,7 +53,7 @@
   ansible.builtin.file:
     path: "/etc/mosquitto/passwd"
     state: touch
-    mode: 0640
+    mode: "0640"
     owner: "mosquitto"
     group: "mosquitto"
   when: _change_detection_was_detected
@@ -85,20 +85,20 @@
   ansible.builtin.copy:
     src: logrotate.mosquitto
     dest: "/etc/logrotate.d/mosquitto"
-    mode: 0644
+    mode: "0644"
   when: mosquitto_enable_logrotate
 
 - name: Ensure the docker-compose template directory exists
   ansible.builtin.file:
     state: directory
     path: "/opt/ansible-docker-compose/mosquitto"
-    mode: 0755
+    mode: "0755"
 
 - name: Ensure this service's docker-compose template is present
   ansible.builtin.template:
     src: docker-compose.yml.j2
     dest: /opt/ansible-docker-compose/mosquitto/docker-compose.yml
-    mode: 0644
+    mode: "0644"
     validate: docker compose -f %s config
 
 - name: Ensure the service container(s) is/are started

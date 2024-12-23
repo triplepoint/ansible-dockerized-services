@@ -22,7 +22,7 @@
     path: "{{ item }}"
     group: "{{ zwjs_exec_user }}"
     owner: "{{ zwjs_exec_user }}"
-    mode: 0755
+    mode: "0755"
   with_items:
     - /opt/zwavejs/store
 
@@ -45,13 +45,13 @@
   ansible.builtin.file:
     state: directory
     path: "/opt/ansible-docker-compose/zwavejs2mqtt"
-    mode: 0755
+    mode: "0755"
 
 - name: Ensure this service's docker-compose template is present
   ansible.builtin.template:
     src: docker-compose.yml.j2
     dest: /opt/ansible-docker-compose/zwavejs2mqtt/docker-compose.yml
-    mode: 0644
+    mode: "0644"
     validate: docker compose -f %s config
 
 - name: Ensure the service container(s) is/are started
