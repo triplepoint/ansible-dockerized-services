@@ -1,5 +1,7 @@
-FROM python:3.13
+FROM python:3.13-alpine
 LABEL maintainer="Jonathan Hanson <jonathan@jonathan-hanson.org>"
+
+RUN apk --no-cache add bash
 
 WORKDIR /usr/src/app
 
