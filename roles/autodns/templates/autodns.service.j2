@@ -1,0 +1,19 @@
+[Unit]
+Description=Keep a DNS record up to date with this host's public IP addresses
+Documentation=
+After=network.target
+
+[Service]
+Type=simple
+User=autodns
+Group=autodns
+{% if autodns_environment_variables %}
+{% for k, v in autodns_environment_variables.items() %}
+Environment="{{ k }}={{ v }}"
+{% endfor %}
+{% endif %}
+ExecStart=/opt/autodns/.venv/bin/python /opt/autodns/update_route53.py
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

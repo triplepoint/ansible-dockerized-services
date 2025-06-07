@@ -1,4 +1,4 @@
-FROM python:3.12
+FROM python:3.13
 LABEL maintainer="Jonathan Hanson <jonathan@jonathan-hanson.org>"
 
 WORKDIR /usr/src/app

@@ -10,8 +10,10 @@ autodns_environment_variables:
   R53_ZONEID: somezoneid
   R53_RECORDSET: somerecordset.example.com
   R53_TTL: 300
-  R53_TYPE: A
+  R53_TYPE: A                   # Can be "A", "AAAA", or "both"
   LOOP_DELAY: 300               # How long to wait between update loops
+  LOG_LEVEL: INFO               # What log level? Recommend "DEBUG" or "INFO".
+  # R53_COMMENT: "a comment that shows up in AWS"  # Leave unset for a dynamically-generated comment
 
 # The ID of the AWS access key which was provisioned for this script to use
 autodns_aws_access_key_id: someaccesskeyid     # Replace this with a provisioned key ID
