@@ -174,6 +174,7 @@ if __name__ == "__main__":
                 exit(1)
 
         finally:
+            logger.info("Success.")
             if LOOP_DELAY <= 0:
                 exit()
             time.sleep(LOOP_DELAY)
