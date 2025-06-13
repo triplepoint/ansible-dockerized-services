@@ -1,0 +1,52 @@
+services:
+  mariadb:
+    container_name: firefox_mariadb
+    image: linuxserver/mariadb:10.6.13
+    volumes:
+      - {{ mozilla_syncserver_rs_working_directory }}:/config
+    restart: unless-stopped
+    networks:
+      - mozilla_syncserver_rs
+    environment:
+      MYSQL_DATABASE: syncstorage
+      MYSQL_USER: sync
+      MYSQL_PASSWORD: "{{ mozilla_syncserver_rs_db_password }}"
+      MYSQL_ROOT_PASSWORD: "{{ mozilla_syncserver_rs_db_root_password }}"
+      PUID: {{ mozilla_syncserver_rs_uid_gid }}
+      PGID: {{ mozilla_syncserver_rs_uid_gid }}
+
+  syncserver:
+    container_name: firefox_syncserver
+    build:
+      context: ./
+      dockerfile: Dockerfile-syncserver
+{% if mozilla_syncserver_rs_container_labels %}
+    labels:
+{% for label in mozilla_syncserver_rs_container_labels %}
+      - {{ label }}
+{% endfor %}
+{% endif %}
+    restart: unless-stopped
+    depends_on:
+      - mariadb
+    networks:
+      - mozilla_syncserver_rs
+{% if mozilla_syncserver_rs_network_name %}
+      - {{ mozilla_syncserver_rs_network_name }}
+{% endif %}
+    environment:
+      LOGLEVEL: info
+      SYNC_CAPACITY: {{ mozilla_syncserver_rs_sync_capacity }}
+      SYNC_URL: "https://{{ mozilla_syncserver_rs_domain_name }}"
+      SYNC_MASTER_SECRET: "{{ mozilla_syncserver_rs_master_secret }}"
+      METRICS_HASH_SECRET: "{{ mozilla_syncserver_rs_metrics_hash_secret }}"
+      SYNC_SYNCSTORAGE_DATABASE_URL: "mysql://sync:{{ mozilla_syncserver_rs_db_password }}@mariadb:3306/syncstorage_rs"
+      SYNC_TOKENSERVER_DATABASE_URL: "mysql://sync:{{ mozilla_syncserver_rs_db_password }}@mariadb:3306/tokenserver_rs"
+      SYNC_PORT: "{{ mozilla_syncserver_rs_port }}"
+{% if mozilla_syncserver_rs_network_name %}
+networks:
+  mozilla_syncserver_rs:
+    name: mozilla_syncserver_rs
+  {{ mozilla_syncserver_rs_network_name }}:
+    external: true
+{% endif %}

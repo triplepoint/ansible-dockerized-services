@@ -1,0 +1,17 @@
+---
+galaxy_info:
+  author: Jonathan Hanson
+  description: A deployment role for Mozilla's Firefox Sync server (the new Rust version).
+  license: MIT
+  min_ansible_version: "2.9"
+  platforms:
+    - name: Ubuntu
+      versions:
+        - xenial
+        - bionic
+        - focal
+  galaxy_tags:
+    - mozilla
+    - firefox
+    - sync
+    - syncserver

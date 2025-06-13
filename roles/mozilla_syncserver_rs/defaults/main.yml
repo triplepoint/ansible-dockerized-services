@@ -1,0 +1,25 @@
+---
+# An additional working directory, mounted through as /config on the container.
+mozilla_syncserver_rs_working_directory: "/opt/mozilla_syncserver_rs"
+
+# The public URL for the service, without a protocol (ie, sync.example.com)
+mozilla_syncserver_rs_domain_name: "sync.example.com"
+
+mozilla_syncserver_rs_db_password: "<your app db password here>"
+mozilla_syncserver_rs_db_root_password: "<your db root password here>"
+mozilla_syncserver_rs_master_secret: "somerandomsecret"
+mozilla_syncserver_rs_metrics_hash_secret: "someotherrandomsecret"
+mozilla_syncserver_rs_sync_capacity: 10  # Max number of users that will be accepted
+
+# If set to a string, the created Docker container will attach to a
+# pre-existing default Docker network, instead of creating its own.
+mozilla_syncserver_rs_network_name: ""
+
+# Labels to put on the application containers
+mozilla_syncserver_rs_container_labels: []
+
+# What user and group ID should the service run as?
+mozilla_syncserver_rs_uid_gid: 1002
+
+# The internal port on which the service is listening.
+mozilla_syncserver_rs_port: 8000
