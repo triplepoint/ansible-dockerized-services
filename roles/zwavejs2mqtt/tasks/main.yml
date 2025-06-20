@@ -1,17 +1,17 @@
 ---
 - name: Ensure the admin group is present
   ansible.builtin.group:
-    name: "{{ zwjs_exec_user }}"
+    name: "{{ zwavejs2mqtt_exec_user }}"
     state: present
-    gid: "{{ zwjs_exec_user_and_group_id }}"
+    gid: "{{ zwavejs2mqtt_exec_user_and_group_id }}"
     system: true
 
 - name: Ensure the admin user is present
   ansible.builtin.user:
-    name: "{{ zwjs_exec_user }}"
+    name: "{{ zwavejs2mqtt_exec_user }}"
     state: present
-    uid: "{{ zwjs_exec_user_and_group_id }}"
-    group: "{{ zwjs_exec_user }}"
+    uid: "{{ zwavejs2mqtt_exec_user_and_group_id }}"
+    group: "{{ zwavejs2mqtt_exec_user }}"
     create_home: false
     system: true
     shell: "/usr/sbin/nologin"
@@ -20,26 +20,26 @@
   ansible.builtin.file:
     state: directory
     path: "{{ item }}"
-    group: "{{ zwjs_exec_user }}"
-    owner: "{{ zwjs_exec_user }}"
+    group: "{{ zwavejs2mqtt_exec_user }}"
+    owner: "{{ zwavejs2mqtt_exec_user }}"
     mode: "0755"
   with_items:
     - /opt/zwavejs/store
 
 - name: Define the default service Docker volumes
   ansible.builtin.set_fact:
-    _zwjs_docker_volumes:
+    _zwavejs2mqtt_docker_volumes:
       - "/opt/zwavejs/store:/usr/src/app/store"
 
 - name: Append any additional environment variables
   ansible.builtin.set_fact:
-    _zwjs_docker_env_vars:
-      PGID: "{{ zwjs_exec_user_and_group_id }}"
-      PUID: "{{ zwjs_exec_user_and_group_id }}"
+    _zwavejs2mqtt_docker_env_vars:
+      PGID: "{{ zwavejs2mqtt_exec_user_and_group_id }}"
+      PUID: "{{ zwavejs2mqtt_exec_user_and_group_id }}"
 
 - name: Append any additional environment variables
   ansible.builtin.set_fact:
-    _zwjs_docker_env_vars: "{{ _zwjs_docker_env_vars | combine(zwjs_environment_variables) }}"
+    _zwavejs2mqtt_docker_env_vars: "{{ _zwavejs2mqtt_docker_env_vars | combine(zwavejs2mqtt_environment_variables) }}"
 
 - name: Ensure the docker-compose template directory exists
   ansible.builtin.file:

@@ -16,7 +16,7 @@
 
 - name: Deploy and start the Docker Compose-managed service
   ansible.builtin.include_role:
-    name: triplepoint.dockerized_services.docker_compose_service
+    name: triplepoint.dockerized_services.docker_service
   vars:
     docker_service_name: rtl_433
     docker_service_container_name: hertzg/rtl_433

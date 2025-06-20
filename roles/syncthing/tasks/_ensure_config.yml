@@ -107,7 +107,7 @@
   community.docker.docker_container_exec:
     container: syncthing
     user: "{{ syncthing_user_id }}"
-    command: "curl -s -X PUT -H 'X-API-KEY: {{ syncthing_api_key }}' -d '{{ _syncthing_config_new | to_json }}' -H 'Content-Type: application/json' http://localhost:8384/rest/config"
+    command: "curl -s -X PUT -H 'X-API-KEY: {{ syncthing_api_key }}' -d '{{ _syncthing_config_new | to_json }}' -H 'Content-Type: application/json' http://localhost:8384/rest/config" # noqa yaml[line-length]
   when: _syncthing_config_new != _syncthing_config_old
   no_log: true
 

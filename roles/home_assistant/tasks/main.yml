@@ -4,8 +4,8 @@
     name: "{{ item }}"
     state: present
   with_items:
-  - avahi-daemon
-  - avahi-utils
+    - avahi-daemon
+    - avahi-utils
 
 - name: Ensure the service config directory is present
   ansible.builtin.file:
@@ -13,10 +13,10 @@
     state: directory
     mode: "0755"
   with_items:
-  - "{{ home_assistant_host_config_dir }}"
-  - "{{ home_assistant_host_config_dir }}/custom_templates"
-  - "{{ home_assistant_host_config_dir }}/custom_zha_quirks"
-  - "{{ home_assistant_host_config_dir }}/www"
+    - "{{ home_assistant_host_config_dir }}"
+    - "{{ home_assistant_host_config_dir }}/custom_templates"
+    - "{{ home_assistant_host_config_dir }}/custom_zha_quirks"
+    - "{{ home_assistant_host_config_dir }}/www"
 
 - name: Ensure all the service configuration files are in place
   ansible.builtin.template:
