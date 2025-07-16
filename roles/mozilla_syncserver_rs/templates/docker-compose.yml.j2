@@ -17,9 +17,7 @@ services:
 
   syncserver:
     container_name: firefox_syncserver
-    build:
-      context: ./
-      dockerfile: Dockerfile-syncserver
+    image: ghcr.io/triplepoint/syncstorage-rs-docker:latest
 {% if mozilla_syncserver_rs_container_labels %}
     labels:
 {% for label in mozilla_syncserver_rs_container_labels %}

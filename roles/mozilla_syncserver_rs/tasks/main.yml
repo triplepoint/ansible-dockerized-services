@@ -33,16 +33,6 @@
     path: "/opt/ansible-docker-compose/mozilla-syncserver-rs"
     mode: "0755"
 
-- name: Ensure that the support files for the docker build are present
-  ansible.builtin.copy:
-    src: "{{ item }}"
-    dest: "/opt/ansible-docker-compose/mozilla-syncserver-rs/{{ item }}"
-    mode: "0644"
-  with_items:
-    - Dockerfile-syncserver
-    - entrypoint.sh
-  notify: Restart mozilla-syncserver-rs
-
 - name: Ensure that the support files for the docker build are present (cont.)
   ansible.builtin.copy:
     src: "{{ item }}"
