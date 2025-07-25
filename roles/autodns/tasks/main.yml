@@ -1,12 +1,12 @@
 ---
-- name: Ensure the container user group exists
+- name: Ensure the service user group exists
   ansible.builtin.group:
     name: "autodns"
     state: present
     gid: "{{ autodns_uid_gid }}"
     system: true
 
-- name: Ensure the container user exists
+- name: Ensure the service user exists
   ansible.builtin.user:
     name: "autodns"
     state: present

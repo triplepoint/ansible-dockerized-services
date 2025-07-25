@@ -1,7 +1,0 @@
----
-- name: Converge
-  hosts: all
-  tasks:
-    - name: "Include ansible-mozilla-syncserver"
-      ansible.builtin.include_role:
-        name: "ansible-mozilla-syncserver"

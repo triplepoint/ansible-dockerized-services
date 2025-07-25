@@ -1,5 +1,0 @@
----
-- name: Restart home-assistant
-  community.docker.docker_compose_v2:
-    project_src: /opt/ansible-docker-compose/home-assistant
-    state: restarted
