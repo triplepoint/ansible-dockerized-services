@@ -1,11 +1,35 @@
 ---
+- name: Ensure the admin group is present
+  ansible.builtin.group:
+    name: "{{ step_ca_exec_user }}"
+    state: present
+    gid: "{{ step_ca_exec_user_and_group_id }}"
+    system: true
+
+- name: Ensure the admin user is present
+  ansible.builtin.user:
+    name: "{{ step_ca_exec_user }}"
+    state: present
+    uid: "{{ step_ca_exec_user_and_group_id }}"
+    group: "{{ step_ca_exec_user }}"
+    create_home: false
+    system: true
+    shell: "/usr/sbin/nologin"
+
+- name: Ensure the service config directories on the host are present
+  ansible.builtin.file:
+    path: "/opt/ansible-docker-compose/step_ca/"
+    state: directory
+    mode: "0755"
+
 - name: Ensure the service config directories on the host are present
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
     mode: "0755"
+    owner: "{{ step_ca_exec_user }}"
+    group: "{{ step_ca_exec_user }}"
   with_items:
-    - "/opt/ansible-docker-compose/step_ca/"
     - "/opt/step_ca/"
 
 - name: Deploy and start the Docker Compose-managed service

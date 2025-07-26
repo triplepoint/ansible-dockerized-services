@@ -1,4 +1,12 @@
 ---
+# The name of the user and group to be created on the host machine,
+# to own the configuration files for this service.
+step_ca_exec_user: step-ca
+
+# The user ID and group ID to assign to the above user.  If you find that This
+# UID or GID already exists on your host, adjust this to an unused value.
+step_ca_exec_user_and_group_id: "2001"
+
 # What docker network, if any, should the container be attached to?
 step_ca_network_name: ""
 
