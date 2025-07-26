@@ -1,0 +1,25 @@
+---
+- name: Ensure the service config directories on the host are present
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0755"
+  with_items:
+    - "/opt/ansible-docker-compose/step_ca/"
+    - "/opt/step_ca/"
+
+- name: Deploy and start the Docker Compose-managed service
+  ansible.builtin.include_role:
+    name: triplepoint.dockerized_services.docker_service
+  vars:
+    docker_service_name: step_ca
+    docker_service_container_name: smallstep/step-ca
+    docker_service_container_version: latest
+    docker_service_config_dirs:
+      - external: "/opt/step_ca"
+        internal: "/home/step"
+    docker_service_compose_template: "docker-compose.yml.j2"
+    docker_service_network_name: "{{ step_ca_network_name }}"
+    docker_service_container_labels: "{{ step_ca_container_labels }}"
+  tags:
+    - skip_ansible_lint

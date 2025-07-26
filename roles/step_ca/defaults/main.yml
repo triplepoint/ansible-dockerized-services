@@ -1,0 +1,6 @@
+---
+# What docker network, if any, should the container be attached to?
+step_ca_network_name: ""
+
+# Labels to put on the application containers
+step_ca_container_labels: []
