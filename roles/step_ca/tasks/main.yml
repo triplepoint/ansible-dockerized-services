@@ -39,6 +39,7 @@
     docker_service_name: step_ca
     docker_service_container_name: smallstep/step-ca
     docker_service_container_version: latest
+    docker_service_user: root
     docker_service_config_dirs:
       - external: "/opt/step_ca"
         internal: "/home/step"

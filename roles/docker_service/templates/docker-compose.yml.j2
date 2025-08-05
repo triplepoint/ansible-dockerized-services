@@ -13,6 +13,10 @@ services:
   {% endfor %}
 {% endif %}
 
+{% if docker_service_user %}
+    user: {{ docker_service_user }}
+{% endif %}
+
 {% if docker_service_container_labels %}
     labels:
   {% for label in docker_service_container_labels %}

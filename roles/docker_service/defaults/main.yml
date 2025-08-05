@@ -13,6 +13,9 @@ docker_service_container_version: "latest"
 # If 0, these groups won't be created and will be ignored, and the service will run as root
 docker_service_user_and_group_id: 0
 
+# If not empty, what user should the container process run as?
+docker_service_user: ""
+
 # What directories need to exist on the host (external) and be shared as volumes into
 # the container (internal)?
 # And what, if any, templates need to be rendered out to the directories on the host?
