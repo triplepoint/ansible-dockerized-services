@@ -43,6 +43,7 @@
       - external: "/opt/step_ca"
         internal: "/home/step"
     docker_service_compose_template: "docker-compose.yml.j2"
+    docker_service_environment_variables: "{{ step_ca_environment_variables }}"
     docker_service_network_name: "{{ step_ca_network_name }}"
     docker_service_container_labels: "{{ step_ca_container_labels }}"
   tags:

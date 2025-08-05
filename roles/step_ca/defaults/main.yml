@@ -12,3 +12,6 @@ step_ca_network_name: ""
 
 # Labels to put on the application containers
 step_ca_container_labels: []
+
+# Environment variables to use to configure the Step CA service
+step_ca_environment_variables: {}
