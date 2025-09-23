@@ -31,9 +31,15 @@
     _syncthing_docker_volumes:
       - "{{ syncthing_data_directory }}:/var/syncthing"
 
+- name: Append any additional environment variables
+  ansible.builtin.set_fact:
+    _syncthing_docker_env_vars_extra:
+      PGID: "{{ syncthing_group_id }}"
+      PUID: "{{ syncthing_user_id }}"
+
 - name: Add the group and user id environment variables
   ansible.builtin.set_fact:
-    _syncthing_docker_env_vars: "{{ syncthing_environment_variables | combine({'PGID': '{{ syncthing_group_id }}', 'PUID': '{{ syncthing_user_id }}'}) }}"
+    _syncthing_docker_env_vars: "{{ syncthing_environment_variables | combine(_syncthing_docker_env_vars_extra) }}"
 
 - name: Ensure the docker-compose template directory exists
   ansible.builtin.file:
