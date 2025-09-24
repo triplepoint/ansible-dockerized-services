@@ -20,7 +20,7 @@
   vars:
     docker_service_name: rtl_433
     docker_service_container_name: hertzg/rtl_433
-    docker_service_container_version: "{{ rtl_433_version }}-debian"
+    docker_service_container_version: "{{ rtl_433_version }}-debian-linux_amd64"
     docker_service_devices:
       - "{{ rtl_433_device_path }}"
     docker_service_command_extras:
