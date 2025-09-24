@@ -15,8 +15,6 @@
   register: _syncthing_current_user
   changed_when: false
   check_mode: false
-  retries: 5
-  delay: 60
 
 - name: Ensure the user is set on the service config
   community.docker.docker_container_exec:

@@ -64,5 +64,7 @@
   community.docker.docker_compose_v2:
     project_src: /opt/ansible-docker-compose/syncthing
 
-- name: Ensure that the service configuration is correctly set
-  ansible.builtin.import_tasks: _ensure_config.yml
+### TODO - temporarily disabling the configuration setting.  This needs to be fixed before configs can be modified.
+### V2 of syncthing changed how the command line parsing works.  It might be best to go back to writing the XML file directly.
+# - name: Ensure that the service configuration is correctly set
+#   ansible.builtin.import_tasks: _ensure_config.yml
