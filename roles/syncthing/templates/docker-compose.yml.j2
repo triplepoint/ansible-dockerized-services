@@ -3,6 +3,7 @@ services:
     build:
       context: /opt/ansible-docker-compose/syncthing
       pull: true
+      no_cache: true
     container_name: syncthing
 {% if syncthing_container_labels %}
     labels:
@@ -10,7 +11,7 @@ services:
       - {{ label }}
 {% endfor %}
 {% endif %}
-    pull_policy: always
+    pull_policy: build
     restart: unless-stopped
 {% if syncthing_container_ports %}
     ports:

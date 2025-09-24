@@ -71,9 +71,10 @@ services:
     build:
       context: /opt/ansible-docker-compose/{{ docker_service_name }}
       pull: true
+      no_cache: true
       args:
         RTL_433_VERSION: {{ rtl_433_version }}
-    pull_policy: always
+    pull_policy: build
     restart: unless-stopped
 
   {% if rtl_433_autodiscovery_environment_vars %}
