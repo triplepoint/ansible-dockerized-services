@@ -25,13 +25,20 @@
     mode: "0755"
   with_items:
     - /opt/unifi/data
+    - /opt/unifi/data/db
     - /opt/unifi/logs
 
 - name: Define the default service Docker volumes
   ansible.builtin.set_fact:
     _unifi_docker_volumes:
+      - "/etc/localtime:/etc/localtime:ro"
       - "/opt/unifi/data:/usr/lib/unifi/data"
       - "/opt/unifi/logs:/usr/lib/unifi/logs"
+
+- name: Define the mongo service Docker volumes
+  ansible.builtin.set_fact:
+    _unifi_docker_mongo_volumes:
+      - "/opt/unifi/data/db:/data/db"
 
 - name: Add the certificate file directory to the list of volumes, if necessary
   ansible.builtin.set_fact:
@@ -43,6 +50,19 @@
     _unifi_docker_env_vars:
       PGID: "{{ unifi_exec_user_and_group_id }}"
       PUID: "{{ unifi_exec_user_and_group_id }}"
+
+- name: Define any additional environment variables to use with the separate mongodb container
+  ansible.builtin.set_fact:
+    _unifi_docker_env_vars_with_separate_db:
+      DB_MONGO_LOCAL: false
+      UNIFI_DB_NAME: unifi
+      DB_MONGO_URI: mongodb://mongo:27017/unifi
+      STATDB_MONGO_URI: mongodb://mongo:27017/unifi_stat
+
+- name: Append any additional environment variables for the separate mongodb container
+  ansible.builtin.set_fact:
+    _unifi_docker_env_vars: "{{ _unifi_docker_env_vars | combine(_unifi_docker_env_vars_with_separate_db) }}"
+  when: unifi_separate_mongo_db
 
 - name: Append any additional environment variables
   ansible.builtin.set_fact:

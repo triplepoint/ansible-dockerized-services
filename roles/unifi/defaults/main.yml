@@ -30,3 +30,6 @@ unifi_network_name: ""
 
 # Labels to put on the application containers
 unifi_container_labels: []
+
+# Should we launch a separate MongodB container?
+unifi_separate_mongo_db: false

@@ -1,6 +1,23 @@
 services:
+{% if unifi_separate_mongo_db %}
+  mongo:
+#   Use max mongo version 5.0.X. Higher versions are incompatible with the mongo driver built into Unifi.
+#   Older versions are acceptable, ie: mongo:3.6
+    image: mongo:5.0
+    container_name: unifidb
+    restart: unless-stopped
+    networks:
+      - unifi_default
+{% if _unifi_docker_mongo_volumes %}
+    volumes:
+{% for vol in _unifi_docker_mongo_volumes %}
+      - {{ vol }}
+{% endfor %}
+{% endif %}
+{% endif %}
+
   unifi:
-    image: goofball222/unifi:{{ unifi_docker_image_version }}
+    image: ghcr.io/goofball222/unifi:{{ unifi_docker_image_version }}
     container_name: unifi
 {% if unifi_container_labels %}
     labels:
@@ -10,6 +27,10 @@ services:
 {% endif %}
     pull_policy: always
     restart: unless-stopped
+{% if unifi_separate_mongo_db %}
+    links:
+      - mongo
+{% endif %}
     ports:
       - "3478:3478/udp"    # STUN connection
       - "8080:8080/tcp"    # UAP/USW/USG "to inform controller"
@@ -18,9 +39,14 @@ services:
       # - 8443               # controller GUI/API  # we're assuming this is fronted by a reverse proxy, uncommment this if this service GUI is exposed directly
       # - "8880:8880/tcp"    # HTTP portal redirect (optional)
       # - "8843:8843/tcp"    # HTTPS portal redirect (optional)
-{% if unifi_network_name %}
+{% if unifi_separate_mongo_db or unifi_network_name %}
     networks:
+{% if unifi_separate_mongo_db %}
+      - unifi_default
+{% endif %}
+{% if unifi_network_name %}
       - {{ unifi_network_name }}
+{% endif %}
 {% endif %}
 {% if _unifi_docker_volumes %}
     volumes:
@@ -38,4 +64,7 @@ services:
 networks:
   {{ unifi_network_name }}:
     external: true
+{% endif %}
+{% if unifi_separate_mongo_db %}
+  unifi_default: {}
 {% endif %}
