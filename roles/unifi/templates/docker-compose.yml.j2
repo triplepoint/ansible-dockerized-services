@@ -1,9 +1,9 @@
 services:
 {% if unifi_separate_mongo_db %}
-  mongo:
+  unifidb:
 #   Use max mongo version 8.0.X. Higher versions are not recommended by Ubiquiti/UniFi.
 #   Older versions are acceptable, ie: mongo:7.0
-    image: mongo:8.0
+    image: mongo:4.4
     container_name: unifidb
     restart: unless-stopped
     networks:
@@ -28,8 +28,9 @@ services:
     pull_policy: always
     restart: unless-stopped
 {% if unifi_separate_mongo_db %}
-    links:
-      - mongo
+    depends_on:
+      unifidb:
+        condition: service_started
 {% endif %}
     ports:
       - "3478:3478/udp"    # STUN connection

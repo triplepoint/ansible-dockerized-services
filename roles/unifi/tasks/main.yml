@@ -56,8 +56,8 @@
   ansible.builtin.set_fact:
     _unifi_docker_env_vars_with_separate_db:
       DB_MONGO_LOCAL: false
-      DB_MONGO_URI: mongodb://mongo:27017/unifi
-      STATDB_MONGO_URI: mongodb://mongo:27017/unifi_stat
+      DB_MONGO_URI: mongodb://unifidb:27017/unifi
+      STATDB_MONGO_URI: mongodb://unifidb:27017/unifi_stat
       UNIFI_DB_NAME: unifi
 
 - name: Append any additional environment variables for the separate mongodb container
