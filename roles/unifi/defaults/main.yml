@@ -32,4 +32,7 @@ unifi_network_name: ""
 unifi_container_labels: []
 
 # Should we launch a separate MongodB container?
-unifi_separate_mongo_db: true
+unifi_separate_mongo_db: false
+
+# If unifi_separate_mongo_db is true, what version of the mongodb image should we launch?
+unifi_separate_mongo_db_version: 8.0
