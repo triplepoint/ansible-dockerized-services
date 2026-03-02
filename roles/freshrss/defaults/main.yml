@@ -1,0 +1,7 @@
+---
+# Which release of freshrss are we deploying?
+# note there's some special options like "latest"
+freshrss_version: "latest"
+
+# Any additional docker volume mounts, as a list of strings
+freshrss_volumes: []
