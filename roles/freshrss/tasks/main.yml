@@ -12,12 +12,12 @@
     docker_service_name: freshrss
     docker_service_container_name: freshrss/freshrss
     docker_service_container_version: "{{ freshrss_version }}"
-    docker_service_config_dirs:
-      - external: "/etc/{{ docker_service_name }}"
-        internal: "/config"
-        templates:
-          - template: freshrss.conf.j2
-            dest: freshrss.conf
+    # docker_service_config_dirs:
+    #   - external: "/etc/{{ docker_service_name }}"
+    #     internal: "/config"
+    #     templates:
+    #       - template: freshrss.conf.j2
+    #         dest: freshrss.conf
     docker_service_additional_volumes: "{{ freshrss_volumes }}"
     docker_service_compose_template: "docker-compose.yml.j2"
   tags:
