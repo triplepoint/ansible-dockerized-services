@@ -43,8 +43,11 @@ traefik_additional_entrypoints: {}
 traefik_certificate_resolvers: []
   # - name: some_unique_name
   #   email: someone@example.org
-  #   storage_filename: acme.json
-  #   dns_provider: route53
+  #   storage_filename: some_unique_name.json
+  #   ca_server: https://someserver:1234/at/some/url # optional, use a specific ACME server
+  #   cert_path: /some/path/on/the/container/to/a/cert.crt  # optional, use a custom cert to validate the ACME server
+  #   dns_provider: route53  # optional, use the DNS resolver strategy if provided
+  #   use_http_callenge: false # optional, defaults to false, if set, use the http entrypoint to host a http ACME challenge
 
 # The domain name on which to listen, for the Traefik dashboard.
 # If false, the dashboard will be disabled.
@@ -71,9 +74,3 @@ traefik_api_certificate_resolver: false
 # Extra hosts to be listed on the docker-compose config, if any
 traefik_extra_hosts: []
 # - "host.docker.internal:172.17.0.1"
-
-traefik_custom_acme_resolver: {}
-#  name: theacmeresolvername
-#  email: someemail@address.test
-#  ca_server: https://someserver/at/some/url
-#  cert_path: /some/path/on/the/container/to/a/cert.crt

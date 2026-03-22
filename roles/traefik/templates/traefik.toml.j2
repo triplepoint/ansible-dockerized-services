@@ -27,24 +27,23 @@ filename = "/etc/traefik/dynamic_conf.toml"
 
 {% for resolver in traefik_certificate_resolvers %}
 [certificatesResolvers.{{ resolver.name }}.acme]
-  email = "{{ resolver.email }}"
-  storage = "/etc/traefik/{{ resolver.storage_filename }}"
-  [certificatesResolvers.{{ resolver.name }}.acme.dnsChallenge]
-    provider = "{{ resolver.dns_provider }}"
-
-{% endfor %}
-
-{% if traefik_custom_acme_resolver %}
-[certificatesResolvers.{{ traefik_custom_acme_resolver.name }}.acme]
-
-email = "{{ traefik_custom_acme_resolver.email }}"
-storage = "acme.json"
-caServer = "{{ traefik_custom_acme_resolver.ca_server }}"
-caCertificates = "{{ traefik_custom_acme_resolver.cert_path }}"
-
-[certificatesResolvers.{{ traefik_custom_acme_resolver.name }}.acme.httpChallenge]
-entryPoint = "http"
+email = "{{ resolver.email }}"
+storage = "/etc/traefik/{{ resolver.storage_filename }}"
+{% if resolver.ca_server is defined %}
+caServer = "{{ resolver.ca_server }}"
+{% endif %}
+{% if resolver.cert_path is defined %}
+caCertificates = "{{ resolver.cert_path }}"
 {% endif %}
 
+{% if resolver.dns_provider is defined %}
+[certificatesResolvers.{{ resolver.name }}.acme.dnsChallenge]
+provider = "{{ resolver.dns_provider }}"
+{% endif %}
+{% if resolver.use_http_callenge is defined and resolver.use_http_callenge %}
+[certificatesResolvers.{{ resolver.name }}.acme.httpChallenge]
+entryPoint = "http"
+{% endif %}
+{% endfor %}
 [log]
 level = "INFO"
