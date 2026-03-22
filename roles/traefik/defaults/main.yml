@@ -19,6 +19,18 @@ traefik_ssl_files: []
 #   key_path: /etc/certs/some-domain/privkey.pem
 #   certificate_path: /etc/certs/some-domain/cert.pem
 
+# A list of additional volumes to mount into the docker container.
+traefik_additional_volumes: []
+# - "/some/directory:/some/mount:ro"
+# - "/some/file.yml:/some/mount/file.yml:ro"
+
+# A named volume to insert into the docker-compose file, verbatim
+# see the docker compose specification for the available options
+traefik_named_volumes:
+# some-named-volume:
+#  external: true
+#  name: some-real-name
+
 # An additional set of entrypoints to create, on top of the
 # port 80 (http) and port 443 (https) ones that are always
 # created.
@@ -59,3 +71,9 @@ traefik_api_certificate_resolver: false
 # Extra hosts to be listed on the docker-compose config, if any
 traefik_extra_hosts: []
 # - "host.docker.internal:172.17.0.1"
+
+traefik_custom_acme_resolver: {}
+#  name: theacmeresolvername
+#  email: someemail@address.test
+#  ca_server: https://someserver/at/some/url
+#  cert_path: /some/path/on/the/container/to/a/cert.crt

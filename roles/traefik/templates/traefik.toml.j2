@@ -34,5 +34,17 @@ filename = "/etc/traefik/dynamic_conf.toml"
 
 {% endfor %}
 
+{% if traefik_custom_acme_resolver %}
+[certificatesResolvers.{{ traefik_custom_acme_resolver.name }}.acme]
+
+email = "{{ traefik_custom_acme_resolver.email }}"
+storage = "acme.json"
+caServer = "{{ traefik_custom_acme_resolver.ca_server }}"
+caCertificates = "{{ traefik_custom_acme_resolver.cert_path }}"
+
+[certificatesResolvers.{{ traefik_custom_acme_resolver.name }}.acme.httpChallenge]
+entryPoint = "http"
+{% endif %}
+
 [log]
 level = "INFO"

@@ -60,6 +60,10 @@
   ansible.builtin.set_fact:
     _traefik_volumes: "{{ _traefik_volumes | union(_proxy_key_volume_results_mapped) | union(_proxy_cert_volume_results_mapped) | sort }}"
 
+- name: Append any additional volume mounts
+  ansible.builtin.set_fact:
+    _traefik_volumes: "{{ _traefik_volumes | union(traefik_additional_volumes) | sort }}"
+
 # Docker-compose
 - name: Ensure the docker-compose template directory exists
   ansible.builtin.file:

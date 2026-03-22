@@ -1,3 +1,7 @@
+{% if traefik_named_volumes %}
+volumes:
+  {{ traefik_named_volumes | to_nice_yaml(indent=4) }}
+{% endif %}
 services:
   reverse-proxy:
     image: traefik:{{ traefik_version }}
