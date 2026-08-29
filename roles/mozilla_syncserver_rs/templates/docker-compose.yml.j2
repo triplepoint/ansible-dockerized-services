@@ -41,6 +41,12 @@ services:
       SYNC_SYNCSTORAGE_DATABASE_URL: "mysql://sync:{{ mozilla_syncserver_rs_db_password }}@mariadb:3306/syncstorage_rs"
       SYNC_TOKENSERVER_DATABASE_URL: "mysql://sync:{{ mozilla_syncserver_rs_db_password }}@mariadb:3306/tokenserver_rs"
       SYNC_PORT: "{{ mozilla_syncserver_rs_port }}"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:${SYNC_PORT:-8000}/__heartbeat__"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
 {% if mozilla_syncserver_rs_network_name %}
 networks:
   mozilla_syncserver_rs:
