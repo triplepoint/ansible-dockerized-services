@@ -11,6 +11,8 @@ services:
     ports:
       - "80:80"
       - "443:443"
+    healthcheck:
+      test: traefik healthcheck --ping
 {% for name, portnumber in traefik_additional_entrypoints.items() %}
       - "{{ portnumber }}:{{ portnumber }}"
 {% endfor %}
