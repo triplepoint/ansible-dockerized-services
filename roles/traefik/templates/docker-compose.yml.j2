@@ -11,11 +11,11 @@ services:
     ports:
       - "80:80"
       - "443:443"
-    healthcheck:
-      test: traefik healthcheck --ping
 {% for name, portnumber in traefik_additional_entrypoints.items() %}
       - "{{ portnumber }}:{{ portnumber }}"
 {% endfor %}
+    healthcheck:
+      test: ["CMD-SHELL", "traefik", "healthcheck", "--ping"]
 {% if _traefik_volumes %}
     volumes:
 {% for vol in _traefik_volumes %}
