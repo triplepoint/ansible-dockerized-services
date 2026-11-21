@@ -113,7 +113,17 @@ def get_public_address[T: (IPv4Address, IPv6Address)](type: type[T]) -> T:
         capture_output=True,
         check=True,
     )
-    addr = ip_address(result.stdout.decode("utf-8").replace('"', "").replace("\n", ""))
+    # When a query attempt fails and a retry succeeds, dig prints a status line like
+    # ";; communications error to ...: timed out" on stdout before the answer.  Keep
+    # only the answer line.
+    answers = [
+        line.strip().strip('"')
+        for line in result.stdout.decode("utf-8").splitlines()
+        if line.strip() and not line.lstrip().startswith(";;")
+    ]
+    if len(answers) != 1:
+        raise ValueError(f"Expected exactly one address from dig, got: {result.stdout!r}")
+    addr = ip_address(answers[0])
     if not isinstance(addr, type):
         raise TypeError(f"IP address must be an {type}, got {addr.__class__}")
     logger.debug(f"Got address: {addr}")
